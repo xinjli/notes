@@ -12,6 +12,7 @@
         - [2.2.3. Boolean](#223-boolean)
     - [2.3. Object Types](#23-object-types)
         - [2.3.1. Object](#231-object)
+            - [Global Object](#global-object)
         - [2.3.2. Array](#232-array)
 - [3. Concurrent Model](#3-concurrent-model)
 - [4. Reference](#4-reference)
@@ -91,11 +92,7 @@ They canot be decalred twice in the same block scope.
 
 
 ### 2.2. Primitive Types
-JavaScript types can be divided into two categories: primitive types and object types.
-The difference between them are
-
-- primitive types are immutable, they are compared by value
-- object types are mutable, they are compared by reference
+JavaScript types can be divided into two categories: primitive types and object types. Primitive types are immutable, they are compared by value
 
 #### 2.2.1. Number
 
@@ -104,8 +101,27 @@ The difference between them are
 #### 2.2.3. Boolean
 
 ### 2.3. Object Types
+Object types are mutable, they are compared by reference
+
+```js
+let a = {x: 1}, b = {x:1}
+a === b // false
+
+let c = a // assign same reference
+a === c // true
+
+{} === {} // false, different object
+[] === [] // false, different object
+```
 
 #### 2.3.1. Object
+
+##### Global Object
+Global object is a regular JavaScript object, its properties are globally defined identifier that are available to a JavaScript program. (e.g: undefined, parseInt, Date())
+
+- In node it is `global`
+- In browsers, it is `window`
+- `globalThis` can refer to the global object in any context
 
 #### 2.3.2. Array
 

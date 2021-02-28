@@ -269,35 +269,48 @@ An *estimator* is a function of the sample, an *estimate* is the realized value 
 
 ### 3.1. Methods of Finding Estimators
 #### 3.1.1. Method of Moments
-Equating the sample moments to the corresponding population moments and solve the resulting system.
 
-The method is perhaps the oldest method of finding point estimators, it is a good start place when other methods prove intractable. Also it can be applied to obtain approximations to the distributions of statistics. (Satterthwaite approximation)
+This method is perhaps the oldest method of finding point estimators, it is a good start place when other methods prove intractable. Also it can be applied to obtain approximations to the distributions of statistics. (Satterthwaite approximation)
+
+**Definition (method of moments estimator)** Equating the sample moments to the corresponding population moments and solve the resulting system.
+
+$$\mu_1(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X_i \\
+\mu_2(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^2_i \\
+... \\
+\mu_k(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^k_i$$
+
+The left side is a function of $\theta_1, ..., \theta_k$ and the right side and moments statistics. Solving this systems we obtain
+
+$$\theta_i = f(\frac{1}{n}\sum_i X_1, \frac{1}{n}\sum_i X^2_1, ..., \frac{1}{n}\sum_i X^k_1)$$
+
+which is the estimator for $\theta_i$
+
 
 #### 3.1.2. Maximum Likelihood Estimators
-**Definition (maximum likelihood estimator)** Maximum likelihood estimator $\hat{\theta}(\mathbf{X})$ is the parameter $\theta$ to maximize $L(\theta | \mathbf{X})$
+**Definition (maximum likelihood estimator)** Maximum likelihood estimator $\hat{\theta}(\mathbf{x})$ is the parameter $\theta$ to maximize $L(\theta | \mathbf{x})$
 
-Drawbacks of MLE is 
+$$L(\theta | \mathbf{x}) = \prod_i f(x_i | \theta_1, ..., \theta_k)$$
 
-- finding and verifying the global maximum is difficult 
-- numerical sensitivity (easy to overfitting, high variance).
-- How to solve these two problems?
 
-To solve the first one, we can apply the numerical approach
- 
-The Bayesian approach might be helpful to solve this issue or try to scale up the dataset...
-For example, in the Markov language model, MLE language model have the zero count issue, therefore smoothing is necessary. This is a Bayesian approach: Laplace smoothing can be interpreted as a MAP with a uniform prior.
-
-The advantage of MLE is 
-
-- MLE might be maximized numerically if likelihood can be written down.
-- invariance property
-
+**Theorem (invariance property of MLE)** If $\hat{theta}$ is the MLE of $\theta$, then for any function $\tau(\theta)$, the MLE of $\tau(\theta)$ is $\tau(\hat\theta)$
 
 **Proposition (properties of MLE)**
-- $\hat{\Theta}_{ML}$ is asymptotically consistent
-- $\hat{\Theta}_{ML}$ is asymptotically unbiased
-- $\hat{\Theta}_{ML}$ is approximately a normal random variable
+- $\hat{\theta}_{MLE}$ is asymptotically consistent
+- $\hat{\theta}_{MLE}$ is asymptotically unbiased
+- $\hat{\theta}_{MLE}$ is approximately a normal random variable
   
+**Properties (Drawbacks of MLE)** The drawbacks of MLE are
+- finding and verifying the global maximum is difficult 
+- numerical sensitivity (easy to overfitting, high variance).
+
+How to solve these two problems?
+- To solve the first one, we can apply the numerical approach. MLE might be maximized numerically if likelihood can be written down.
+ 
+- To solve the 2nd, The Bayesian approach might be helpful to solve this issue or try to scale up the dataset...
+
+For example, in the Markov language model, MLE language model have the zero count issue, therefore smoothing is necessary. This is a Bayesian approach: Laplace smoothing can be interpreted as a MAP with a uniform prior.
+
+
 
 #### 3.1.3. Bayes Estimators
 In the classical approach, the parameter $\theta$ is thought to be an unknown, but fixed quantity. In the Bayesian approach, $\theta$ is considered to be a random variable from a probability distribution $\pi(\theta)$(prior distribution), which is subjective distribution by the experimenter's belief.
@@ -349,7 +362,11 @@ $$E_{\theta} W = \theta$$
 
 
 #### 3.3.2. Best Unbiased Estimator
-**Definition (unbiased best estimator)** An esitmator $W^*$ is a best unbiased estimator of $\tau(\theta)$ if it satisfies $(\forall \theta) E_\theta W^* = \tau(\theta)$. For any other estimator $W$ with $E_\theta(W) = \tau(\theta)$ we have $(\forall \theta) Var_{\theta} W^* \leq Var_{\theta} W$ $W^*$ is also called a uniform minimum variance unbiased estimator.
+**Definition (unbiased best estimator)** An esitmator $W^*$ is a best unbiased estimator of $\tau(\theta)$ if it satisfies $E_\theta W^* = \tau(\theta)$ for all $\theta$. For any other estimator $W$ with $E_\theta(W) = \tau(\theta)$ we have for all $\theta$ 
+
+$$Var_{\theta} W^* \leq Var_{\theta} W$$
+
+$W^*$ is also called a *uniform minimum variance unbiased estimator*.
 
 Candidates of best estimators can be infinitely many, so it might be hard to verify that an estimator is the best one. The following inequality can guarantee the found estimator is the best one
 
@@ -365,10 +382,24 @@ then
 
 $$Var_\theta (W(X)) \geq \frac{(\frac{d}{d\theta} E_\theta W(X))^2}{E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta)))^2)}$$
 
-Definition (Fisher information) The following quantity is called the Fisher information
-$$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta)))^2$$
+Note the formula might be cleaned a bit more, if $W(X)$ is the unbiased estimator, then obviously the nominator is
+
+$$\frac{d}{d\theta} E_\theta W(X) = 1$$
+
+Under the iid assumption of sample, the denominator can be 
+
+$$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta)))^2) = n E_\theta ((\frac{\partial}{\partial \theta} \log f(x|\theta))^2)$$
+
+A shortcoming of Cramer-Rao is its bound may be strictly smaller than the variance of any unbiased estimator.
+
+**Definition (Fisher information)** The following quantity is called the Fisher information
+$$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta))^2)$$
 
 The bigger Fisher information indicates more information about $\theta$, therefore small variance of the best unbiased estimator
+
+For exponential family, this can be simplified into
+
+$$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta))^2) = - E_\theta(\frac{\partial^2}{\partial \theta^2}\log f(X|\theta))$$
 
 **Theorem (Rao-Blackwell)** Let $W$ be an unbiased estimator for $\tau(\theta)$, and $T$ be a sufficient statistic for $\theta$. Then the following $\phi(T)$ is a uniformly better unbiased estimator of $\tau(\theta)$
 

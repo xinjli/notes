@@ -145,25 +145,29 @@ $$ V = U \oplus U^\perp $$
 ### 3.1. vector space of linear maps
 
 **Definition (linear map)** A linear map from vector space $V$ to vector space $W$ obeys following properties
+
 - T preserve addition (additivity) : $T(x+y)=T(x)+T(y)$
 - T preserves scalar multiplication (homogeneity): $T(cx) = cT(x)$
   
 
 Linear map is homomorphism of vector space
 
-**Definition (add,mul in linear maps)** The set of all linear maps from $V$ to $W$ is denoted $\mathcal{L}(V, W)$. Suppose $S,T \in \mathcal{L}(V,W), \lambda \in F$ then sum and product are linear maps from $V \to W$
+!!! note "linear map forms a vector space" 
 
-$$(\forall v \in V) (S+T)(v) = Sv + Tv$$
+    The set of all linear maps from $V$ to $W$ is denoted $\mathcal{L}(V, W)$. Suppose $S,T \in \mathcal{L}(V,W), \lambda \in F$ then sum and product are linear maps from $V \to W$
 
-$$(\forall v \in V) (\lambda T)(v) = \lambda(Tv)$$
+    $$(\forall v \in V) (S+T)(v) = Sv + Tv$$
 
-With previous definitions, $\mathcal{L}(V,W)$ forms a vector space
+    $$(\forall v \in V) (\lambda T)(v) = \lambda(Tv)$$
+
+    With previous definitions, $\mathcal{L}(V,W)$ forms a vector space
 
 **Definition (production of linear maps)** Suppose $T \in \mathcal{L}(U,V), S \in \mathcal{L}(V,W)$ then the product $S,T \in \mathcal{L}(U,W)$ is defined by
 
 $$(\forall u \in U) (ST)(u) = S(T(u))$$
 
 **Proposition (properties of products)**
+
 - associativity $(T_1 T_2)T_3 = T_1 (T_2 T_3)$
 - identity $TI = IT = T$
 - distributive properties $(S_1 + S_2)T = S_1 T + S_2 T$

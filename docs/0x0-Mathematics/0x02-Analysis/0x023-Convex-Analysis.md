@@ -13,6 +13,7 @@
     - [2.2. Closedness and Semicontinuity](#22-closedness-and-semicontinuity)
     - [2.3. Operations that preserve convexity](#23-operations-that-preserve-convexity)
     - [2.4. The conjugate function](#24-the-conjugate-function)
+    - [2.5. Quasiconvex functions](#25-quasiconvex-functions)
 - [3. Duality](#3-duality)
     - [3.1. Lagrange Dual Problem](#31-lagrange-dual-problem)
 - [4. Reference](#4-reference)
@@ -378,6 +379,28 @@ $$(\forall(x, y)) f(x) + f^*(y) \geq x^Ty$$
 
 $$f^{**} = f$$
 
+### 2.5. Quasiconvex functions
+**Definition (quasiconvex)** A function $R^n \to R$ is called *quasiconvex* if its domain and all sublevel sets
+
+$$S_\alpha = \{ x \in dom(f) | f(x) \leq \alpha \}$$
+
+for all $\alpha \in R$ are convex. A function is quasiconcave if $-f$ is quasiconvex. It is quasilinear if it is both quasiconvex and quasiconcave
+
+!!! example "log is quasilinear"
+
+    $\log x$ on $R_{++}$ is both quasiconvex and quasiconcave therefore quasilinear.
+
+!!! example "quasiconvex functions on R$
+
+    A continous function $R \to R$ is quasiconvex in following cases
+
+    - $f$ is nondecreasing
+    - $f$ is nonincreasing
+    - $f$ is nonincreasing until a point and nondecreasing after that
+
+**Criterion (Jensen's inequality for quasiconvex function)** A function $f$ is quasiconvex iff domain is convex and for all $x,y$ and $\theta \in [0, 1]$
+
+$$f(\theta x + (1-\theta) y) \leq \max \{ f(x), f(y) \}$$
 
 
 ## 3. Duality

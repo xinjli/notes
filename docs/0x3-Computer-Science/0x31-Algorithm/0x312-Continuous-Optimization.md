@@ -1,6 +1,10 @@
 # 0x312 Mathematical-Optimization
 
 - [1. Foundation](#1-foundation)
+    - [1.1. Multivariable Optimization](#11-multivariable-optimization)
+        - [1.1.1. Unconstrained Local Optimization](#111-unconstrained-local-optimization)
+        - [1.1.2. Constrained Local Optimization](#112-constrained-local-optimization)
+        - [1.1.3. Global Optimization](#113-global-optimization)
 - [2. Linear Programming](#2-linear-programming)
 - [3. Convex Optimization](#3-convex-optimization)
     - [3.1. Convex Optimization Problems](#31-convex-optimization-problems)
@@ -27,6 +31,33 @@ The set of optimal points is the *optimal set*, denoted
 $$X_{opt} = \{ x| f_i(x) \leq 0, h_j(x)=0, f_0(x) = p^* \}$$
 
 If there exists an optimal point for the porblem, the problem is said to be *solvable*.
+
+### 1.1. Multivariable Optimization
+**Definition (local minimum)** Let $f: D \subset \mathbb{R}^n \to \mathbb{R}$. We say $f$ has a *local minimum* of $f(a)$ at point $a$ in D if there exists an open ball with radius $\epsilon$ such that
+
+$$\forall(x \in B_{\epsilon}(a) \cap D)f(x) \geq f(a)$$
+
+#### 1.1.1. Unconstrained Local Optimization
+First derivate test can be used to find all interior candidates for local extremum.
+**Theorem (first derivative test, Fermat)** Let $f$ be a differentiable function from $D \subset \mathbb{R}^n \to \mathbb{R}$, suppose $f$ has a local extremum $f(a)$ at the interior point $a$, then the first partial derivatives of $f$ are zero at $A$
+
+$$\nabla f(a) = 0$$
+
+To decide the actual extremum within the candidates, the second derivative test is required.
+**Theorem (Second derivative test)** Let $f \in C^{3}$  in an open set of $\mathbb{R}^n$ containing $a$. If $\nabla f(a)=0$ and Hessian is positive definite at $a$, then $f$ has a local minimum at $a$.
+
+#### 1.1.2. Constrained Local Optimization
+**Theorem (Lagrange Multiplier)** Any constrained critical point of the function $f$ on the domain $D=\{ g = 0 \}$ must be a point $a$ satifying either of
+
+- $f$ is not differentiable at $a \in D$
+- $\nabla g(a) = 0$
+- $\nabla f(a) = \lambda \nabla g(a)$
+
+The second condition is called the degeneracy condition, and the last condition is the Lagrange condition
+
+#### 1.1.3. Global Optimization
+To find the global extrema, devide the domain into subdomain and gather their critical points to find the actual global extrema. The existence of global extrema can be guaranteed by the continuous function and compact domain as mentioned in the previous section.
+
 
 ## 2. Linear Programming
 
@@ -72,8 +103,6 @@ $$\text{minimize }c^T x$$
 $$\text{s.t. } x_1 F_1 + ... + x_n F_n + G \preceq 0, Ax = b$$
 
 where $G, F_i \in S^k$
-
-
 
 ## 4. Nonlinear Optimization
 

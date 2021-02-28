@@ -79,6 +79,14 @@ note that this can be proved using AoC
 
 **Definition (Borel set)** The smallest $\sigma$-algebra on $R$ containing all open subsets of $R$ is called the collection of Borel subsets of $R$. An element of this $\sigma$-algebra is called a Borel set.
 
+!!! example "example of Borel sets"
+
+    every open, half, closed subset is a Borel set. 
+
+    every countable subset $\{ x_1, x_2, ... \}$ of $R$ is a Borel set because it can be written as
+
+    $$B = \cup^{\infty}_i \{ x_i \}$$
+
 **Definition (inverse image)** If $f: X \to Y$ is a function and $A \subset Y$, then the set $f^{-1}(A)$ is defined by
 
 $$f^{-1}(A) = \{ x \in X: f(x) \in A \}$$

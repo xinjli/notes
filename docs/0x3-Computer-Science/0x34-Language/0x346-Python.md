@@ -7,6 +7,10 @@
     - [1.2. Sequence](#12-sequence)
 - [2. Classes and Protocols](#2-classes-and-protocols)
     - [2.1. Iterable, Iterator and Generator](#21-iterable-iterator-and-generator)
+- [CPython Interpreter Internal](#cpython-interpreter-internal)
+    - [Lexical Analysis](#lexical-analysis)
+    - [Bytecode Compile](#bytecode-compile)
+    - [Virtual Machine](#virtual-machine)
 - [3. Reference](#3-reference)
 
 ## 1. Data Structure
@@ -55,13 +59,94 @@ There are two types of sequences from the standard library
 
 ## 2. Classes and Protocols
 ### 2.1. Iterable, Iterator and Generator
-- Iterable: An object which can generator iterator. In python, either __iter__ or __getitem__should be implemented to be an Iterable
 
-- Iterator: An object that implement __next__ and raise StopIteration when items exhausted
-
+- Iterable: An object which can generator iterator. In python, either `__iter__` or `__getitem__` should be implemented to be an Iterable
+- Iterator: An object that implement `__next__` and `raise StopIteration` when items exhausted
 - Generator: simple lazy iterator, any function using coroutine yield
 
 use itertools library
+
+## CPython Interpreter Internal
+
+### Lexical Analysis
+
+
+### Bytecode Compile
+The compiler here takes the AST and compile it into python bytecode, we can see how they get compiled with `dis` module. There is also a 3rd party disassembler `uncompyle6` translate pyc back to bytecode
+
+
+The compiler implementation is [cpython/Python/compiler.c](https://github.com/python/cpython/blob/145bf269df3530176f6ebeab1324890ef7070bf8/Python/compile.c)
+
+```python
+dis.dis('a=1') # compile this get following bytecodes
+# 0 LOAD_CONST               0 (1)
+# 2 STORE_NAME               0 (a)
+# 4 LOAD_CONST               1 (None)
+# 6 RETURN_VALUE
+```
+
+Current bytecode is available here in [cpython/include/opcode](https://github.com/python/cpython/blob/145bf269df3530176f6ebeab1324890ef7070bf8/Include/opcode.h). It has around 165 bytecodes.
+
+Some examples of bytecodes
+```text
+# arithmetic examples
+# BINARY operation here means takes the top 2 from stack and perform operation then put it back
+BINARY_ADD
+BINARY_MULTIPLY
+INPLACE_ADD // for case such as i += 1
+
+# logic examples
+UNARY_NOT
+BINARY_AND
+
+# variable ops examples
+LOAD_CONST //  load const variables to stack
+LOAD_FAST  // this loads local variables to stack
+SAVE_FAST  // save local variables to stack
+LOAD_GLOBAL // loads global variables to stack
+
+# function ops examples
+CALL_FUNCTION // execute function
+RETURN_VALUE  // return
+
+# stack related examples
+POP_TOP // pop from stack, this has the op number 1!
+SET_TOP 
+
+# others
+ROT_TWO // swap two vars on top of the stack, used in cases like (a,b)=(b,a)
+BUILD_STRING // build string
+BUILD_TUPLE // for most commonly used python data structures, it looks we have this type of ops
+```
+
+### Virtual Machine
+CPython VM executes those bytecode with a stack machine architecture (e.g: push, pop, execute ops)
+
+The main VM is implemented [cpython/python/ceval.c](https://github.com/python/cpython/blob/145bf269df3530176f6ebeab1324890ef7070bf8/Python/ceval.c)
+
+```c
+// for example, this is BINARY_ADD impl and some of my comments
+        case TARGET(BINARY_ADD): {
+            PyObject *right = POP(); // this is roughly doing (*--stack_pointer)
+            PyObject *left = TOP();  // this is defined as stack_pointer[-1]
+
+            PyObject *sum;
+            if (PyUnicode_CheckExact(left) &&
+                     PyUnicode_CheckExact(right)) {
+                sum = unicode_concatenate(tstate, left, right, f, next_instr);
+                /* unicode_concatenate consumed the ref to left */
+            }
+            else {
+                sum = PyNumber_Add(left, right); // of course, this is adding big integer not int32
+                Py_DECREF(left); // decrement reference
+            }
+            Py_DECREF(right);
+            SET_TOP(sum);
+            if (sum == NULL)
+                goto error;
+            DISPATCH(); // this is roughly defined as `goto` fast_next_opcode
+        }
+```
 
 
 ## 3. Reference

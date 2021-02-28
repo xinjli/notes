@@ -3,24 +3,24 @@
 - [1. History](#1-history)
 - [2. Basic](#2-basic)
 - [3. Syntax](#3-syntax)
-- [Semantics](#semantics)
-- [4. Paradigms](#4-paradigms)
-    - [4.1. Declarative Languages](#41-declarative-languages)
-        - [4.1.1. Functional Languages](#411-functional-languages)
-        - [4.1.2. Logic Languages](#412-logic-languages)
-        - [4.1.3. Others](#413-others)
-    - [4.2. Imperative Languages](#42-imperative-languages)
-        - [4.2.1. Procedure Languages](#421-procedure-languages)
-        - [4.2.2. Objected Oriented Languages](#422-objected-oriented-languages)
-- [5. Others](#5-others)
-- [6. Reference](#6-reference)
+- [4. Semantics](#4-semantics)
+- [5. Paradigms](#5-paradigms)
+    - [5.1. Declarative Languages](#51-declarative-languages)
+        - [5.1.1. Functional Languages](#511-functional-languages)
+        - [5.1.2. Logic Languages](#512-logic-languages)
+        - [5.1.3. Others](#513-others)
+    - [5.2. Imperative Languages](#52-imperative-languages)
+        - [5.2.1. Procedure Languages](#521-procedure-languages)
+        - [5.2.2. Objected Oriented Languages](#522-objected-oriented-languages)
+- [6. Others](#6-others)
+- [7. Reference](#7-reference)
 
 ## 1. History
 
 - 1957: Fortran by Backus (1977 Turing Award)
 - 1958: Lisp by John McCarthy (1971 Turing Award)
 - 1960: COBOL by Grace Hopper
-- 1960: ALGOL by Backus, Bauer, 
+- 1960: ALGOL by Backus, Bauer
 - 1964: BASIC by John Kemeny and Thomas Kurtz from Dartmouth
 - 1967: SIMULA 67 (first OOP) by Ole-Johan Dahl and Kristen Nygaard (2001 Turing Award)
 - 1972: C by Dennis Ritchie (1983 Turing Award)
@@ -77,6 +77,13 @@ For example, array in C language is not first-class because array loses its size
 
 **Dynamic scope** is the scope defined by the running program (e.g.: call stack) rather than the source code. Common among Lisp's dialects (e.g: common lisp)
 
+**Concept (closure)** `closure` is a technique to implement lexically scoped name binding in a language with first-class functions.
+
+```python
+def h(x):
+    return lambda y: x + y  # Return a closure.
+```
+
 ## 3. Syntax
 **Concept (Prefix Notation vs Postfix Notation)**
 - **Prefix notation (Polish Notation)**: Operator comes before the operands. Lisp is this style
@@ -88,13 +95,13 @@ Confusingly, *statement* in mathematical logic is defined to be evaluated to eit
 
 
 
-## Semantics
+## 4. Semantics
 
-## 4. Paradigms
+## 5. Paradigms
 The programming languages can be roughly classified into following classes, but note that modern languages usually support multiple paradigms.
 
-### 4.1. Declarative Languages
-#### 4.1.1. Functional Languages
+### 5.1. Declarative Languages
+#### 5.1.1. Functional Languages
 **Definition (pure function)** A pure function is a function that has the following properties.
 - *referential transparency*: The function always gives the same return value for the same arguments, it cannot depends on any mutable states
 - *side-effect free*: The function cannot have side-effect (e.g: IO, modify mutable objects, reassignment...)
@@ -103,19 +110,19 @@ But how can you write pure functions without IO?!
 This [blog](https://alvinalexander.com/scala/fp-book/pure-functions-and-io-input-output/) has an explanation. In short, write your application as much as possible with pure functions, and handle other side-effect components in other ways (e.g: IO monad in Haskell).
 
 
-#### 4.1.2. Logic Languages
+#### 5.1.2. Logic Languages
 
-#### 4.1.3. Others
+#### 5.1.3. Others
 SQL belongs to this class
 
-### 4.2. Imperative Languages
+### 5.2. Imperative Languages
 
-#### 4.2.1. Procedure Languages
+#### 5.2.1. Procedure Languages
  
-#### 4.2.2. Objected Oriented Languages
+#### 5.2.2. Objected Oriented Languages
 
 
-## 5. Others
+## 6. Others
 The followings are Kernighan's summary about successful languages
 
 Why languages succeed?
@@ -131,7 +138,7 @@ Why languages fail to thrive?
 - poor philosophical choices
 
 
-## 6. Reference
+## 7. Reference
 [1] Abelson, Harold, and Gerald Jay Sussman. Structure and interpretation of computer programs. The MIT Press, 1996.
 
 [2] Brian Kernighan on successful language design https://www.youtube.com/watch?v=Sg4U4r_AgJU&t=2501s

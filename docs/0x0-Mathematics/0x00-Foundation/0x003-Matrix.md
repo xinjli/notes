@@ -1,4 +1,4 @@
-# 0x023 Matrix Algebra
+# 0x003 Matrix
 
 - [1. Foundation](#1-foundation)
     - [1.1. Subspace](#11-subspace)
@@ -10,8 +10,9 @@
     - [1.5. Submatrices](#15-submatrices)
     - [1.6. Norm](#16-norm)
 - [2. Triangular Matrix](#2-triangular-matrix)
-- [3. Eigenvalue and Eigenvector](#3-eigenvalue-and-eigenvector)
-    - [3.1. Similarity](#31-similarity)
+- [3. Diagonal matrix](#3-diagonal-matrix)
+    - [3.1. Eigenvalue and Eigenvector](#31-eigenvalue-and-eigenvector)
+    - [3.2. Similarity](#32-similarity)
 - [4. Unitary, Normal Matrix](#4-unitary-normal-matrix)
     - [4.1. QR Decomposition](#41-qr-decomposition)
     - [4.2. Unitary Similarity](#42-unitary-similarity)
@@ -25,6 +26,7 @@
 - [7. Tensor Analysis](#7-tensor-analysis)
     - [7.1. Decomposition](#71-decomposition)
 - [8. Reference](#8-reference)
+
 
 ## 1. Foundation
 ### 1.1. Subspace
@@ -44,6 +46,43 @@ The Big Picture of Linear Algebra Gilbert Strang
 - $N(A^T) \perp C(A)$
 - $N(A^T) + C(A^T) = m$
 The important thing here is that null space $N(A)$ is orthogonal to row space $C(A^T)$, because for any vector $x$ such that $Ax=0$, $x$ is orthogonal to every row in $A$, therefore any linear combination from row space is also orthogonal to $x$. In other words, $Ax = 0$ implies for all $y$, $(y^T A)x = 0$, therefore, $y^TA$ and $x$ are orthogonal.
+
+**Definition (row equivalence)** Two matrices $A,B$ of the same shape are said to be row equivalent if they share the the same row space or null space
+
+$$N(A) = N(B)$$
+
+Row equivalence can be established by applying a sequence of elementary row operations.
+
+**Definition (elementary row operation)** The followings are elementary row operations
+
+- swap: swap tow rows
+- scale: scale 1 row by nonzero constant
+- pivot: add a multiple of 1 row to another row
+
+!!! example "matrix form of row operation"
+
+    Each of the elementary row operation is corresponding to a invertible matrix form.
+
+    swap example: swap row 1 and row 2
+
+    $$E_{swap} = \begin{pmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \\ \end{pmatrix}$$
+
+    scale example: scale row 3 by 5 times
+
+    $$E_{scale} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 5 \\ \end{pmatrix}$$
+
+    pivot example: add 4*row 1 to row 3
+
+    $$E_{pivot} = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ -4 & 0 & 1 \\ \end{pmatrix}$$
+
+**Lemma (properties of row equivalent matrix)** It is easy to show that
+
+- A matrix is invertible if it is row equivalent to identity matrix
+- rank is perserved (because null space is same)
+
+Note that eigenvalues, vectors are not preserved.
+
+
 
 ### 1.2. Rank
 
@@ -99,8 +138,11 @@ $$\frac{\partial \det(A)}{\partial A} = |A| (A^{-1})^T$$
 $$\frac{\partial \log \det(A)}{\partial A} = A^{-T}$$
 
 ### 1.5. Submatrices
+A simple rule inverse of triangular submatrix is as follows
 
-The following is used to compute conditional probability and marginalized probability in multivariable normal distribution
+$$\begin{pmatrix} A_{11} & A_{12} \\ 0 & A_{22} \\ \end{pmatrix}^{-1} = \begin{pmatrix}A^{-1}_{11} & -A_{11}^{-1}A_{12}A^{-1}_{22} \\ 0 & A^{-1}_{22} \\ \end{pmatrix}$$
+
+A more general inverse rule is to use schulr's complement. it is used, for example, to compute conditional probability and marginalized probability in multivariable normal distribution.
 
 **Definition (schur's complement)** Schur's complement of the block matric
 
@@ -150,12 +192,19 @@ $$||A||_{N} = \sigma_1 + \sigma_2 + ... + \sigma_r$$
 - inverse (if exists) of upper triangular is upper triangular
 
 **Decomposition (LU decomposition)**
-Diagonal matrix
-This section is to study of similarity of $A \in M_n$ via a general nonsingular matrix $S$: the transformation $A \to S^{-1} A S$
 
-Diagonalizable matrices have independent eigenvectors, but not necessarily orthogonal.
+!!! note "application of LU decomposition"
 
-## 3. Eigenvalue and Eigenvector
+    LU decomposition is useful to solve $Ax = b$, expecially for a fixed A and a sequence of different $b$, by decomposing $A = LU$, we can solve $L(Ux) = b$ by solving the following two equation efficiently
+
+    $$Ly = b \\ Ux = y$$
+
+
+## 3. Diagonal matrix
+
+### 3.1. Eigenvalue and Eigenvector
+
+
 **Definition (spectrum)** The spectrum of $A \in M_n$ is the set of all $\lambda \in C$ that are eigenvalues of $A$; denoted by $\sigma(A)$
 
 A diagonal matrix can be represented in the following form
@@ -166,7 +215,9 @@ where $\Lambda$ is a diagonal matrix $diag(\lambda_1, ..., \lambda_n)$, $X$ is a
 
 Because columns of $X$ are linear independent and $X$ spans the whole space, $X$ is invertible, and we obtain the following decomposition.
 
-**Decomposition (eigen-decomposition)** An diagonalizable matrix $A$ can be factorized into the following form
+**Decomposition (eigen-decomposition, diagonalization)** 
+
+An diagonalizable matrix $A$ can be factorized into the following form
 
 $$ A = X \Lambda X^{-1}$$
 
@@ -190,8 +241,13 @@ $$A^k = X \Lambda^k X^{-1}$$
 
 In particular, if $\lambda < 1$, it can be dropped when $k$ is large enough.
 
-### 3.1. Similarity
+### 3.2. Similarity
+This section is to study of similarity of $A \in M_n$ via a general nonsingular matrix $S$: the transformation $A \to S^{-1} A S$
+
 Similar matrices are just different basis presentations of the same linear transformation, similar matrices have the same set of eigenvalues (spectrum).
+
+Diagonalizable matrices have independent eigenvectors, but not necessarily orthogonal.
+
 
 **Definition (similarity)** $A, B \in M_n$. We say that $B$ is similar to $A$ if there exists a nonsingular $S \in M_n$ such that
 
@@ -205,9 +261,33 @@ However, note that the same set of eigenvalues does not imply similarity
 
 **Definition (diagonalizable)** If $A \in M_n$ is similar to a diagonal matrix, then $A$ is said to be diagonalizable
 
-The purpose of eigendecomposition is to find a similar diagonal matrix. 
+$$A = PDP^{-1}$$
+
+Note that $P,D$ are not unique and $D$ might not be diagonal matrix of eigenvalue and $P$ might not be eigenvectors.
 
 Note that diagonalizable matrix does not require orthonormal basis.
+
+**Criterion (eigenspace)** A $n \times n$ matrix is diagonalizable if and only if eigenspace spans the whole space (eigenspace dim is $n$)
+
+!!! example "defective matrix is not diagonalizable"
+
+    A defective matrix is a matrix does not have a basis of eigenvector (therefore not diagonalizable). A example is a shear matrix
+
+    $$\begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$$
+
+
+**Criterion (distinct eigenvalue)** A useful sufficient condition is to check the unique eigenvalue, if there are $n$ distinct eigenvalue, then the matrix is diagonalizable (because eigenvalue of each eigenvector are independent and thus spans the whole space)
+
+Note the converse is not true.
+
+!!! example "converse case"
+
+    Consider the identity matrix $I_2$, it is obviously diagonalizable.
+
+    $$\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$$
+    
+    It has only 1 eigenvalue (1), but the eigenspace has 2 dimension, therefore diagonalizable.
+
 
 **Lemma (sum of rank-1 matrices)** A diagonalizable $A \in M_n$ can be decomposed into sum of $n$ rank-1 matrices 
 
