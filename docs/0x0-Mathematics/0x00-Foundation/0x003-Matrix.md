@@ -3,13 +3,16 @@
 - [1. Foundation](#1-foundation)
     - [1.1. Subspace](#11-subspace)
     - [1.2. Rank](#12-rank)
-    - [1.3. Determinant](#13-determinant)
-    - [1.4. Derivatives](#14-derivatives)
-        - [1.4.1. Denominator Layout](#141-denominator-layout)
-        - [1.4.2. Determinant](#142-determinant)
-    - [1.5. Submatrices](#15-submatrices)
-    - [1.6. Norm](#16-norm)
+    - [1.3. Trace](#13-trace)
+    - [1.4. Determinant](#14-determinant)
+    - [1.5. Derivatives](#15-derivatives)
+        - [1.5.1. Denominator Layout](#151-denominator-layout)
+        - [1.5.2. Determinant](#152-determinant)
+    - [1.6. Submatrices](#16-submatrices)
+    - [1.7. Norm](#17-norm)
 - [2. Triangular Matrix](#2-triangular-matrix)
+    - [2.1. Linear System](#21-linear-system)
+    - [2.2. Row Reduction](#22-row-reduction)
 - [3. Diagonal matrix](#3-diagonal-matrix)
     - [3.1. Eigenvalue and Eigenvector](#31-eigenvalue-and-eigenvector)
     - [3.2. Similarity](#32-similarity)
@@ -47,6 +50,155 @@ The Big Picture of Linear Algebra Gilbert Strang
 - $N(A^T) + C(A^T) = m$
 The important thing here is that null space $N(A)$ is orthogonal to row space $C(A^T)$, because for any vector $x$ such that $Ax=0$, $x$ is orthogonal to every row in $A$, therefore any linear combination from row space is also orthogonal to $x$. In other words, $Ax = 0$ implies for all $y$, $(y^T A)x = 0$, therefore, $y^TA$ and $x$ are orthogonal.
 
+### 1.2. Rank
+
+**Definition (rank)** rank is the dimension size of the column space
+
+$$rank(A) = \dim range(A)$$
+
+**Lemma (properties of rank)**
+
+$$rank(A^T) = rank(A)$$
+
+$$|rank(A) - rank(B)| \leq rank(A+B) \leq rank(A) + rank(B)$$
+
+If $A,C$ is nonsingular, then $rank(AB) = rank(B) = rank(BC)$
+
+### 1.3. Trace
+Trace has a cyclic permutation property useful to compute derivatives
+
+$$tr(\mathbf{ABC}) = tr(\mathbf{CAB}) = tr(\mathbf{BCA})$$
+
+### 1.4. Determinant
+
+**Lemma (properties of determinant)**
+- (Hadamard's inequality) $|detA| \leq \Pi_{j} ||a_j||_2$
+
+### 1.5. Derivatives
+Annoyingly, there are two types of vector, matrix layouts, the numerator layout (consistent with the Jacobian) and the denominator layout. In the ML community, it looks the latter are more commonly used, so this section is follows the denominator layout.
+
+#### 1.5.1. Denominator Layout
+
+$$\big( \frac{\partial \mathbf{a}}{\partial x} \big) = (\frac{\partial a_1}{\partial x}, ...,  \frac{\partial a_n}{\partial x}) \in \R^{1 \times n}$$
+
+$$\big( \frac{\partial x}{\partial \mathbf{a}} \big)_i = \begin{bmatrix} \frac{\partial x}{\partial a_i} \\ \frac{\partial x}{\partial a_i} \\ ... \\ \frac{\partial x}{\partial a_i} \\ \end{bmatrix} \in \R^{n \times 1}$$
+
+Be careful this are all tranposed in the Jacobian matrix.
+
+$$\big( \frac{\partial \mathbf{a}}{\partial \mathbf{b}} \big)_{i,j} = \frac{\partial a_i}{\partial b_j}$$
+
+Under this layout, some important conclusions are 
+
+$$\frac{\partial (\mathbf{x^T a}) } {\partial x} =  \frac{\partial (\mathbf{a^T x}) } {\partial x} = \mathbf{a}$$
+
+$$\frac{\partial \bf{u}^T A \bf{v}}{\partial \bf{x}} = \frac{\partial \bf{u}}{\partial \bf{x}} A \mathbf{v} + \frac{\partial \bf{v}}{\partial \bf{x}} A^T \mathbf{u}$$
+
+$$\frac{\partial (\mathbf{a^T A a})}{\partial \mathbf{a}} = \mathbf{(A+A^T)a}$$
+
+$$\frac{\partial A\mathbf{x}}{\partial \mathbf{x}} = A^T$$
+
+$$\frac{\partial \mathbf{x}^T A}{\partial \mathbf{x}} = A$$
+
+$$\frac{\partial}{\partial \mathbf{A}} tr(\mathbf{BA}) = \mathbf{B^T}$$
+
+#### 1.5.2. Determinant
+Proof can be obtained by expanding det with cofactor. [A PDF containing easy to understand proof](https://www.kamperh.com/notes/kamper_matrixcalculus13.pdf)
+$$\frac{\partial \det(A)}{\partial A} = |A| (A^{-1})^T$$
+
+$$\frac{\partial \log \det(A)}{\partial A} = A^{-T}$$
+
+### 1.6. Submatrices
+A simple rule inverse of triangular submatrix is as follows
+
+$$\begin{pmatrix} A_{11} & A_{12} \\ 0 & A_{22} \\ \end{pmatrix}^{-1} = \begin{pmatrix}A^{-1}_{11} & -A_{11}^{-1}A_{12}A^{-1}_{22} \\ 0 & A^{-1}_{22} \\ \end{pmatrix}$$
+
+A more general inverse rule is to use schulr's complement. it is used, for example, to compute conditional probability and marginalized probability in multivariable normal distribution.
+
+**Definition (schur's complement)** Schur's complement of the block matric
+
+$$\begin{pmatrix} A & B \\ C&D \\ \end{pmatrix}$$
+
+is defined to be 
+
+$$M = (A - BD^{-1}C)^{-1}$$
+
+**Theorem (partitioned inverse formula)** The inverse of the original matrix 
+
+$$\begin{pmatrix} M & -MBD^{-1} \\ -D^{-1}CM & D^{-1} + D^{-1}CMBD^{-1} \\ \end{pmatrix}$$
+
+Derivation of this formula is to apply Gaussian elimination, details can be found in this [lecture note](https://www.cis.upenn.edu/~jean/schur-comp.pdf) or MLAPP 4.3.4.1
+
+This can be applied to give the matrix inversion, it might reduce the complexity
+**Corollary (Sherman-Morrison-Woodbury)** 
+
+$$(A - BD^{-1}C)^{-1} = A^{-1} + A^{-1}B(D-CA^{-1}B)^{-1}CA^{-1}$$
+
+If the shape of matrix $A$ is $N \times N$, matrix $D$ is $D \times D$, then the LHS has $O(N^3)$ and RHS has $O(D^3)$, this is helpful when $N >> D$
+
+### 1.7. Norm
+Norms arise naturally in the study of power series of matrices and in the analysis of numerical computations
+
+For example, it is sufficient to say the following formula is valid when any matrix norm of $A$ is less than 1
+
+$$(I-A)^{-1} = I+A+A^2+A^3...$$
+
+**Definition (spectral norm)** 
+$$||A||_2 = \max \frac{||Ax||}{||x||} = \sigma_1$$
+
+**Definition (Frobenius norm)** Frobenius norm is to think of matrix as a long vector and to take vector norm.
+
+$$||A||_{F} = \sqrt{\sigma^2_1 + ... + \sigma^2_r}$$
+
+Proof $||A||_F = \sum_{i,j} (a_{i,j})^2 = tr(A^T A) = \sum_i \lambda_i = \sum_i \sigma_i^2$
+
+**Definition (nuclear norm)**
+$$||A||_{N} = \sigma_1 + \sigma_2 + ... + \sigma_r$$
+
+## 2. Triangular Matrix
+
+### 2.1. Linear System
+
+This subsection is about solving linear equation
+
+$$Ax = b$$
+
+where we reduce $A$ into echelon form through a series of row operations.
+
+Note that if $b=0$, this system is called *homogeneous*
+
+**Definition (consistency)** A linear (or nonlinear system of equations) is called *consistent* if it has at least 1 solution (it might have infinitely many solutions)
+
+**Definition (overdetermined system)** A system of equations is called overdetermined if it has more equations than unknowns. It can be either consistent or inconsistent (though usually inconsistent)
+
+!!! example "consistent case of overdetermined systems"
+
+    The following overdetermined equation is a consistent example.
+
+    $$x + y = 1 \\
+    2x + 2y = 2 \\
+    x + 2y = 2 $$
+
+**Definition (exact determined system)** A system of equations is called *exact-determined* if the number of unknowns is equal to the number of equations. It also can be consistent or inconsistent.
+
+**Definition (underdetermined system)** A system of equations is called underdetermined if it has more unknowns than equations. Again, it can be consistent or inconsistent (though usually consistent)
+
+!!! example "inconsistent case of underdetermined systems"
+
+    The following underdetermined equation is an inconsistent example
+
+    $$ x + y + z = 1 \\
+    2x + 2y + 2z = 3 $$
+
+**Criterion (consistency)** The following three are equivalent iff criterion of consistency.
+
+- $b$ is in the column space of $A$.
+- $A$'s rank is equal to the rank of augmented matrix $[A,b]$.
+- the right most column of the augmented matrix is not a pivot column (e.g: echelon form of the augmented matrix has no row of the form $[0, ..., 0, b]$ with $b$ nonzero)
+
+Note the 3rd statement basically says if there is such a row, then appending $b$ will result in 1 more rank.
+
+### 2.2. Row Reduction
+
 **Definition (row equivalence)** Two matrices $A,B$ of the same shape are said to be row equivalent if they share the the same row space or null space
 
 $$N(A) = N(B)$$
@@ -82,109 +234,6 @@ Row equivalence can be established by applying a sequence of elementary row oper
 
 Note that eigenvalues, vectors are not preserved.
 
-
-
-### 1.2. Rank
-
-**Definition (rank)** rank is the dimension size of the column space
-
-$$rank(A) = \dim range(A)$$
-
-**Lemma (properties of rank)**
-$rank(A^T) = rank(A)$
-$|rank(A) - rank(B)| \leq rank(A+B) \leq rank(A) + rank(B)$
-If $A,C$ is nonsingular, then $rank(AB) = rank(B) = rank(BC)$
-Trace
-Trace has a cyclic permutation property useful to compute derivatives
-
-$$tr(\mathbf{ABC}) = tr(\mathbf{CAB}) = tr(\mathbf{BCA})$$
-
-### 1.3. Determinant
-
-**Lemma (properties of determinant)**
-- (Hadamard's inequality) $|detA| \leq \Pi_{j} ||a_j||_2$
-
-### 1.4. Derivatives
-Annoyingly, there are two types of vector, matrix layouts, the numerator layout (consistent with the Jacobian) and the denominator layout. In the ML community, it looks the latter are more commonly used, so this section is follows the denominator layout.
-
-#### 1.4.1. Denominator Layout
-
-$$\big( \frac{\partial \mathbf{a}}{\partial x} \big) = (\frac{\partial a_1}{\partial x}, ...,  \frac{\partial a_n}{\partial x}) \in \R^{1 \times n}$$
-
-$$\big( \frac{\partial x}{\partial \mathbf{a}} \big)_i = \begin{bmatrix} \frac{\partial x}{\partial a_i} \\ \frac{\partial x}{\partial a_i} \\ ... \\ \frac{\partial x}{\partial a_i} \\ \end{bmatrix} \in \R^{n \times 1}$$
-
-Be careful this are all tranposed in the Jacobian matrix.
-
-$$\big( \frac{\partial \mathbf{a}}{\partial \mathbf{b}} \big)_{i,j} = \frac{\partial a_i}{\partial b_j}$$
-
-Under this layout, some important conclusions are 
-
-$$\frac{\partial (\mathbf{x^T a}) } {\partial x} =  \frac{\partial (\mathbf{a^T x}) } {\partial x} = \mathbf{a}$$
-
-$$\frac{\partial \bf{u}^T A \bf{v}}{\partial \bf{x}} = \frac{\partial \bf{u}}{\partial \bf{x}} A \mathbf{v} + \frac{\partial \bf{v}}{\partial \bf{x}} A^T \mathbf{u}$$
-
-$$\frac{\partial (\mathbf{a^T A a})}{\partial \mathbf{a}} = \mathbf{(A+A^T)a}$$
-
-$$\frac{\partial A\mathbf{x}}{\partial \mathbf{x}} = A^T$$
-
-$$\frac{\partial \mathbf{x}^T A}{\partial \mathbf{x}} = A$$
-
-$$\frac{\partial}{\partial \mathbf{A}} tr(\mathbf{BA}) = \mathbf{B^T}$$
-
-#### 1.4.2. Determinant
-Proof can be obtained by expanding det with cofactor. [A PDF containing easy to understand proof](https://www.kamperh.com/notes/kamper_matrixcalculus13.pdf)
-$$\frac{\partial \det(A)}{\partial A} = |A| (A^{-1})^T$$
-
-$$\frac{\partial \log \det(A)}{\partial A} = A^{-T}$$
-
-### 1.5. Submatrices
-A simple rule inverse of triangular submatrix is as follows
-
-$$\begin{pmatrix} A_{11} & A_{12} \\ 0 & A_{22} \\ \end{pmatrix}^{-1} = \begin{pmatrix}A^{-1}_{11} & -A_{11}^{-1}A_{12}A^{-1}_{22} \\ 0 & A^{-1}_{22} \\ \end{pmatrix}$$
-
-A more general inverse rule is to use schulr's complement. it is used, for example, to compute conditional probability and marginalized probability in multivariable normal distribution.
-
-**Definition (schur's complement)** Schur's complement of the block matric
-
-$$\begin{pmatrix} A & B \\ C&D \\ \end{pmatrix}$$
-
-is defined to be 
-
-$$M = (A - BD^{-1}C)^{-1}$$
-
-**Theorem (partitioned inverse formula)** The inverse of the original matrix 
-
-$$\begin{pmatrix} M & -MBD^{-1} \\ -D^{-1}CM & D^{-1} + D^{-1}CMBD^{-1} \\ \end{pmatrix}$$
-
-Derivation of this formula is to apply Gaussian elimination, details can be found in this [lecture note](https://www.cis.upenn.edu/~jean/schur-comp.pdf) or MLAPP 4.3.4.1
-
-This can be applied to give the matrix inversion, it might reduce the complexity
-**Corollary (Sherman-Morrison-Woodbury)** 
-
-$$(A - BD^{-1}C)^{-1} = A^{-1} + A^{-1}B(D-CA^{-1}B)^{-1}CA^{-1}$$
-
-If the shape of matrix $A$ is $N \times N$, matrix $D$ is $D \times D$, then the LHS has $O(N^3)$ and RHS has $O(D^3)$, this is helpful when $N >> D$
-
-### 1.6. Norm
-Norms arise naturally in the study of power series of matrices and in the analysis of numerical computations
-
-For example, it is sufficient to say the following formula is valid when any matrix norm of $A$ is less than 1
-
-$$(I-A)^{-1} = I+A+A^2+A^3...$$
-
-**Definition (spectral norm)** 
-$$||A||_2 = \max \frac{||Ax||}{||x||} = \sigma_1$$
-
-**Definition (Frobenius norm)** Frobenius norm is to think of matrix as a long vector and to take vector norm.
-
-$$||A||_{F} = \sqrt{\sigma^2_1 + ... + \sigma^2_r}$$
-
-Proof $||A||_F = \sum_{i,j} (a_{i,j})^2 = tr(A^T A) = \sum_i \lambda_i = \sum_i \sigma_i^2$
-
-**Definition (nuclear norm)**
-$$||A||_{N} = \sigma_1 + \sigma_2 + ... + \sigma_r$$
-
-## 2. Triangular Matrix
 
 **Collorary (algebra of triangular matrix)** Triangular matrix is preserved under many operations. For example,
 - sum of upper triangular is upper triangular

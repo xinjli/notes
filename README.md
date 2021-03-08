@@ -26,11 +26,11 @@ The tree of main contents is as follows
 │   ├── 0x00-Foundation
 │   │   ├── 0x000-Set-And-Logic.md
 │   │   ├── 0x001-Topology.md
-│   │   └── 0x002-Sequence-And-Series.md
+│   │   ├── 0x002-Sequence-And-Series.md
+│   │   └── 0x003-Matrix.md
 │   ├── 0x01-Algebra
 │   │   ├── 0x010-Abstract-Algebra.md
-│   │   ├── 0x011-Linear-Algebra.md
-│   │   └── 0x012-Matrix-Algebra.md
+│   │   └── 0x011-Linear-Algebra.md
 │   ├── 0x02-Analysis
 │   │   ├── 0x020-Foundation.md
 │   │   ├── 0x022-Real-Analysis.md
@@ -115,7 +115,8 @@ The tree of main contents is as follows
 │   │   ├── 0x344-JavaScript.md
 │   │   ├── 0x345-Go.md
 │   │   ├── 0x346-Python.md
-│   │   └── 0x347-SQL.md
+│   │   ├── 0x347-SQL.md
+│   │   └── 0x348-HTML.md
 │   ├── 0x35-Computing
 │   │   ├── 0x351-Distributed-Systems.md
 │   │   └── 0x352-Distributed-Applications.md

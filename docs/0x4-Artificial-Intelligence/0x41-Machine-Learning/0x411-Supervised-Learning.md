@@ -4,8 +4,14 @@
     - [1.1. Simple Discrete Model](#11-simple-discrete-model)
         - [1.1.1. Beta-Binomial Model](#111-beta-binomial-model)
         - [1.1.2. Dirichlet-Multinomial Model](#112-dirichlet-multinomial-model)
+        - [1.1.3. Multinoulli Naive Bayes Model](#113-multinoulli-naive-bayes-model)
     - [1.2. Simple Continuous Model](#12-simple-continuous-model)
-        - [1.2.1. Gaussian Discriminant Analysis](#121-gaussian-discriminant-analysis)
+        - [1.2.1. Gaussian Model](#121-gaussian-model)
+        - [1.2.2. Gaussian Discriminant Analysis](#122-gaussian-discriminant-analysis)
+            - [1.2.2.1. Quadratic Discriminant Analysis](#1221-quadratic-discriminant-analysis)
+            - [1.2.2.2. Gaussian Naive Bayes](#1222-gaussian-naive-bayes)
+            - [1.2.2.3. Linear Discriminative Analysis (LDA)](#1223-linear-discriminative-analysis-lda)
+        - [1.2.3. GMM](#123-gmm)
 - [2. Linear Regression Model](#2-linear-regression-model)
     - [2.1. Frequentist Linear Regression](#21-frequentist-linear-regression)
         - [2.1.1. MLE](#211-mle)
@@ -36,9 +42,13 @@
 ## 1. Simple Generative Model
 Probably the most simple model for supervised learning is to just fit a single parametric distribution to the data, this is much simpler than linear models and nonlinear models.
 
-These generative models can be used, for example, classification tasks by modeling generative distribution for each class.
+For a single class, we simply model $p(x)$ with a simple parameteric distribution, for multiple class, we model it with
 
-It models $p(x)$ or $p(x | C_i)$ for a class $C_i$, $x$ might be discrete or continous.
+$$p(x, y; \theta) = p(y; \theta)p(x|y; \theta)$$
+
+where $y$ is a class, and $x$ might be discrete or continuous.
+
+These generative models can be used, for example, classification tasks by modeling generative distribution for each class.
 
 ### 1.1. Simple Discrete Model
 Fit a parametric discrete model
@@ -47,11 +57,50 @@ Fit a parametric discrete model
 
 #### 1.1.2. Dirichlet-Multinomial Model
 
+#### 1.1.3. Multinoulli Naive Bayes Model
+If there are multiple features, one simple model is the Naive Bayes model, assuming cfeatures are conditionally independent given the class label.
+
+ This writes the class conditional density of one-dimensional density
+
+$$p(x | y=c; \theta) = \prod_i p(x_i | y=c; \theta_{i})$$
+
+The parameters of NB model is small $O(CD)$ where $C$ is the number of class, $D$ is the number of feature, so relatively immune to overfitting.
+
+
 ### 1.2. Simple Continuous Model
 Fit a parametric continous model
 
-#### 1.2.1. Gaussian Discriminant Analysis
-This looks to be a bad naming, it is actually a generative classifier...
+#### 1.2.1. Gaussian Model
+
+#### 1.2.2. Gaussian Discriminant Analysis
+This looks to be a bad naming, it is actually a generative classifier.
+
+It fits the Gaussian distribution for each class conditional distribution
+
+$$p(x | y=c; \theta) = N(x | \mu_c, \Sigma_c)$$
+
+##### 1.2.2.1. Quadratic Discriminant Analysis 
+The most general form is to assume Gaussian distribution without any contraints on $\mu_c, \Sigma_c$
+
+$$p(y=c | x; \theta) = \frac{\pi_i N(x|\mu_c, \Sigma_c)}{\sum_{c'} \pi_i N(x|\mu_{c'}, \Sigma_{c'})}$$
+
+This will produce quadratic decision boundary (as its name indicates).
+
+Gaussian Naive Bayes and Linear Discrimnative Analysis are two special forms of QDA.
+
+##### 1.2.2.2. Gaussian Naive Bayes
+Gaussian Naive Bayes assumes conditional independence, therefore the off-diagnoal entry of $\Sigma_c$ will be zero, therefore $\Sigma_c$ is contrained to be diagonal matrix.
+
+Note that this still can produce quadratic decision boundary. It will produce linear boundary when variance are tied. 
+
+##### 1.2.2.3. Linear Discriminative Analysis (LDA)
+LDA are using the same covariance matrix.
+
+$$\Sigma_c = \Sigma$$
+
+This produces the linear decision boundary.
+
+#### 1.2.3. GMM
 
 ## 2. Linear Regression Model
 Linear regression is a probablistic discrminative model. Its conditiona probability is expressed by

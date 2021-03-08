@@ -301,14 +301,23 @@ $$f = w_1 f_1 + ... + w_n f_m$$
 
 $$g(x) = f(Ax + b)$$
 
-Note this is the proof that least square problem is a convex problem
 
-$$|| Ax - b ||^2_2$$
+!!! example "least square problem is convex"
+    that least square problem is a convex problem because norm is convex and its inside is an affine function.
+
+    $$|| Ax - b ||^2_2$$
 
 
+**Proposition (pointwise maximum) If $f_1, f_2$ are convex function then their pointwise maximum is also convex
+
+$$f(x) = \max \{ f_1(x), f_2(x) \}$$
+
+Extending this to infinite set of convex, we have the supremum
 **Proposition (supremum)** If for each $y$, $f(x,y)$ is convex in $x$, then its supreme over $y$ is also convex
 
 $$g(x) = \sup_{y} f(x,y)$$
+
+
 
 **Proposition (composition)** Suppose $f(x) = h(g_1(x), ..., g_k(x))$ where $h: R^k \to R, g_i: R^n \to R$. $f$ is convex if $h$ is convex and nondecreasing in each argument, $g$ is convex
 
@@ -402,6 +411,13 @@ for all $\alpha \in R$ are convex. A function is quasiconcave if $-f$ is quasico
 
 $$f(\theta x + (1-\theta) y) \leq \max \{ f(x), f(y) \}$$
 
+**Criterion (first order condition)** Suppose $f: R^n \to R$ is differentiable. Then $f$ is quasiconvex iff domain is convex and for all $x,y \in dom(f)$
+
+$$f(y) \leq f(x) \implies \nabla f(x)^T (y-x) \leq 0$$
+
+**Criterion (second order condition)** Suppose $f$ is twice differentiable. If $f$ is quasiconvex, then for all $x \in dom(f), y \in R^n$
+
+$$y^T \nabla f(x) = 0 \implies y^T \nabla^2 f(x) y \geq 0$$
 
 ## 3. Duality
 ### 3.1. Lagrange Dual Problem
