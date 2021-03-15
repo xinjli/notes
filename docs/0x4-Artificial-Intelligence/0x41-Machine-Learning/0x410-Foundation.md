@@ -1,10 +1,11 @@
 # 0x410 Foundation
 
 - [1. Decision Theory](#1-decision-theory)
+    - [1.1. Frequentist Decision Theory](#11-frequentist-decision-theory)
+        - [1.1.1. Bayes Risk](#111-bayes-risk)
+        - [1.1.2. Minimax Risk](#112-minimax-risk)
+    - [1.2. Bayesian Decision Theory](#12-bayesian-decision-theory)
 - [2. Information Theory](#2-information-theory)
-- [3. Models](#3-models)
-    - [3.1. Generative Model](#31-generative-model)
-    - [3.2. Discriminative Model](#32-discriminative-model)
 - [4. Reference](#4-reference)
 
 
@@ -18,6 +19,50 @@ The task of machine learning can be roughly classified into following groups
 - When it is a more complex structure, it is called the structured learning.
 
 ## 1. Decision Theory
+
+Mean square error loss is a special case of loss function, the study of the performance of estimators using loss function is a branch of decision theory
+
+### 1.1. Frequentist Decision Theory
+
+**Definition (risk function)** The quality of an estimator is quantified in its risk function wrt estimator $\delta(X)$
+
+$$R(\theta, \delta) = E_{\theta} L(\theta, \delta(X))$$
+
+!!! example "MSE is the risk with square error loss"
+    For square error loss, 
+
+    $$L(\theta, a) = (a - \theta)^2$$
+    
+    the risk function is mean square error (MSE) where 
+
+    $$R(\theta, \delta) = E_{\theta}(\delta - \theta)^2 = \mathrm{Var}_\theta \delta(X) + (\mathrm{Bias} \delta(X))^2$$
+
+For a fixed $\theta$, the risk function is the average loss that will be incurred if the estimator $\delta(x)$ is used. However, since the true $\theta$ is unknown, we would like to use an estimator that has a samll value $R(\theta, \delta)$ for all values of $\theta$
+
+As the optimality will change based on different $\theta$, we have variosu solutions here
+
+#### 1.1.1. Bayes Risk
+**Definition (Bayes risk)** In Bayesian analysis wewould use the prior distribution $\pi(\theta)$ to compute an average risk, known as the *Bayes risk*
+
+$$R_{B} (\delta) = \int_{\Theta} R(\theta, \delta) \pi(\theta) d\theta$$
+
+The Bayes estimator or Bayes decision rule is one which minimizes the expected risk:
+
+$$\delta_{B} = \argmin_{\delta} (R_B(\delta))$$
+
+#### 1.1.2. Minimax Risk
+An alternative approach is to use minimax risk
+
+**Definition (minimax risk)** The maximum risk of an estimator is
+
+$$R_{max}(\delta) = \max_{\theta} R(\theta, \delta)$$
+
+A minimax rule is one which minimizes the maximum risk
+
+$$\delta_{MM} = \argmin_{\delta} R_{max}(\delta)$$
+
+### 1.2. Bayesian Decision Theory
+
 
 ## 2. Information Theory
 Information Theory is concerned with representing daata in a compact fashion, the most important concepts are summarized here
@@ -52,31 +97,6 @@ $$I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)$$
 **Definition (pointwise mutual information)** A related concept is pointwise mutual information or PMI, this is about two events $x,y$
 
 $$PMI(x,y) = \log \frac{p(x,y)}{p(x)p(y)}$$
-
-## 3. Models
-The ML probabilistic model can be largely grouped into the following two groups.
-
-
-
-### 3.1. Generative Model
-Generative Model is to model the joint distribution $P(\textbf{x}, \textbf{y})$. This typically can be broken into modelling of conditional distribution and probability distribution:
-
-- models a class conditional densities $P( \textbf{x} | \mathcal{C}_k)$
-- models a prior $P(\mathcal{C}_k)$
-
-With the joint distribution, the prediction task is easily solve with posterior distribution.
-- compute posterior $P(\mathcal{C}_k | \textbf{x})$ with Bayes' theorem
-  
-Generative model tends to be better when training data are limited, but the bound of the asymptotic error is reached more quickly by a  generative model than a discriminative model.
-
-### 3.2. Discriminative Model
-The approach of a discriminative model is to model posterior distribution directly $P(\textbf{y} | \textbf{x})$ directly. For example, in the classification task, it is to model  $P(\mathcal{C}_k | \textbf{x})$ directly 
-
-Parameters are typically estimated with MLE. for example, by iterative reweighted least squares (IRLS)
-
-Discriminative model tends to achieve better results with asymptotic classification error (when training data are large enough)
-
-Models that do not have probabilistic interpretation but can learn decision boundary are called discriminant function, these can also be classified as the (nonprobabilistic model) discriminative model. For example, SVM.
 
 
 ## 4. Reference

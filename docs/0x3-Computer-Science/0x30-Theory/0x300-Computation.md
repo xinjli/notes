@@ -1,28 +1,38 @@
 # 0x300 Computation
 
-- [1. Regular Languages](#1-regular-languages)
+- [1. Regular Languages (Type 3)](#1-regular-languages-type-3)
     - [1.1. Finite Automaton](#11-finite-automaton)
     - [1.2. Deterministic Finite Automaton](#12-deterministic-finite-automaton)
     - [1.3. Nondeterministic Finite Automaton](#13-nondeterministic-finite-automaton)
     - [1.4. Finite State Transducer](#14-finite-state-transducer)
     - [1.5. Regular Expression](#15-regular-expression)
-- [2. Context Free Languages](#2-context-free-languages)
+- [2. Context Free Languages (Type 2)](#2-context-free-languages-type-2)
     - [2.1. Context Free Grammar](#21-context-free-grammar)
     - [2.2. Chomsky Normal Form (CNF)](#22-chomsky-normal-form-cnf)
     - [2.3. Pushdown Automaton](#23-pushdown-automaton)
-- [3. Context-Sensitive Languages](#3-context-sensitive-languages)
-- [4. Recursive Languages](#4-recursive-languages)
+- [3. Context-Sensitive Languages (Type 1)](#3-context-sensitive-languages-type-1)
+- [4. Recursive Languages (Type 0)](#4-recursive-languages-type-0)
     - [4.1. Turing Machine](#41-turing-machine)
     - [4.2. Recursive Function](#42-recursive-function)
     - [4.3. Lambda Calculus](#43-lambda-calculus)
 - [5. Computability](#5-computability)
 - [6. Reference](#6-reference)
 
-This note is arranged based on the Chomsky hierarchy.
+This note is arranged based on the Chomsky hierarchy from Type 3 to Type 0.
 
-**Definition (language)** A language is a set of string
+Note that all models here have access to some memory (limited or not), these are all models of sequential logic. An even model low-level model is the combinational logic, which is the pure function of the input and it has no access to any memory
+
+**Definition (alphabet)** Alphabet are defined as a finite set of symbols. e.g: $\Sigma = \{ 0, 1 \}, \Sigma = \{ A,B, ..., Z \}$
+
+**Definition (string)** A string is a finite sequence of symbols from some alphabet. e.g: $0101010$ from $\Sigma = \{ 0, 1 \}$
+
+**Definition (language)** A language is a set of string chosen from some $\Sigma^*$
 
 **Definition (grammar)** A grammar is a set of rules defining the syntax of a specific language
+
+**Definition (recognition)** We say that a model $M$ recognizes language $A$ if
+
+$$A = \{ w | M \text{ accepts } w \}$$
 
 **Definition (model of computation)** a model of computation is a model which describes how a set of outputs are computed given a set of inputs 
 
@@ -38,17 +48,18 @@ The difference of three models can be characterized by their memory usage
 - CFG: unlimited stack-like memory (restricted)
 - Turing Machine: unlimited random access memory (unrestricted)
 
-
 ![Computation](../../img/computation.png)
 
-## 1. Regular Languages
+## 1. Regular Languages (Type 3)
 
 **Definition (regular language)** A language is called a regular language is some FA recognizes it
 
-**Lemma (closedness)** The regular languages are closed under following operations
+**Lemma (closed operations)** The regular languages are closed under following operations
 - (union) If $A_1, A_2$ are regular languages, then $A_1 \cup A_2$ is regular
 - (intersection) If $A_1, A_2$ are regular languages, then $A_1 \cap A_2$ is regular
 - (concatenation) If $A_1, A_2$ are regular languages, then $A_1 \circ A_2$ is regular
+
+The proof is easy by using NFA formulation.
 
 Regular languages can be expressed by three different formulation: finite automaton, nondeterministic finite automaton and regular expression. They are all equivalent.
 
@@ -84,6 +95,10 @@ If $A$ is the set of all strings that FA $M$ accepts, then $A$ is the language o
 
 Proof outline: Every DFA is a special case of NFA, so DFA -> NFA is obvious. To prove the other direction (NFA -> DFA), we can construct a NFA from DFA by consider the power set of states and assign deterministic transition based on NFA transitions.
 
+Thus NFA gives an alternative way of characterizing the regular language.
+
+**Corollary (NFA and regular language)** A language is regular iff some NFA recognizes it.
+
 
 
 ### 1.4. Finite State Transducer
@@ -107,6 +122,9 @@ FST accept pairs of strings
   
 
 ### 1.5. Regular Expression
+We can use the regular operations to build up expressions describing languages, which are called regular expressions. e.g.: $(0 \cup 1)0^*$
+
+We can define regular expression inductively as follows:
 **Definition (regular expression)** $R$ is said to be a regular expression if $R$ is
 
 - $a$ for some $a$ in the alphabet $\Sigma$
@@ -116,8 +134,11 @@ FST accept pairs of strings
 - $(R_1 \circ R_2)$
 - $(R_1^*)$
 
+Note that the value of a regular expression is a language.
 
-## 2. Context Free Languages
+Regular expression is useful, for example, to implement lexical analysis rule in compiler.
+
+## 2. Context Free Languages (Type 2)
 Context Free languages is a more expressive language collection than regular languages. It can be used for natural language parsing and compiler.
 
 Note that the name of context-free is because subtree node is not affected by its surrounding context (On the other hand, context-sensitive languages are affected by contexts $\alpha, \beta$ as in the following section)
@@ -141,11 +162,11 @@ How to transform: binarization
 
 ### 2.3. Pushdown Automaton
 
-## 3. Context-Sensitive Languages
+## 3. Context-Sensitive Languages (Type 1)
 Grammar
 $$\alpha A \beta \to \alpha \gamma \beta$$
 
-## 4. Recursive Languages
+## 4. Recursive Languages (Type 0)
 The recursive languages have three different formulations: Turing machine, recursive function and lambda calculus, which is proved by the Church-Turing thesis.
 
 ### 4.1. Turing Machine
@@ -155,8 +176,9 @@ Any string in the language will be accepted by the TM
 Any other string will not be accepted (halting OR rejected)
 **Definition (decidable)** A language is called decidable (or Recursive) if some Turing machine decides it
 
-Any string in the language will be accepted by the TM
-Any other string will not be rejected
+- Any string in the language will be accepted by the TM
+- Any other string will not be rejected
+  
 **Definition (Universal Turing Machine)** Universal turing machine is a machine that can simulate any other Turing Machine.
 
 ### 4.2. Recursive Function

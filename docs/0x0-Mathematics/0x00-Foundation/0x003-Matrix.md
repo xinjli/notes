@@ -3,13 +3,10 @@
 - [1. Foundation](#1-foundation)
     - [1.1. Subspace](#11-subspace)
     - [1.2. Rank](#12-rank)
-    - [1.3. Trace](#13-trace)
-    - [1.4. Determinant](#14-determinant)
-    - [1.5. Derivatives](#15-derivatives)
-        - [1.5.1. Denominator Layout](#151-denominator-layout)
-        - [1.5.2. Determinant](#152-determinant)
-    - [1.6. Submatrices](#16-submatrices)
-    - [1.7. Norm](#17-norm)
+    - [1.3. Trace and Determinant](#13-trace-and-determinant)
+    - [1.4. Derivatives](#14-derivatives)
+    - [1.5. Submatrices](#15-submatrices)
+    - [1.6. Norm](#16-norm)
 - [2. Triangular Matrix](#2-triangular-matrix)
     - [2.1. Linear System](#21-linear-system)
     - [2.2. Row Reduction](#22-row-reduction)
@@ -40,44 +37,60 @@
 - $N(A^T)$: null space of $A^T$
 - $C(A^T)$: row space of $A$
 
+
+
 The Big Picture of Linear Algebra Gilbert Strang
 ![strang](../../img/strang.png)
 
-**Lemma**
-- $N(A) \perp C(A^T)$
-- $N(A) + C(A) = n$
-- $N(A^T) \perp C(A)$
-- $N(A^T) + C(A^T) = m$
-The important thing here is that null space $N(A)$ is orthogonal to row space $C(A^T)$, because for any vector $x$ such that $Ax=0$, $x$ is orthogonal to every row in $A$, therefore any linear combination from row space is also orthogonal to $x$. In other words, $Ax = 0$ implies for all $y$, $(y^T A)x = 0$, therefore, $y^TA$ and $x$ are orthogonal.
+**Lemma (dimension of fundamental subspaces)**
+- The dimension of $C(A)$ is the number of pivot (also equals $rank(A)$)
+- The dimension of $N(A)$ is the number of free variables.
+
+Therefore, we have the fundamental theorem of linear algebra as follows:
+
+$$\dim(C(A)) + \dim(N(A)) = n$$
+
+And similarly, 
+
+$$\dim(N(A^T)) + \dim(C(A^T)) = m$$
+
+**Lemma (orthogonal fundamental subspaces)** Null space $N(A)$ is orthogonal to row space $C(A^T)$, therefore
+
+$$N(A) \perp C(A^T)$$
+
+And similarly,
+$$N(A^T) \perp C(A)$$
+
+Proof: Intuitively, for any vector $x$ such that $Ax=0$, $x$ is orthogonal to every row in $A$, therefore any linear combination from row space is also orthogonal to $x$. In other words, $Ax = 0$ implies for all $y$, $(y^T A)x = 0$, therefore, $y^TA$ and $x$ are orthogonal.
 
 ### 1.2. Rank
 
 **Definition (rank)** rank is the dimension size of the column space
 
-$$rank(A) = \dim range(A)$$
+$$rank(A) = \dim C(A)$$
 
-**Lemma (properties of rank)**
-
-$$rank(A^T) = rank(A)$$
+**Lemma (inequalities of rank)** For any $A,B,C$ with the same shape,
 
 $$|rank(A) - rank(B)| \leq rank(A+B) \leq rank(A) + rank(B)$$
 
-If $A,C$ is nonsingular, then $rank(AB) = rank(B) = rank(BC)$
+If $A,C$ is nonsingular, then 
 
-### 1.3. Trace
-Trace has a cyclic permutation property useful to compute derivatives
+$$rank(AB) = rank(B) = rank(BC)$$
+
+### 1.3. Trace and Determinant
+
+**Lemma (cyclic permutation properties)**  Trace has a cyclic permutation property useful to compute derivatives
 
 $$tr(\mathbf{ABC}) = tr(\mathbf{CAB}) = tr(\mathbf{BCA})$$
 
-### 1.4. Determinant
+**Lemma (inequalities determinant)** The following inequality is known as the Hadamard's inequality
 
-**Lemma (properties of determinant)**
-- (Hadamard's inequality) $|detA| \leq \Pi_{j} ||a_j||_2$
+$$|detA| \leq \Pi_{j} ||a_j||_2$$
 
-### 1.5. Derivatives
-Annoyingly, there are two types of vector, matrix layouts, the numerator layout (consistent with the Jacobian) and the denominator layout. In the ML community, it looks the latter are more commonly used, so this section is follows the denominator layout.
+### 1.4. Derivatives
+Annoyingly, there are two types of vector, matrix layouts, the **numerator layout** (consistent with the Jacobian) and the **denominator layout** (consistent with the Hessian).
 
-#### 1.5.1. Denominator Layout
+In the ML community, it looks the latter are more commonly used, so this section is follows the denominator layout.
 
 $$\big( \frac{\partial \mathbf{a}}{\partial x} \big) = (\frac{\partial a_1}{\partial x}, ...,  \frac{\partial a_n}{\partial x}) \in \R^{1 \times n}$$
 
@@ -99,15 +112,18 @@ $$\frac{\partial A\mathbf{x}}{\partial \mathbf{x}} = A^T$$
 
 $$\frac{\partial \mathbf{x}^T A}{\partial \mathbf{x}} = A$$
 
+$tr(BA)$ can be seen as the inner product of two matrix $\langle B, A \rangle$, the following one is easy to see by noticing its similarity with $\langle x, a \rangle$
+
 $$\frac{\partial}{\partial \mathbf{A}} tr(\mathbf{BA}) = \mathbf{B^T}$$
 
-#### 1.5.2. Determinant
-Proof can be obtained by expanding det with cofactor. [A PDF containing easy to understand proof](https://www.kamperh.com/notes/kamper_matrixcalculus13.pdf)
+**Determinant's derivative** 
+Proof can be obtained by expanding det with cofactor. [Here](https://www.kamperh.com/notes/kamper_matrixcalculus13.pdf) is a pdf containing its proof
+
 $$\frac{\partial \det(A)}{\partial A} = |A| (A^{-1})^T$$
 
 $$\frac{\partial \log \det(A)}{\partial A} = A^{-T}$$
 
-### 1.6. Submatrices
+### 1.5. Submatrices
 A simple rule inverse of triangular submatrix is as follows
 
 $$\begin{pmatrix} A_{11} & A_{12} \\ 0 & A_{22} \\ \end{pmatrix}^{-1} = \begin{pmatrix}A^{-1}_{11} & -A_{11}^{-1}A_{12}A^{-1}_{22} \\ 0 & A^{-1}_{22} \\ \end{pmatrix}$$
@@ -135,7 +151,7 @@ $$(A - BD^{-1}C)^{-1} = A^{-1} + A^{-1}B(D-CA^{-1}B)^{-1}CA^{-1}$$
 
 If the shape of matrix $A$ is $N \times N$, matrix $D$ is $D \times D$, then the LHS has $O(N^3)$ and RHS has $O(D^3)$, this is helpful when $N >> D$
 
-### 1.7. Norm
+### 1.6. Norm
 Norms arise naturally in the study of power series of matrices and in the analysis of numerical computations
 
 For example, it is sufficient to say the following formula is valid when any matrix norm of $A$ is less than 1
@@ -197,6 +213,11 @@ Note that if $b=0$, this system is called *homogeneous*
 
 Note the 3rd statement basically says if there is such a row, then appending $b$ will result in 1 more rank.
 
+**Algorithm (size of solution set)** To decide how many solutions we have, we should
+
+- first, apply the previous consistency condition to check whether it is feasible
+- if feasible, then check the null space of the matrix (or its rank), the dimension of solutions set is the dimension of null space.
+
 ### 2.2. Row Reduction
 
 **Definition (row equivalence)** Two matrices $A,B$ of the same shape are said to be row equivalent if they share the the same row space or null space
@@ -234,6 +255,24 @@ Row equivalence can be established by applying a sequence of elementary row oper
 
 Note that eigenvalues, vectors are not preserved.
 
+The most "canonical" form of row equivalent matrix is the echelon form and reduced echelon form
+
+**Definition (echelon form, reduced echelon form)** A matrix is in echelon form if it satisfies the following properties
+
+- All nonzero rows are above any rows of all zeros
+- each leading entry of a row is in a column to the right of the leading entry of the row above it
+- all entries in a column below a leading entry are zeros
+
+Intuitively, this means the nonzero leading entry has a steplike pattern in the matrix.
+
+Note that each matrix may be row reduced into more than one echelon forms.
+
+**Definition (reduced echelon form)** In addition to the echelon conditions, it also has to satisfy:
+
+- the leading entry in each nonzero row is 1
+- each leading 1 is the only nonzero entry in its column
+
+Note that each matrix can be row reduced into 1 form of echelon matrix, so this is the canonical form with respect to row equivalence.
 
 **Collorary (algebra of triangular matrix)** Triangular matrix is preserved under many operations. For example,
 - sum of upper triangular is upper triangular
@@ -252,7 +291,6 @@ Note that eigenvalues, vectors are not preserved.
 ## 3. Diagonal matrix
 
 ### 3.1. Eigenvalue and Eigenvector
-
 
 **Definition (spectrum)** The spectrum of $A \in M_n$ is the set of all $\lambda \in C$ that are eigenvalues of $A$; denoted by $\sigma(A)$
 

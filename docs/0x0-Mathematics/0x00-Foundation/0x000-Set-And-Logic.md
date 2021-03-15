@@ -121,6 +121,12 @@ $$f(S) := \{  f(x) | x \in S \}$$
 
 $$f^{-1}(U) := \{ x \in X | f(x) \in U \}$$
 
+**Lemma (algebra of inverse images)** Suppose $f: X \to Y$ is a function, then
+
+$$f^{-1}(Y \setminus A) = X \setminus f^{-1}(A)$$
+$$f^{-1}(\cup_{A \in \mathcal{A}} A) = \cup_{A \in \mathcal{A}} f^{-1}(A)$$
+$$f^{-1}(\cap_{A \in \mathcal{A}} A) = \cap_{A \in \mathcal{A}} f^{-1}(A)$$
+
 **Axiom (Power set axiom)** Let $X,Y$ be sets. Then there exists a set, denoted $Y^{X}$, which consists of all the functions from $X$ to $Y$
 
 Remark: this is to basically create larger set such as $\mathbf{R}$

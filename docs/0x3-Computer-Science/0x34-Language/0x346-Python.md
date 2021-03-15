@@ -11,6 +11,14 @@
     - [Lexical Analysis](#lexical-analysis)
     - [Bytecode Compile](#bytecode-compile)
     - [Virtual Machine](#virtual-machine)
+- [Compiler](#compiler)
+    - [Cython](#cython)
+    - [Numba](#numba)
+        - [Nopython mode](#nopython-mode)
+        - [object mode](#object-mode)
+    - [Pypi](#pypi)
+- [Numpy](#numpy)
+    - [API](#api)
 - [3. Reference](#3-reference)
 
 ## 1. Data Structure
@@ -147,6 +155,37 @@ The main VM is implemented [cpython/python/ceval.c](https://github.com/python/cp
             DISPATCH(); // this is roughly defined as `goto` fast_next_opcode
         }
 ```
+
+## Compiler
+There is a couple of options to compile python code into machine code to improve speed. Mathematical code with many loops can benefit from these compiling approach.
+
+### Cython
+Cython is a ahead-of-time (AOT) compiler
+
+### Numba
+Numba is a just-in-time (JIT) compiler. It compiles the bytecode into machine code on the first time the function get executed.
+
+#### Nopython mode
+aggressive compilation. Numba need to be able to infer the types of all variables.
+numpy arrays and simple scalar types are reasonably well supported. For list and dict, use numba's typed containers: *typed-list*, *typed-dict*
+
+#### object mode
+permissive compilation. 
+
+
+### Pypi
+
+## Numpy
+
+### API
+Summary of some commonly used API
+
+**API (np.random)**
+
+The following API are consistent with np.ones and np.zeros
+- np.random.randint(high, size=()): generate random uniform int with a target shape
+- np.random.random_sample(size=()): generate random uni(0,1) with a target shape
+- np.random.standard_normal(size=()): generate random $n(0,1)$ with a target shape
 
 
 ## 3. Reference

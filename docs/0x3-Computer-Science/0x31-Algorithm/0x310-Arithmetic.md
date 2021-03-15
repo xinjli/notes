@@ -163,7 +163,11 @@ Its expected running time is proportional to the square root of the size of the 
 
 ### 2.5. Pseudorandom Number Generator (PRNG)
 
-**Algorithm (Linear Congruence Generator)**
+**Algorithm (Linear Congruence Generator)** One of the oldest and best-known algorithm, many libraries (e.g: glibc) uses this to generate number.
+
+$$X_{n+1} = (a X_{n} + c) \mod m$$
+
+Note recently there is some improved version of this: Permuted congruential generator (PCG), this is used in numpy random.
 
 **Algorithm (Mesenne Twister)**
 

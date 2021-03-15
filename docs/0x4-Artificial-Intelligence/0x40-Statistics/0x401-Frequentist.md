@@ -6,6 +6,7 @@
   - [1.3. Sample Order](#13-sample-order)
 - [2. Data Reduction Principles](#2-data-reduction-principles)
   - [2.1. The sufficiency principle](#21-the-sufficiency-principle)
+    - [2.1.1. Minimal Sufficient statistics](#211-minimal-sufficient-statistics)
   - [2.2. The Likelihood Principle](#22-the-likelihood-principle)
 - [3. Point Estimation](#3-point-estimation)
   - [3.1. Methods of Finding Estimators](#31-methods-of-finding-estimators)
@@ -18,7 +19,7 @@
   - [3.3. Methods of Evaluating Estimators](#33-methods-of-evaluating-estimators)
     - [3.3.1. Mean Squared Error](#331-mean-squared-error)
     - [3.3.2. Best Unbiased Estimator](#332-best-unbiased-estimator)
-  - [3.4. Decision Theory](#34-decision-theory)
+    - [3.3.3. Sufficiency and Unbiasedness](#333-sufficiency-and-unbiasedness)
 - [4. Hypothesis Testing](#4-hypothesis-testing)
   - [4.1. Methods of Finding Tests](#41-methods-of-finding-tests)
     - [4.1.1. Likelihood Ratio Tests](#411-likelihood-ratio-tests)
@@ -198,10 +199,17 @@ The sufficiency principle says the sufficient statistics summarizes all the info
 
 $$T(x) = T(y) \implies Ev(E,x) = Ev(E,y)$$
 
+Intuitively, this means: If $\mathbf{x}, \mathbf{y}$ are two sample points such that $T(\mathbf{x}) = T(\mathbf{y})$, then the inference about $\theta$ should be the same whether $\mathbf{X}=\mathbf{x}$ or $\mathbf{X}=\mathbf{y}$ is observed
+
+
 The sufficient statistic is defined as follows
 **Definition  (sufficient statistic)** A statistic $T(\mathbf{X})$ is a sufficient statistic for $\theta$ if the conditional distribution of the sample $\mathbf{X}$ given the value of $T(\mathbf{X})$ does not depend on $\theta$
 
-If $\mathbf{x}, \mathbf{y}$ are two sample points such that $T(\mathbf{x}) = T(\mathbf{y})$, then the inference about $\theta$ should be the same whether $\mathbf{X}=\mathbf{x}$ or $\mathbf{X}=\mathbf{y}$ is observed
+**Criterion (condition of sufficient statistics)** If the following ratio, is constant as a function of $\theta$, then $T(\mathbf{X})$ is a sufficient statistic for $\theta$
+
+$$\frac{p(\mathbf{x}|\theta)}{q(T(\mathbf{x})|\theta)}$$ 
+
+Sufficient statistic can be interpreted with the concept of sufficient partition
 
 !!! example "Bernoulli sufficient statistic"
 
@@ -209,22 +217,36 @@ If $\mathbf{x}, \mathbf{y}$ are two sample points such that $T(\mathbf{x}) = T(\
 
     $$T(X) = X_1 + ... + X_n$$
 
-It turns out that outside of the exponential family of distributions, it is rare to have a sufficient statistic of smaller dimension than the size of the sample, so in many cases the order statistics are the best that we can do.
+    This can be proved by consider $p(x|\theta)$ and $q(T(x)\theta)$
+    $$p(x|theta) = \pi_i \theta^x_i (1-\theta)^{1-x_i} = \theta^t (1-\theta)^{n-t}$$
+
+    $$q(t|\theta) = \binom{n}{t} \theta^{t} (1-\theta)^{n-t}$$
+
+    Their ratio is constant with respect to $\theta$
 
 **Criterion (Fisher-Neyman factorization)** Let $f(\mathbf{x}|\theta)$ denote the joint pdf of a sample $\mathbf{X}$. A statistic $T(\mathbf{X})$ is a sufficient statistic for $\theta$ iff
 
 $$f(\mathbf{x}|\theta) = g(T(\mathbf{x}) | \theta) h(\mathbf{x})$$
 
-**Criterion (condition of sufficient statistics)** If the following ratio, is constant as a function of $\theta$, then $T(\mathbf{X})$ is a sufficient statistic for $\theta$
+Note that $g(T(x)|\theta)$ is not necessarily a distribution.
 
-$$\frac{P(\mathbf{x}|\theta)}{q(T(\mathbf{x})|\theta)}$$ 
+!!! example "sufficient statistics of exponential distribution"
 
-Sufficient statistic can be interpreted with the concept of sufficient partition
+    Let $X_1,..., X_n$ from a exponential family
+
+    $$f(x|\theta)= h(x)c(\theta) \exp (\sum_w_i(\theta) t_i(x))$$
+
+    then the following is a sufficient statistic for $\theta$
+
+    $$T(X) = ( \sum_j t_1(X_j), ..., \sum_j t_k(X_j))$$
+
+It turns out that outside of the exponential family of distributions, it is rare to have a sufficient statistic of smaller dimension than the size of the sample, so in many cases the order statistics are the best that we can do.
 
 **Definition (sufficient partition)** A partition $B_1, ..., B_k$ is called sufficient partition if $f(x|X \in B)$ does not depend on $\theta$.
 
 A statistic $T$ induces a partition. $T$ is sufficient iff its partition is sufficient. If we get finer partition from one sufficient partition, it is also sufficient partition (statistics). 
 
+#### 2.1.1. Minimal Sufficient statistics
 There are more than one sufficient statistics, the sufficient statistics which achieve the most data reduction is the minimal sufficient statistic. 
 
 Their partition is corresponding to the most coarse sufficient partition. A more coarse partition will remove the sufficiency (it will depend on $\theta$)
@@ -360,6 +382,13 @@ $$Bias_{\theta}W = E_{\theta}W - \theta$$
 
 $$E_{\theta} W = \theta$$
 
+!!! example "MSE for normal distribution"
+
+    Let $X_1, ..., X_n$ be $n(\mu, \sigma^2)$ distribtuion, the statistics $\bar{X}, S^2$ are both unbiased estimator, therefore their MSE are
+
+    $$E(\bar{X} - \mu)^2 = Var(\bar{X}) = \frac{\sigma^2}{n} \\
+    E(S^2 - \sigma)^2 = Var(S^2) = \frac{2\sigma^4}{n-1}$$
+
 
 #### 3.3.2. Best Unbiased Estimator
 **Definition (unbiased best estimator)** An esitmator $W^*$ is a best unbiased estimator of $\tau(\theta)$ if it satisfies $E_\theta W^* = \tau(\theta)$ for all $\theta$. For any other estimator $W$ with $E_\theta(W) = \tau(\theta)$ we have for all $\theta$ 
@@ -401,32 +430,22 @@ For exponential family, this can be simplified into
 
 $$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta))^2) = - E_\theta(\frac{\partial^2}{\partial \theta^2}\log f(X|\theta))$$
 
+#### 3.3.3. Sufficiency and Unbiasedness
+
 **Theorem (Rao-Blackwell)** Let $W$ be an unbiased estimator for $\tau(\theta)$, and $T$ be a sufficient statistic for $\theta$. Then the following $\phi(T)$ is a uniformly better unbiased estimator of $\tau(\theta)$
 
 $$\phi(T)=E(W|T)$$
 
-### 3.4. Decision Theory
-Mean square error loss is a special case of loss function, the study of the performance of estimators using loss function is a branch of decision theory
-
-**Definition (risk function)** The quality of an estimator is quantified in its risk function wrt estimator $\delta(X)$
-
-$$R(\theta, \delta) = E_{\theta} L(\theta, \delta(X))$$
-
-For square error loss, the risk function is mean square error (MSE) where 
-
-$$\R(\theta, \delta) = \mathrm{Var}_\theta \delta(X) + (\mathrm{Bias} \delta(X))^2$$
-
 ## 4. Hypothesis Testing
 Like point estimation, hypothesis testing is another statistical inference method.
 
-**Definition (hypothesis)** A hypothesis is a statement about a population parameter. The complementary hypotheses are called null hypothesis and alternative hypothesis, denoted by $H_0, H_1$ respectively.
-
-The general form of hypothesis about $\theta$ is that $H_0 = \Theta_0$ and $H1 = \Theta_0^c$
+**Definition (hypothesis)** A hypothesis is a statement about a population parameter. The complementary hypotheses are called **null hypothesis** and **alternative hypothesis**, denoted by $H_0, H_1$ respectively. The general form of hypothesis about $\theta$ is that $H_0 = \Theta_0$ and $H_1 = \Theta_0^c$
 
 **Definition (hypothesis test)** A hypothesis test is a rule that specifies
 
-For which sample value the decision is made to accept $H_0$
-For which sample value $H_0$ is rejected and $H_1$ is accepted as true
+- For which sample value the decision is made to accept $H_0$
+- For which sample value $H_0$ is rejected and $H_1$ is accepted as true
+  
 Typically, a hypothesis test is specified in terms of a test statistic
 
 ### 4.1. Methods of Finding Tests
@@ -437,9 +456,37 @@ $$\lambda(x) = \frac{\sup_{\Theta_0} L(\theta | \mathbf{x})}{\sup_{\Theta} L(\th
 
 A likelihood ratio test (LRT) is any test that has a rejection region of the form $\{ \mathbf{x} : \lambda(\mathbf{x}) \leq c \}$ where $0 \leq c \leq 1$
 
-**Theorem** If $T(\mathbf{X})$ is a sufficient statistic for $\theta$ and $\lambda^{*}(t), \lambda(\mathbf{x})$ are the LRT statistics based on $T,\mathbf{X}$, then $\lambda^{*}(T(\mathbf{x}))=\lambda(\mathbf{x})$ for every $\mathbf{x}$ in the sample space
+!!! example "normal LRT"
+
+    Let $X_1, ..., X_n$ be a random sample from $n(\theta, 1)$ distribution, suppose the test $H_0: \theta = \theta_0, H_1: \theta \neq \theta_0$
+
+    The LRT statistic is
+
+    $$\lambda(x) = \frac{L(\theta_0 | x)}{L(\bar{x}|x)} = \exp( -n (\bar{x} - \theta_0)^2)$$
+
+    The rejection region $\{ x: \lambda(x) \leq c \}$ is
+
+    $$\{ |\bar{x} - \theta_0| \geq \sqrt{-2\log(c)/n \}$$
+
+
+Note that the rejection region can be simplified to an experssion involving a simpler sufficient statistic.
+
+**Theorem (test based on sufficient statistics)** If $T(\mathbf{X})$ is a sufficient statistic for $\theta$ and $\lambda^{*}(t), \lambda(\mathbf{x})$ are the LRT statistics based on $T,\mathbf{X}$, then $\lambda^{*}(T(\mathbf{x}))=\lambda(\mathbf{x})$ for every $\mathbf{x}$ in the sample space
+
+**Theorem (union-intersection)** The union-intersection method of test construction might be useful when the null hypothesis is conveniently experssed as an intersection.
+
+$$H_0: \theta \in \bigcap_{\gamma \in \Gamma} \Theta_{\gamma}$$
+
+Suppose the test for each problem is $H_{0\gamma}$ vs $H_{1\gamma}$, and the rejection region for the test is $\{ x: T_{\gamma}(x) \in R_{\gamma} \}$, the rejection region is their union
+
+$$\bigcup_{\gamma \in \Gamma} \{ x: T_{\gamma}(x) \in R_{\gamma} \}$$
 
 ### 4.2. Methods of Evaluating Tests
+**Definition (Type I, II error)** 
+
+- Type I error is the false negative error (i.e.: $\theta \in \Theta_0$ but $H_0$ is rejected)
+- Type II error is the false positive error (i.e: $\theta \in \Theta_1$ but $H_0$ is accepted)
+
 **Definition (power function)** Suppose $R$ denotes the reject region for a test. Then the power function of this test is the function of $\theta$ defined by
 
 $$\beta(\theta) = P_\theta (X \in R)$$
@@ -447,6 +494,10 @@ $$\beta(\theta) = P_\theta (X \in R)$$
 Ideally, we would like $\beta(\theta)=0$ when $\theta \in \Theta_0$ (minimize False Negative, Type I Error) and $\beta(\theta)=1$ when $\theta \in \Theta_0^c$ (minize False Positive, Type II Error)
 
 Typically, the power function of a test will depend on the sample size $n$, therefore by considering the power function, the experimenter can choose $n$ to achieve some test goal.
+
+For a fixed sample size, it is impossible to make both errors arbitrarily small, so it is common to restrict consideration to tests that control the Type I Error at a specified level, and within that level, minimize Type II as much as possible. 
+
+Notice the similarity with point estimation when we restrict estimators to a restricted class (unbiased estimator) and then minimize variance within that class
 
 **Definition (size $\alpha$ test, alpha $\alpha$ test)**. 
 

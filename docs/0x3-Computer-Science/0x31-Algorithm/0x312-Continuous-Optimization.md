@@ -5,10 +5,13 @@
         - [1.1.1. Unconstrained Local Optimization](#111-unconstrained-local-optimization)
         - [1.1.2. Constrained Local Optimization](#112-constrained-local-optimization)
         - [1.1.3. Global Optimization](#113-global-optimization)
-- [2. Linear Programming](#2-linear-programming)
-- [3. Convex Optimization](#3-convex-optimization)
-    - [3.1. Convex Optimization Problems](#31-convex-optimization-problems)
-- [4. Nonlinear Optimization](#4-nonlinear-optimization)
+    - [1.2. Linear Programming](#12-linear-programming)
+    - [1.3. Convex Optimization](#13-convex-optimization)
+- [2. Unconstrained Minimization](#2-unconstrained-minimization)
+- [3. Equality Constrained Minimization](#3-equality-constrained-minimization)
+- [4. Inequality Constrained Minimization](#4-inequality-constrained-minimization)
+- [5. Nonlinear Optimization](#5-nonlinear-optimization)
+- [6. Reference](#6-reference)
 
 ## 1. Foundation
 **Definition (optimization problems)** The optimization problems is formulated as follows:
@@ -58,12 +61,9 @@ The second condition is called the degeneracy condition, and the last condition 
 #### 1.1.3. Global Optimization
 To find the global extrema, devide the domain into subdomain and gather their critical points to find the actual global extrema. The existence of global extrema can be guaranteed by the continuous function and compact domain as mentioned in the previous section.
 
+### 1.2. Linear Programming
 
-## 2. Linear Programming
-
-## 3. Convex Optimization
-
-### 3.1. Convex Optimization Problems
+### 1.3. Convex Optimization
 A fundamental property of convex optimization problems is that any local optimal point is also global optimal
 
 **Definition (convex optimization)** A convex optimization problem is of the form
@@ -104,5 +104,15 @@ $$\text{s.t. } x_1 F_1 + ... + x_n F_n + G \preceq 0, Ax = b$$
 
 where $G, F_i \in S^k$
 
-## 4. Nonlinear Optimization
+## 2. Unconstrained Minimization
+
+## 3. Equality Constrained Minimization
+
+## 4. Inequality Constrained Minimization
+
+## 5. Nonlinear Optimization
+
+## 6. Reference
+
+[1] Boyd, Stephen, Stephen P. Boyd, and Lieven Vandenberghe. Convex optimization. Cambridge university press, 2004.
 

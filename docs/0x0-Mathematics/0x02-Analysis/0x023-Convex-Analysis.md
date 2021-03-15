@@ -317,9 +317,12 @@ Extending this to infinite set of convex, we have the supremum
 
 $$g(x) = \sup_{y} f(x,y)$$
 
+**Proposition (scalar composition)** Suppose $f(x) = h(g(x)))$ where $h: R \to R$ and $g: R^n \to R$, then the composition rules is
 
+- $f$ is convex if $h$ is convex, extended $h$ is nondecreasing and $g$ is convex
+- $f$ is convex if $h$ is convex, extened $h$ is nonincreasing and $g$ is concave
 
-**Proposition (composition)** Suppose $f(x) = h(g_1(x), ..., g_k(x))$ where $h: R^k \to R, g_i: R^n \to R$. $f$ is convex if $h$ is convex and nondecreasing in each argument, $g$ is convex
+**Proposition (vector composition)** Suppose $f(x) = h(g_1(x), ..., g_k(x))$ where $h: R^k \to R, g_i: R^n \to R$. $f$ is convex if $h$ is convex and nondecreasing in each argument, $g$ is convex
 
 **Proposition (infimum)** If $f$ is convex in $(x,y) $ and $C$ is a convex nonempty set, then the function $g$ is convex  if some $g(x) > -\infty$
 

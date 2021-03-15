@@ -1,5 +1,15 @@
 # 0x348 HTML/CSS
 
+- [HTML](#html)
+- [CSS](#css)
+    - [Basic](#basic)
+        - [Selector](#selector)
+        - [Box Model](#box-model)
+            - [Block and Inline](#block-and-inline)
+        - [Units](#units)
+        - [CSS variables](#css-variables)
+- [Reference](#reference)
+
 ## HTML
 
 ## CSS
@@ -15,7 +25,7 @@ Note there is a non-trivial specificity ranking algorithm to resolve selector co
 - element selector
 - id selector
 - class selector
-- attribute selector
+- attribute selector (e.g: [name]="value")
 
 **pseudo classes** select elements based on some special states of the element
 
@@ -67,6 +77,27 @@ Examples are a, span, img, button, input...
 
 - flow works like inline
 - all padding, margin works as expected
+
+#### Units
+Some common units are
+
+- px: not recommended anymore, because css px is no longer 1-1 mapped to phyiscal pixels. only use this to setup default font-size
+- em: relative unit, can cascade
+- rem: root relative unit, will not cascade
+- vw,vh: viewport width, height
+
+#### CSS variables
+
+CSS variables is defined with `--varname` and referenced with `var(--varname)` function. They can be inherited by descendent elements
+
+```css
+:root {
+    --heading-color: blue;
+}
+h1 {
+    color: var(--heading-color);
+}
+```
 
 
 ## Reference

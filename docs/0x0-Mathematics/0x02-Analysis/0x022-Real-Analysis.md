@@ -74,6 +74,10 @@ note that this can be proved using AoC
 - $\emptyset \in S$
 - $E \in S \implies X \setminus E \in S$
 - $E_1, E_2, ... \in S \implies \bigcup_{k=1}^{\infty} E_i \in S$
+
+!!! example "trivial $\sigma$-algebra"
+
+    Suppose $X$ is a set, then $\{ \emptyset, X \}$ is a $\sigma$-algebra, the power set of $X$, $2^X$ is also a $\sigma$-algebra.
   
 **Definition (measurable space; measurable set)** A measurable space is an ordered pair $(X, S)$, where $X$ is a set and $S$ is a $\sigma$-algebra on $X$. An element of $S$ is called an $S$-measurable set.
 
@@ -87,17 +91,24 @@ note that this can be proved using AoC
 
     $$B = \cup^{\infty}_i \{ x_i \}$$
 
-**Definition (inverse image)** If $f: X \to Y$ is a function and $A \subset Y$, then the set $f^{-1}(A)$ is defined by
-
-$$f^{-1}(A) = \{ x \in X: f(x) \in A \}$$
-
 **Definition (measurable function)** Suppose $(X,S)$ is a measurable space. A function $f: X \to R$ is called S-measurable function if for every Borel set $B \subset R$
 
 $$f^{-1}(B) \in S$$
 
-**Criterion** Suppose $(X,S)$ is a measurable space and $f: X \to R$ is a measurable function iff 
+!!! example "measurable functions"
+
+    If $S = \{ \emptyset, X \}$, then the only $S$-measurable function from $X \to R$ are the constant functions.
+
+    If $S$ is the power set of $X$, then every function from $X \to R$ is S-measurable.
+
+
+Checking every Borel subset is not easy, the following one is a condition to check a much smaller collection of subsets.
+
+**Criterion (measurable function)** Suppose $(X,S)$ is a measurable space and $f: X \to R$ is a measurable function iff 
 
 $$f^{-1}((a, \infty)) \in S$$
+
+Intuitively, the inverse set preserves $\sigma$-algebra, i.e. $\{ A \subset R | f^{-1}(A) \in S \}$ is a $\sigma$-algebra if $S$ is a $\sigma$-algebra, under the given condition, it can construct all Borel sets in it.
 
 **Definition (Borel measurable function)** Suppose $X \subset R$. A function $X \to R$ is called Borel measurable if $f^{-1}(B)$ is a Borel set for every Borel set $B \subset R$
 
