@@ -8,8 +8,12 @@
     - [1.2. Nonparametric Density Estimation](#12-nonparametric-density-estimation)
 - [2. Clustering](#2-clustering)
 
+In supervised learning, we are only give input data $X$, without any output. The goal is to discover interesting strucutre in the data.
+
 ## 1. Density Estimation
 Density estimation is to model the probablisitic distribution $p(x)$ of a random variable $x$, given a finite set $x_1, ..., x_N$ of observations.
+
+In unsupervised learning, we care about the unconditional density estimation $p(x_i; \theta)$, in supervised learning we care about conditional density estimation $p(y_i | x_i; \theta)$
 
 ### 1.1. Parametric Density Estimation
 

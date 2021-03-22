@@ -35,9 +35,13 @@
         - [9.1.1. Bandwidth](#911-bandwidth)
     - [9.2. AWS](#92-aws)
     - [9.3. Azure](#93-azure)
-- [10. Reference](#10-reference)
+- [Reference](#reference)
 
 ## 1. Overview
+What is a distributed system?
+A distributed system is a collection of autonomous computing elements
+that appears to its users as a single coherent system.
+
 ### 1.1. Concensus
 ### 1.2. Paxos
 [Paxos Made Simple](http://lamport.azurewebsites.net/pubs/paxos-simple.pdf)
@@ -169,12 +173,12 @@ my measurements with iperf.
 ### 9.2. AWS
 ### 9.3. Azure
 
-## 10. Reference
-- system design primer
-- AWS scaling lecture
-- system design interview
-- CMU lectures
-- dropbox
-- 1PB sort with mapreduce
+## Reference
+[1] Tanenbaum, Andrew S., and Maarten Van Steen. Distributed systems: principles and paradigms. Prentice-Hall, 2007.
 
-
+[2] system design primer
+[3] AWS scaling lecture
+[4] system design interview
+[5] CMU lectures
+[6] dropbox
+[7] 1PB sort with mapreduce

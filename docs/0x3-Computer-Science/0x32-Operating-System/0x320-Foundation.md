@@ -1,26 +1,71 @@
 # 0x320 Foundation
 
-- [1. CPU Virtualization](#1-cpu-virtualization)
-    - [1.1. Scheduling](#11-scheduling)
-        - [1.1.1. Multi-level Feedback Queue](#111-multi-level-feedback-queue)
-    - [Threads](#threads)
-        - [Kernel-level Threads](#kernel-level-threads)
-        - [User-level Threads](#user-level-threads)
-- [2. Memory Virtualization](#2-memory-virtualization)
-    - [2.1. Segmentation](#21-segmentation)
-    - [2.2. Paging](#22-paging)
-- [3. Concurrency](#3-concurrency)
-    - [3.1. Hardware Primitives](#31-hardware-primitives)
-    - [3.2. Lock](#32-lock)
-    - [3.3. Concurrent Data Structure](#33-concurrent-data-structure)
-    - [3.4. Condition Variable](#34-condition-variable)
-    - [3.5. Semaphore](#35-semaphore)
-- [4. File Systems](#4-file-systems)
-    - [4.1. Basic](#41-basic)
-    - [4.2. Inode](#42-inode)
-- [5. Reference](#5-reference)
+- [1. Overview](#1-overview)
+    - [1.1. Concepts](#11-concepts)
+    - [1.2. UNIX like](#12-unix-like)
+        - [1.2.1. BSD](#121-bsd)
+        - [1.2.2. System V](#122-system-v)
+        - [1.2.3. OSX](#123-osx)
+        - [1.2.4. Minix](#124-minix)
+        - [1.2.5. Linux](#125-linux)
+    - [1.3. Windows](#13-windows)
+        - [1.3.1. Windows NT](#131-windows-nt)
+    - [1.4. New Kernels](#14-new-kernels)
+        - [1.4.1. GNU Hurd](#141-gnu-hurd)
+        - [1.4.2. Zircon](#142-zircon)
+- [2. CPU Virtualization](#2-cpu-virtualization)
+    - [2.1. Scheduling](#21-scheduling)
+        - [2.1.1. Multi-level Feedback Queue](#211-multi-level-feedback-queue)
+    - [2.2. Threads](#22-threads)
+        - [2.2.1. Kernel-level Threads](#221-kernel-level-threads)
+        - [2.2.2. User-level Threads](#222-user-level-threads)
+- [3. Memory Virtualization](#3-memory-virtualization)
+    - [3.1. Segmentation](#31-segmentation)
+    - [3.2. Paging](#32-paging)
+- [4. Concurrency](#4-concurrency)
+    - [4.1. Hardware Primitives](#41-hardware-primitives)
+    - [4.2. Lock](#42-lock)
+    - [4.3. Concurrent Data Structure](#43-concurrent-data-structure)
+    - [4.4. Condition Variable](#44-condition-variable)
+    - [4.5. Semaphore](#45-semaphore)
+- [5. File Systems](#5-file-systems)
+    - [5.1. Basic](#51-basic)
+    - [5.2. Inode](#52-inode)
+- [6. Reference](#6-reference)
 
-## 1. CPU Virtualization
+![OS](../../img/Unix_history-simple.png)
+
+## 1. Overview
+This subsection is a note summarizing history and principles for different kernels.
+
+### 1.1. Concepts
+[UNIX Philosophy](http://www.catb.org/~esr/writings/taoup/html/ch01s06.html)
+[Tanenbaum–Torvalds debate (microkernel VS monolithic)](https://en.wikipedia.org/wiki/Tanenbaum%E2%80%93Torvalds_debate)
+
+### 1.2. UNIX like
+UNIX
+UNIX was first developed in 1969 by Ken Thompson at Bell Labs on PDP-7 with assembly language.
+
+- [UNIX Philosophy](http://www.catb.org/~esr/writings/taoup/html/ch01s06.html)
+- The UNIX System: Making Computers More Productive
+  
+#### 1.2.1. BSD
+#### 1.2.2. System V
+#### 1.2.3. OSX
+#### 1.2.4. Minix
+#### 1.2.5. Linux
+
+### 1.3. Windows
+#### 1.3.1. Windows NT
+
+### 1.4. New Kernels
+#### 1.4.1. GNU Hurd
+#### 1.4.2. Zircon
+new micro-kernel under development derived from Haiku
+[syscalls](https://fuchsia.dev/fuchsia-src/reference/syscalls) looks clean
+
+
+## 2. CPU Virtualization
 
 **Limited Direct Execution** To have a better performance, it is desirable that each process should run on CPU directly, which raises the question of how to enable OS to regain control of CPU when the process is running on CPU. It turns out there are two ways to solve this question.
 
@@ -34,7 +79,7 @@ Some early version of OS (e.g: Mac OS 9) applies the approach, but is not a good
 **timer interrupt**
 Another way is to use timer's interrupt. The timer would raise interrupt at the scale of milliseconds. Kernel can implement the interrupt handler to manage processes. 
 
-### 1.1. Scheduling
+### 2.1. Scheduling
 The most basic scheduling approaches assumes that run-time of each job is known. Then there are two groups of approaches. 
 
 The first group minimizes the turnaround time, which is the average time of completion time minus arrival time
@@ -47,7 +92,7 @@ The second group targets the **response time**, which is defined as the time tak
 - **round robin (RR)**: schedule jobs in a for loop for a time slice. The time slice should not be too short (because context switch has non-trivial cost)
 There is a trade-off between these two groups. Additionally, the assumption of run-time of each job is unrealistic. In the real word, following schedulers are commonly used.
 
-#### 1.1.1. Multi-level Feedback Queue
+#### 2.1.1. Multi-level Feedback Queue
 There are multiple queues corresponding to different priorities of jobs. It runs with the following rules
 
 - The queue with higher priority run its internal jobs with round-robin
@@ -62,9 +107,9 @@ Schedulers can be given hints about priority (e.g: nice command)
 
 Many real worlds OS use this family of scheduler (e.g: Solaris, BSD family, Windows NT family...).
 
-### Threads
-#### Kernel-level Threads
-#### User-level Threads
+### 2.2. Threads
+#### 2.2.1. Kernel-level Threads
+#### 2.2.2. User-level Threads
 The threads implemented by users, OS does not recognize user-level threads.
 - Advantages are less context switch time.
 - Disadvantages are the blocking operations (e.g: IO), 1 user-thread IO will block the entire process, therefore blocking all users-threads
@@ -76,14 +121,14 @@ In general, user-level threads can be implemented using one of four models.
 - Two-level
 
 
-## 2. Memory Virtualization
-### 2.1. Segmentation
-### 2.2. Paging
+## 3. Memory Virtualization
+### 3.1. Segmentation
+### 3.2. Paging
 
-## 3. Concurrency
+## 4. Concurrency
 Race condition happens when multiple threads enter the critical section at roughly the same time and attempt to modify the shared data. This happens because the update method are usually executed atomically. For instance, the increment operation in x86 usually take three instruction: move memory to register, update register, move back to memory. To prevent those issues, we can build a set of synchronization primitives.
 
-### 3.1. Hardware Primitives
+### 4.1. Hardware Primitives
 There are a couple of hardware primitives to support concurrency feature
 
 **Test-and-Set (atomic exchange)**: swap a *ptr and immediate value atomically (x86: xchg)
@@ -94,7 +139,7 @@ There are a couple of hardware primitives to support concurrency feature
 
 **Fetch-and-Add (atomic adder)**: increment a *ptr atomically
 
-### 3.2. Lock
+### 4.2. Lock
 Lock is a mutual exclusion primitive. 
 
 Previous primitives can be used to implement the simple spinlocks, which typically suffer from the performance issue as waiting threads waste the timeslice assigned to them. There are a couple of solutions to this issue:
@@ -102,7 +147,7 @@ Previous primitives can be used to implement the simple spinlocks, which typical
 - yield to deschedule itself instead of spin during waiting 
 - put itself into a queue and sleep (park), when the resource is unlocked, this thread is waked up (unpark)
 
-### 3.3. Concurrent Data Structure
+### 4.3. Concurrent Data Structure
 Lock based concurrent data structure looks interesting. The most simple approach is to have a big lock on the entire data structure, which has the performance issue. A better approach is to have multiple locks locking parts of the data structure. For example
 
 **Concurrent counter**: An interesting approach is an approximate counter which   maintains a global counter and multiple local counters and corresponding locks on each core, each thread is updating its core's counter and sometimes the local counter propagate its value to the global counter
@@ -110,7 +155,7 @@ Lock based concurrent data structure looks interesting. The most simple approach
 Concurrent queue: One implementation is to put a lock on the first and last element respectively. To keep the first and last to be different, always insert a tmp element.
 **Concurrent hash**: maintain multiple buckets which have different locks.
 
-### 3.4. Condition Variable
+### 4.4. Condition Variable
 Condition Variable is an ordering primitive.
 
 Condition Variable is an efficient way to send notification among threads. The notification feature itself can be easily implemented with spin, which is not efficient of course.
@@ -124,7 +169,7 @@ A simple rule with condition variables is to always use while to check condition
 **Producer/Consumer Problem**
 This is a synchronization problem in which producer generate items into buffers and consumers take out items. It is seen in many places (multithread server, shell pipe...)
 
-### 3.5. Semaphore
+### 4.5. Semaphore
 Semaphore was originally introduced by Dijkstra as a single primitive for all things related to synchronization. Actually, semaphore can be used to implement both locks and condition variables.
 
 It is an object with an integer value that we can modify. In the POSIX standard, it has following interfaces:
@@ -134,8 +179,8 @@ It is an object with an integer value that we can modify. In the POSIX standard,
   
 The value of the semaphore, when negative, is equal to the number of waiting threads
 
-## 4. File Systems
-### 4.1. Basic
+## 5. File Systems
+### 5.1. Basic
 Overview of major file systems
 
 **Disk FS**
@@ -154,7 +199,7 @@ The minimum element of disk available (from the OS perspective, it might be 512 
 **Superblock**
 contains the metadata of the disk and file system. In Linux, we can use the command dumpe2fs to see metadata details stored in the superblock. It contains information such as total inode count and total block count.
 
-### 4.2. Inode
+### 5.2. Inode
 Inode is the on-disk structures of a file system to store the metadata of files in *nix. Note that Windows file systems do not have inode, they store metadata in the directory data structure (directory entry).
 
 Size of inode is usually 256 bytes.
@@ -164,6 +209,6 @@ How to manage large file block pointers ?
 multi-level index: store a limited number of direct block in inode and have indirect pointer to another block storing pointers. This is used in ext2,3
 extents: store the start and end block for a contiguous ranges. This is used in ext4 and XFS.
 
-## 5. Reference
+## 6. Reference
 [1] Operating Systems: Three Easy Pieces
 

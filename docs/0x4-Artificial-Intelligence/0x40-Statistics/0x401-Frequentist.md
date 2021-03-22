@@ -1,29 +1,29 @@
 # 0x401 Frequentist Inference
 
 - [1. Sample, Statistic and Statistical Model](#1-sample-statistic-and-statistical-model)
-  - [1.1. Sample Mean](#11-sample-mean)
-  - [1.2. Sample Variance](#12-sample-variance)
-  - [1.3. Sample Order](#13-sample-order)
+    - [1.1. Sample Mean](#11-sample-mean)
+    - [1.2. Sample Variance](#12-sample-variance)
+    - [1.3. Sample Order](#13-sample-order)
 - [2. Data Reduction Principles](#2-data-reduction-principles)
-  - [2.1. The sufficiency principle](#21-the-sufficiency-principle)
-    - [2.1.1. Minimal Sufficient statistics](#211-minimal-sufficient-statistics)
-  - [2.2. The Likelihood Principle](#22-the-likelihood-principle)
+    - [2.1. The sufficiency principle](#21-the-sufficiency-principle)
+        - [2.1.1. Minimal Sufficient statistics](#211-minimal-sufficient-statistics)
+    - [2.2. The Likelihood Principle](#22-the-likelihood-principle)
 - [3. Point Estimation](#3-point-estimation)
-  - [3.1. Methods of Finding Estimators](#31-methods-of-finding-estimators)
-    - [3.1.1. Method of Moments](#311-method-of-moments)
-    - [3.1.2. Maximum Likelihood Estimators](#312-maximum-likelihood-estimators)
-    - [3.1.3. Bayes Estimators](#313-bayes-estimators)
-  - [3.2. Algorithms of Finding estimators](#32-algorithms-of-finding-estimators)
-    - [3.2.1. Newton-Raphson](#321-newton-raphson)
-    - [3.2.2. The EM algorithm](#322-the-em-algorithm)
-  - [3.3. Methods of Evaluating Estimators](#33-methods-of-evaluating-estimators)
-    - [3.3.1. Mean Squared Error](#331-mean-squared-error)
-    - [3.3.2. Best Unbiased Estimator](#332-best-unbiased-estimator)
-    - [3.3.3. Sufficiency and Unbiasedness](#333-sufficiency-and-unbiasedness)
+    - [3.1. Methods of Finding Estimators](#31-methods-of-finding-estimators)
+        - [3.1.1. Method of Moments](#311-method-of-moments)
+        - [3.1.2. Maximum Likelihood Estimators](#312-maximum-likelihood-estimators)
+        - [3.1.3. Bayes Estimators](#313-bayes-estimators)
+    - [3.2. Algorithms of Finding estimators](#32-algorithms-of-finding-estimators)
+        - [3.2.1. Newton-Raphson](#321-newton-raphson)
+        - [3.2.2. The EM algorithm](#322-the-em-algorithm)
+    - [3.3. Methods of Evaluating Estimators](#33-methods-of-evaluating-estimators)
+        - [3.3.1. Mean Squared Error](#331-mean-squared-error)
+        - [3.3.2. Best Unbiased Estimator](#332-best-unbiased-estimator)
+        - [3.3.3. Sufficiency and Unbiasedness](#333-sufficiency-and-unbiasedness)
 - [4. Hypothesis Testing](#4-hypothesis-testing)
-  - [4.1. Methods of Finding Tests](#41-methods-of-finding-tests)
-    - [4.1.1. Likelihood Ratio Tests](#411-likelihood-ratio-tests)
-  - [4.2. Methods of Evaluating Tests](#42-methods-of-evaluating-tests)
+    - [4.1. Methods of Finding Tests](#41-methods-of-finding-tests)
+        - [4.1.1. Likelihood Ratio Tests](#411-likelihood-ratio-tests)
+    - [4.2. Methods of Evaluating Tests](#42-methods-of-evaluating-tests)
 - [5. Interval Estimation](#5-interval-estimation)
 - [6. Reference](#6-reference)
 
@@ -296,10 +296,10 @@ This method is perhaps the oldest method of finding point estimators, it is a go
 
 **Definition (method of moments estimator)** Equating the sample moments to the corresponding population moments and solve the resulting system.
 
-$$\mu_1(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X_i \\
-\mu_2(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^2_i \\
-... \\
-\mu_k(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^k_i$$
+$$\mu_1(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X_i$$
+$$\mu_2(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^2_i$$
+$$...$$
+$$\mu_k(\theta_1, ..., \theta_k) = \frac{1}{n} \sum_i X^k_i$$
 
 The left side is a function of $\theta_1, ..., \theta_k$ and the right side and moments statistics. Solving this systems we obtain
 

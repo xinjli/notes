@@ -1,8 +1,11 @@
 # 0x421 Supervised Learning
 
 - [1. Foundation](#1-foundation)
-    - [1.1. Generative Model](#11-generative-model)
-    - [1.2. Discriminative Model](#12-discriminative-model)
+    - [Generative vs Discriminative](#generative-vs-discriminative)
+        - [1.1. Generative Model](#11-generative-model)
+        - [1.2. Discriminative Model](#12-discriminative-model)
+    - [Parametric vs Nonparametric](#parametric-vs-nonparametric)
+        - [Nonparametric Model](#nonparametric-model)
 - [2. Simple Generative Model](#2-simple-generative-model)
     - [2.1. Simple Discrete Model](#21-simple-discrete-model)
         - [2.1.1. Multinoulli Naive Bayes Model](#211-multinoulli-naive-bayes-model)
@@ -27,6 +30,7 @@
         - [4.2.1. Naive Bayes](#421-naive-bayes)
         - [4.2.2. Linear Discrimative Analysis](#422-linear-discrimative-analysis)
     - [4.3. Discriminative Model](#43-discriminative-model)
+    - [Logistic Regression](#logistic-regression)
         - [4.3.1. Max Entropy](#431-max-entropy)
 - [5. Kernel Model](#5-kernel-model)
 - [6. Tree Model](#6-tree-model)
@@ -41,31 +45,53 @@
 - [8. Reference](#8-reference)
 
 ## 1. Foundation
-The ML probabilistic model can be largely grouped into the following two groups.
 
-### 1.1. Generative Model
+### Generative vs Discriminative
+The ML probabilistic model can be largely grouped into two models: generative model and discriminative model. The former models the joint distribution $p(x,y)$ and the latter models the posterior distribution $p(y|x)$
+
+Andrew Ng's famous [paper](https://papers.nips.cc/paper/2001/file/7b7a53e239400a13bd6be6c91c4f6c4e-Paper.pdf) suggests the following points when comparing generative models
+
+- generative model has a higher asymptotic error than discrminative model
+- generative model approach this asymptotic error much faster, with $O(log(N))$ samples vs $O(N)$ samples.
+
+
+#### 1.1. Generative Model
 **Model (Generative Model)** Generative Model is to model the joint distribution $P(\textbf{x}, \textbf{y})$. 
 
 This typically can be broken into modelling of conditional distribution and probability distribution:
 
-- models a class conditional densities $P( \textbf{x} | \mathcal{C}_k)$
-- models a class prior $P(\mathcal{C}_k)$
+- models a class conditional densities $P( \textbf{x} | y=y_k)$
+- models a class prior $P(y=y_k)$
 
 With the joint distribution, the prediction task is easily solve with posterior distribution.
-- compute posterior $P(\mathcal{C}_k | \textbf{x})$ with Bayes' theorem
+- compute posterior $P(y=y_k | \textbf{x})$ with Bayes' theorem
   
 Generative model tends to be better when training data are limited, but the bound of the asymptotic error is reached more quickly by a  generative model than a discriminative model.
 
-### 1.2. Discriminative Model
+#### 1.2. Discriminative Model
 **Definition (Discriminative Model)**  The approach of a discriminative model is to model posterior distribution directly $P(\textbf{y} | \textbf{x})$ directly. 
 
-For example, in the classification task, it is to model  $P(\mathcal{C}_k | \textbf{x})$ directly 
+For example, in the classification task, it is to model  $P(y=y_k | \textbf{x})$ directly 
 
 Parameters are typically estimated with MLE. for example, by iterative reweighted least squares (IRLS)
 
 Discriminative model tends to achieve better results with asymptotic classification error (when training data are large enough)
 
 Models that do not have probabilistic interpretation but can learn decision boundary are called discriminant function, these can also be classified as the (nonprobabilistic model) discriminative model. For example, SVM.
+
+### Parametric vs Nonparametric
+
+#### Nonparametric Model
+
+Pros:
+
+- simple, explainable
+- can be extremely flexible
+
+Cons:
+
+- retrieval can be difficult or slow
+- too flexiable (high variance)
 
 
 ## 2. Simple Generative Model
@@ -91,9 +117,25 @@ for every $i,j$ and this results in around $O(2^{n+1})$ parameters to estimate, 
 
 With naive Bayes assumptions, we can reduce this complexity significantly. It writes the class conditional density of one-dimensional density
 
-$$p(x | y=c; \theta) = p((x_1, x_2, ..., x_n) | y = c; \theta) = \prod_i p(x_i | y=c; \theta_{i})$$
+$$p(x | y=y_k; \theta) = p((x_1, x_2, ..., x_n) | y = y_k; \theta) = \prod_i p(x_i | y=y_k; \theta_{i})$$
 
 The parameters of NB model is small $O(CD)$ where $C$ is the number of class, $D$ is the number of feature, so relatively immune to overfitting.
+
+The joint distribution $p(x, y)$ is then
+
+$$p(x,y) = p(x | y)p(y) = p(y) \prod_i p(x_i | y)$$
+
+And the posterior is
+
+$$P(y=y_k | x) = \frac{p(y=y_k)\prod_i p(x_i | y=y_k)}{\sum_j p(y=y_j)\prod_i p(x_i | y=y_j)}$$
+
+In this binary classification task, the decision boundary is $p(y=1|x) = p(y=0|x) \implies \log{\frac{p(y=1|x)}{p(y=1|x)} = 0}$
+
+This simplifies to
+
+$$\sum_{i}\log\frac{p(x_i|y=1)}{p(x_i|y=0)} + \log\frac{p(y=1)}{p(y=0)}$$
+
+
 
 ### 2.2. Simple Continuous Model
 Fit a parametric continous model
@@ -229,8 +271,24 @@ $$\Sigma = \frac{1}{N} \sum_i (x_i - \mu_{y_i})(x_i - \mu_{y_i})^T$$
 ### 4.3. Discriminative Model
 Advantage of discrminative models is that it has fewer adaptive parameters which may lead to improved predictive performance
 
+### Logistic Regression
+The logistic regression has the probabilistic form
+
+$$p(Y|X; \theta) = Ber(Y | \mu(X))$$
+
+where Ber is the Bernoulli distribution, and
+
+$$\mu(X) = E[Y|X] = p(Y=1 | X)$$
+
+each parameter of Logistic Regression is corresponding to a set of Gaussian Naive Bayes parameters, not the general Gaussian Naive Bayes cannot be represent with logistic regression, for example, decision boundary of Gaussian Naive can be curved, but logistic regression cannot. When Naive Bayes has the same covariance across all classes, then they have the same form.
+
+
 #### 4.3.1. Max Entropy
-maximize the entropy of joint distribution $H(X) = -\sum p(x,y)\log(p(x,y))$ with the feature constraint of $E_p f_j = E_{p^{~}} f_j$
+maximize the entropy of joint distribution 
+
+$$H(X) = -\sum p(x,y)\log(p(x,y))$$
+
+with the feature constraint of $E_p f_j = E_{p^{~}} f_j$
 
 [Tutorial](https://web.stanford.edu/class/cs124/lec/Maximum_Entropy_Classifiers.pdf)
 
@@ -291,3 +349,4 @@ $$p_(\textbf{x}_1, ..., \textbf{x}_N) = \prod_{n=2}^{N} p(\textbf{x}_n | \textbf
 
 [5] CS229 Lecture Note 
 
+[6] Mitchell, Tom M. "Machine learning." (1997).

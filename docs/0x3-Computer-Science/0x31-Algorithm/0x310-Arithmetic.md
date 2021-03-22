@@ -3,6 +3,7 @@
 - [2. Integer](#2-integer)
   - [2.1. Multiplication](#21-multiplication)
   - [2.2. Division](#22-division)
+  - [Module](#module)
   - [2.3. Primality Test](#23-primality-test)
   - [2.4. Factorization](#24-factorization)
   - [2.5. Pseudorandom Number Generator (PRNG)](#25-pseudorandom-number-generator-prng)
@@ -117,7 +118,16 @@ int extgcd(int a, int b, int&x, int& y) {
 ```
 
 
+### Module
+**Theorem (Chinese remainder theorem)** Let $n=n_1 n_2 ... n_k$ where $n_i$ are pairwise relatively prime. Consider the correspondence
 
+$$a \Leftrightarrow (a_1, a_2, ..., a_k)$$
+
+where $a \in Z_n, a_i \in Z_{n_i}$ and 
+
+$$(\forall i \leq k) a_i = a \mod n_i$$
+
+Then this mapping is 1-to-1 correspondence between $Z_n$ and $Z_{n_1} \times Z_{n_2} \times ... \times Z_{n_k}$
 
 
 ### 2.3. Primality Test

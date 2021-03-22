@@ -28,6 +28,8 @@
 - [8. Reference](#8-reference)
 
 
+This section only treats matrix and finite dimension vector, general treatment of operators and infinite dimension vectors is covered in the 0x011 linear algebra.
+
 ## 1. Foundation
 ### 1.1. Subspace
 **Definition (fundamental subspace)** There are four fundamental subspaces in linear algebra
@@ -529,9 +531,22 @@ and the projection $P$
 $$P = A(A^* A)^{-1}A^*$$
 
 
-
 ## 5. Hermitian, Symmetric Matrix
 analogous to a real number
+
+**Definition (hermitian conjugate, adjoint)** The hermitian conjugate or adjoint of an $m \times n$ matrix $A$, written $A^*$, is the $n \times m$ matrix whose $i,j$ entry is the complex conjugate of the $j, i$ entry of $A$
+
+$$A = \begin{bmatrix} a_{11}, a_{12} \\ a_{21}, a_{22} \\ a_{31}, a_{32} \end{bmatrix} \implies A^* = \begin{bmatrix} \bar{a}_{11}, \bar{a}_{21}, \bar{a}_{31} \\ \bar{a}_{12}, \bar{a}_{22}, \bar{a}_{32} \end{bmatrix}$$
+
+**Definition (hermitian)** A matrix is called hermitian iff
+
+$$A = A^*$$
+
+A hermitian matrix has to be, by definition, square.
+
+**Definition (symmetric)** If a real matrix is hermitian, it is says to be symmetric.
+
+$$A = A^T$$
 
 **Decomposition (eigen-decomposition)** The eigen-decomposition of a symmetric matrix is as follows:
 

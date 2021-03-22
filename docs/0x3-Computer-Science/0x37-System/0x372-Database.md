@@ -1,29 +1,31 @@
 # 0x370 Database
 
-- [History](#history)
-- [1. Data Model](#1-data-model)
-    - [1.1. Relational Model](#11-relational-model)
-        - [1.1.1. Key Concepts](#111-key-concepts)
-    - [1.2. Querying Relational Database](#12-querying-relational-database)
-    - [1.3. Hierarchical Model](#13-hierarchical-model)
-        - [1.3.1. XML](#131-xml)
-            - [1.3.1.1. DTD/XSD](#1311-dtdxsd)
-        - [1.3.2. JSON](#132-json)
-- [2. Query Languages](#2-query-languages)
-    - [2.1. Relational Algebra](#21-relational-algebra)
-    - [2.2. SQL](#22-sql)
-- [3. Storage Management](#3-storage-management)
-    - [3.1. Heap file](#31-heap-file)
-    - [3.2. Page Layout](#32-page-layout)
-    - [3.3. Tuple Storage](#33-tuple-storage)
-        - [3.3.1. N-ary Storage Model (Row model)](#331-n-ary-storage-model-row-model)
-        - [3.3.2. Decomposition Storage Model (Column Model)](#332-decomposition-storage-model-column-model)
-- [4. Memory Management](#4-memory-management)
-    - [4.1. Optimization](#41-optimization)
-        - [4.1.1. Buffer Replacement Policies](#411-buffer-replacement-policies)
-- [5. Reference](#5-reference)
+- [1. History](#1-history)
+- [2. Data Model](#2-data-model)
+    - [2.1. Relational Model](#21-relational-model)
+        - [2.1.1. Key Concepts](#211-key-concepts)
+    - [2.2. Querying Relational Database](#22-querying-relational-database)
+    - [2.3. Hierarchical Model](#23-hierarchical-model)
+        - [2.3.1. XML](#231-xml)
+            - [2.3.1.1. DTD/XSD](#2311-dtdxsd)
+        - [2.3.2. JSON](#232-json)
+- [3. Query Languages](#3-query-languages)
+    - [3.1. Relational Algebra](#31-relational-algebra)
+    - [3.2. SQL](#32-sql)
+- [4. Storage Management](#4-storage-management)
+    - [4.1. Heap file](#41-heap-file)
+    - [4.2. Page Layout](#42-page-layout)
+    - [4.3. Tuple Storage](#43-tuple-storage)
+        - [4.3.1. N-ary Storage Model (Row model)](#431-n-ary-storage-model-row-model)
+        - [4.3.2. Decomposition Storage Model (Column Model)](#432-decomposition-storage-model-column-model)
+- [5. Memory Management](#5-memory-management)
+    - [5.1. Optimization](#51-optimization)
+        - [5.1.1. Buffer Replacement Policies](#511-buffer-replacement-policies)
+- [6. Reference](#6-reference)
 
-## History
+
+
+## 1. History
 - 1960: Charles Bachman designed the Integrated Database System, the first DBMS. (Turing 1973)
 - 1970: Codd from IBM research lab published the paper of the relational model. (Turing 1981)
 - 1973 Ingres project (led by Stonebraker) demostrate that it was possible to build practical and efficient implementation relation model. (Turing 2014)
@@ -32,10 +34,10 @@
 - 1995: MySQL (MySQL AB -> Sun Microsystems -> 2010 Oracle), it was forked into MariaDB by its cofounder.
 - 1996: PostgreSQL (originally called POSTGRES from the Ingres database)
 
-## 1. Data Model
-### 1.1. Relational Model
+## 2. Data Model
+### 2.1. Relational Model
 
-#### 1.1.1. Key Concepts
+#### 2.1.1. Key Concepts
 A relational database contains a set of named **relations** (or **tables**)
 Each relation has a set of named **attributes** (or **columns**)
 Each **tuple** (or **row**) has a value for each attribute, tuples in the relation is not ordered.
@@ -50,7 +52,7 @@ There are two types of languages in relational model
 - DDL (data definition language): create, drop
 - DML (data manipulation language): select, insert
 
-### 1.2. Querying Relational Database
+### 2.2. Querying Relational Database
 The steps in creating and using a relational database
 - Design schema; create using DDL
 - Bulk load initial data
@@ -58,8 +60,8 @@ The steps in creating and using a relational database
 
 Queries return relations (or table)
 
-### 1.3. Hierarchical Model
-#### 1.3.1. XML
+### 2.3. Hierarchical Model
+#### 2.3.1. XML
 XML (Extensible Markup Language) is a standard for data representation and exchange.
 XML has more flexibility when compared with the relational model.
 
@@ -68,7 +70,7 @@ The basic constructs of XML
 - attributes
 - text (can be thought as the content for the leaf node)
 
-##### 1.3.1.1. DTD/XSD
+##### 2.3.1.1. DTD/XSD
 
 A *well-formed XML* adheres to basic structural requirements
 - single root
@@ -91,12 +93,12 @@ It also has special attribute types such as ID and IDREF(S), which works like th
 In addition to the DTD feature, XSD also sepcifies data types, keys, pointers.
 It is also written in XML.
 
-#### 1.3.2. JSON
+#### 2.3.2. JSON
 JSON is a stanrdard to serialize data objects into human readable format, it is useful for data interchange, and representing & storing semistructured data.
 
 
-## 2. Query Languages
-### 2.1. Relational Algebra
+## 3. Query Languages
+### 3.1. Relational Algebra
 Relational algebra defines the interface how to retrieve and manipulate tuples in a relation. Input is relation, output is relation, it is proposed by Codds when working in IBM.
 
 ==Query (or expression) on set of relations produce relation as a result.==
@@ -142,7 +144,7 @@ $$\rho_{R(A_1, A_2, ..., A_n)(E)}$$
 Rename operator is to unify schemas for set operators because schema must match.
 
 
-### 2.2. SQL
+### 3.2. SQL
 SQL is the declarative language partially implementing the relational algebra, derived from SEQUAL from IBM.
 Row in SQL is an unordered multiset.
 
@@ -156,16 +158,16 @@ duplicates: select will return duplicate because SQL is a multiset model, to red
 
 order: select will return results without any order, to force order, add *order by attr* at the end.
 
-## 3. Storage Management
+## 4. Storage Management
 One solution to manage storage is using file mapping (mmap), it works well for reading, but not good when there are multiple writers. Instead, database tends to manage storage by themselves using database pages (different page size for different db)
 
-### 3.1. Heap file
+### 4.1. Heap file
 A heap file is an unordered collection of pages. There are two styles of heap file.
 
 - Linked List: there is a header managing pointers to data pages and free pages
 - Page Directory: track the location and free slots for each page
 
-### 3.2. Page Layout
+### 4.2. Page Layout
 Each page contains a header (page size, checksum, version...). There are two types of layouts: Tuple oriented layout or log oriented layout.
 
 - Tuple Oriented (Slotted Tuples) For OLTP
@@ -184,12 +186,12 @@ Optimization:
 - build index
 - compaction
   
-### 3.3. Tuple Storage
-#### 3.3.1. N-ary Storage Model (Row model)
+### 4.3. Tuple Storage
+#### 4.3.1. N-ary Storage Model (Row model)
 
 ![Reference: CMU 15445 Lecture 4](../../img/row_model-700x411.png)
 
-#### 3.3.2. Decomposition Storage Model (Column Model)
+#### 4.3.2. Decomposition Storage Model (Column Model)
 
 ![Reference: CMU 15445 Lecture 4](../../img/column_model-700x362.png)
 BigQuery is an example of this type. (For example, BigQuery processed data looks like to be proportional to the number of columns: select one column usually cost much less data compared with select all columns)
@@ -202,19 +204,19 @@ Large value:
 - make them into external file and store path
   
 
-## 4. Memory Management
+## 5. Memory Management
 ![Reference: CMU 15445 Lecture 5](../../img/mem_pool-700x370.png)
 Buffer Pool is a large memory range as an array of fixed size pages. An array entry (slot) is called a frame. DBMS may have multiple buffer pools.
 
 Page table keep tracks of pages that are currently in buffer pool, also maintains meta-data per page such as dirty flag, pin, reference counter for concurrency issue.
 
-### 4.1. Optimization
+### 5.1. Optimization
 - scan sharing: decide which page to evict based on access pattern of multiple queries
 - pre-fetching: prefetch page based on query
 - buffer pool bypass: bypass memory pool to reduce overhead
 - OS page cache: O_DIRECT to bypass OS cache (one exception is postgre)
   
-#### 4.1.1. Buffer Replacement Policies
+#### 5.1.1. Buffer Replacement Policies
 The followings are the most common policies. Enterprise db usually have much better policies than open source db
 
 - LRU (Least Recently Used): maintain a timestamp, evict pages by timestamp order. The disadvantage of LRU is the sequential flooding for sequential scan, the most recent page is the most useless.
@@ -225,6 +227,9 @@ clock: approximation of LRU, set to 1 when a page accessed, evict page whose whe
 Dirty pages need to be taken account (e.g: background writing)
 
 
-## 5. Reference
+## 6. Reference
 [1] [Stanford Database Youtube Lectures](https://www.youtube.com/channel/UC5ZAemhQUQuNqW3c9Jkw8ug)
+
 [2] [CMU Database Lectures](https://15445.courses.cs.cmu.edu/fall2020/)
+
+[3] Kleppmann, Martin. Designing data-intensive applications: The big ideas behind reliable, scalable, and maintainable systems. " O'Reilly Media, Inc.", 2017.
