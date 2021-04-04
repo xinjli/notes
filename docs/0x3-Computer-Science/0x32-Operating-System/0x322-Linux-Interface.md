@@ -136,6 +136,31 @@ User-space level thread, supported by VM not kernel
 - **lstat**: similar to stat, return info of a link itself if link specified
 - **fstat**: info about a file descriptor
 
+for example, ls uses this API to retrieve timestamps
+
+```c
+// defined in sys/stat.h
+struct stat {
+	mode_t			st_mode;
+	ino_t			st_ino;
+	dev_t			st_dev;
+	dev_t			st_rdev;
+	nlink_t			st_nlink;
+	uid_t			st_uid;
+	gid_t			st_gid;
+	off_t			st_size;
+	struct timespec	st_atim;
+	struct timespec	st_mtim;
+	struct timespec st_ctim;
+	blksize_t		st_blksize;
+	blkcnt_t		st_blocks;
+};
+```
+
+!!! info "atime"
+
+    Note that atime (st_aim) denotes the access time, it was critisized a lot because it issues a write instruction to disk during reading. A new default option `relatime` was introduced in 2009 and this atime is no longer strictly means access time anymore. Its configuration is available in `fstab`
+
 
 ### 4.2. File IO
 According to POSIX, I/O is intended to be atomic to ordinary files and pipes and FIFOs

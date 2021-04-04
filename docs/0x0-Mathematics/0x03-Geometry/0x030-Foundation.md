@@ -40,15 +40,17 @@ curl is a measure of how much the vector $v$ swirls around the point in question
 
 
 **Theorem (Frenet-Serret)** 
-$$\frac{d}{ds}\left(\begin{array}{c} \mathbf{t} \\ \mathbf{n} \\ \mathbf{b} \end{array}\right) =
+$$\frac{d}{ds}\left(\begin{array}{c} \mathbf{T} \\ \mathbf{N} \\ \mathbf{B} \end{array}\right) =
 		\left( \begin{array}{ccc}
 		0 & \kappa & 0 \\
 		-\kappa & 0 & \tau \\
 		0 & -\tau & 0
 		\end{array} \right)
-		\left(\begin{array}{c} \mathbf{t} \\ \mathbf{n} \\ \mathbf{b} \end{array}\right)$$
+		\left(\begin{array}{c} \mathbf{T} \\ \mathbf{N} \\ \mathbf{B} \end{array}\right)$$
 
-where $\mathbf{t}$ is the unit tangent vector, $\mathbf{n}$ is the principal normal vector and $\mathbf{b}$ is the binormal vector
+where $\mathbf{T}$ is the unit tangent vector, $\mathbf{N}$ is the **principal normal vector** and $\mathbf{B}$ is the **binormal vector**, $\kappa$ is the **curvature** and $\tau$ is the **torsion**, torsion measures how sharply it is twisting out of the plane of curvature. (curve up?)
+
+![Frenet frame](https://upload.wikimedia.org/wikipedia/commons/1/11/Frenet.svg)
 
 ### Line Integral
 
@@ -77,6 +79,7 @@ $$\int_S f(x) dS = \int_D f(x(u,v)) || x_u \times x_v || du dv$$
 ## Integration
 
 **Theorem (divergence, Gauss)** Let $F$ be a $C^1$ vector field on regular set $D$ and let $N$ be the unit normals to $\partial D$ that point out of $D$, then
+
 $$\int_{\partial D} (F \cdot N) d\sigma = \int_D (\nabla \cdot F) dV$$
 
 **Theorem (curl, Stokes)** Let $G$ be a vector field that is $C^1$ on a piece-wise smooth oriented surface $S$ whose boundary $\partial S$ is a piecewise smooth curve
@@ -85,4 +88,4 @@ $$\int_{\partial S} (G \cdot T) ds = \int_{S} (\nabla \times G) dS $$
 
 
 ## Reference
-- Lax, Peter D., and Maria Shea Terrell. Multivariable Calculus with Applications. Springer, 2017.
+[1] Lax, Peter D., and Maria Shea Terrell. Multivariable Calculus with Applications. Springer, 2017.

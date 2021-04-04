@@ -1,5 +1,6 @@
 # 0x301 Complexity
 
+- [Asymptotic Analysis](#asymptotic-analysis)
 - [1. Time Complexity](#1-time-complexity)
 - [2. Space Complexity](#2-space-complexity)
 - [3. Quantum Complexity](#3-quantum-complexity)
@@ -7,6 +8,30 @@
 Complexity zoo has a good explanation for each of the complexity classes.
 
 ![complexity](../../img/complexity.svg)
+
+## Asymptotic Analysis
+
+**Definition ($\Theta$-notation)** For a given function $g(n)$, we denote by $\Theta(g(n))$ the set of functions
+
+$$\Theta(g(n)) = \{ f(n) | (\exists{c_1, c_2, n_0 > 0 })(\forall{n \geq n_0}) 0 \leq c_1 g(n) \leq f(n) \leq c_2g(n) \}$$
+
+We say that $g(n)$ is an asymptotically tight bound for $f(n)$, it bounds the function from above and below
+
+**Definition (O-notation)** For a given function $g(n)$, we denote by $O(g(n))$ the set of functions
+
+$$O(g(n)) = \{ f(n) | (\exists{c, n_0 > 0})(\forall{n \geq n_0}) 0 \leq f(n) \leq cg(n) \}$$
+
+This is an asymptotic upper bound.
+
+**Definition ($\Omega$-notation)** For a given function $g(n)$, we denote by $\Omega(g(n))$ the set of functions
+
+$$\Omega(g(n)) = \{ (\exists{c, n_0 > 0})(\forall{n \geq n_0}) 0 \leq cg(n) \leq f(n) \}$$
+
+This is an asymptotic lower bound.
+
+**Theorem (notation relations)** For any two functions $f(n), g(n)$, we have
+
+$$f(n) = \Theta(g(n)) \text{ iff } f(n) = O(g(n)), f(n) = \Omega(g(n))$$
 
 ## 1. Time Complexity
 

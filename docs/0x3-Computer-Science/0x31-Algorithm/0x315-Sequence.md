@@ -42,6 +42,9 @@ This is usually used to store strings, for example, in editor.
 #### 2.1.2. Suffix Array
 
 ### 2.2. Matching Problems
+**Definition (string matching problem)** Given an string *text* $T[n]$ and another string *pattern* $P[m]$, where $m \leq n$, find all matching shifts with which a given pattern $P$ occurs in a given text.
+
+
 - Levenshetin distance: edit distance. In the bioinformatics, there is an equivalent algorithm called  Needleman–Wunsch algorithm which maximizes the similarity instead of minimizing distance.
 
 - Rabin-Karp: hash the pattern into an integer (rolling hash), and find whether the hash appears in the string. pay attention to the spurious hits.
@@ -50,7 +53,7 @@ This is usually used to store strings, for example, in editor.
 
 - KMP: build a transition table. When failing match ith char, transit to match table[i-1]
 
-- Aho-Corasick: the multi-pattern version of KMP: transition table becomes a transition graph on top of Trie.
+- Aho-Corasick: the multi-pattern version of KMP: transition table becomes a transition graph on top of Trie. (used in fgrep)
 
 - Boyer-Moore: match pattern from right to left, shift the pattern when mismatched using (1) bad character rule (2) good suffix rule
 
@@ -62,10 +65,10 @@ This is usually used to store strings, for example, in editor.
 RMQ (Range Minimum Query)
 statement: query the minimum element within a given range on a sequence
 
-segment tree
-dynamic programming
-sparse table
-LCA
+- segment tree
+- dynamic programming
+- sparse table
+- LCA
 
 
 ## 3. Compression

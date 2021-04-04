@@ -30,7 +30,9 @@ Note that all models here have access to some memory (limited or not), these are
 
 **Definition (language)** A language is a set of string chosen from some $\Sigma^*$
 
-**Definition (grammar)** A grammar is a set of rules defining the syntax of a specific language
+**Definition (grammar)** A formal grammar is a set of rules for rewriting strings, along with a "start symbol" from which rewriting starts.
+
+Note that a grammar is simply a set of rules defining the syntax of a specific language. It does not describe the semantics of the language (i.e: meaning of the strings.)
 
 **Definition (recognition)** We say that a model $M$ recognizes language $A$ if
 
@@ -138,6 +140,8 @@ FST accept pairs of strings
   
 
 ### 1.2. Regular Expression
+According to Wikipedia, the inventor of regular expression is Stephen Cole Kleene (the guy behind Kleene's star), interestingly, he is a student of Alonzo Church.
+
 We can use the regular operations to build up expressions describing languages, which are called regular expressions. e.g.: $(0 \cup 1)0^*$
 
 We can define regular expression inductively as follows:
@@ -279,6 +283,11 @@ The formal definition of nondetermistic pushdown is
 
     This language can be accepted by pushdown automaton. Intuively, it reads all $a$ and push them to the stack, then make a nondeterministic decision whether $i=j$ or $i=k$, then handle each case respectively.
 
+**Theorem** A language is context free iff some pushdown automaton recognizes it
+
+Basic idea of proof 
+- context free $\to$ pushdown automaton: we can constrauct a pushdown automaton by first pushing the start symbol to the stack and then nondeterministicaly branching for each nonterminal rule, when the stack's top is a terminal, we match that against the input. If we match all nonterminals on the stack and the input perfectly, then it accepts the string.
+
 
 ## 3. Context-Sensitive Languages (Type 1)
 Grammar
@@ -339,3 +348,5 @@ The cardinality of all possible languages is continuum, and the cardinality of l
 
 ## 6. Reference
 [1] Sipser, Michael. "Introduction to the Theory of Computation." ACM Sigact News 27.1 (1996): 27-29.
+
+[2] Chapter 10 of Aho, Alfred V., and Jeffrey D. Ullman. Foundations of computer science. Computer Science Press, Inc., 1992. pdf is released by the author [http://infolab.stanford.edu/~ullman/focs/ch10.pdf](http://infolab.stanford.edu/~ullman/focs/ch10.pdf)

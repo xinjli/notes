@@ -45,6 +45,7 @@ These two definitions are have slightly different conclusions sometimes. This no
 It is important to remember that limit points of $E$ do not necessarily belong to $E$ unless it is closed. In fact, $x_0$ need not to be in the domain of $f$. 
 
 !!! note "Example" 
+
     In the function $f(x) = x \sin(1/x)$ with $x>0$, $x=0$ is not included in the domain but $x=0$ is a limit point, so the limit on $0$ can exist
 
     $$\lim_{x \to 0} x \sin(\frac{1}{x}) = 0$$
@@ -75,12 +76,24 @@ $$\lim_{x \to x_0} (f / g)(x) = \frac{\lim_{x \to x_0} f(x)}{\lim_{x \to x_0} g(
 
 In the case of multivariable input and single output function, it is a bit tricky. Even limits along all lines exists and have the same value, the continuity still might not exist
 
-**Counter example (line limits does not guarantee limit)** Define the function $f$
+!!! example "line limits does not guarantee limit" 
 
-$$f = \frac{||x||}{\theta(x)}$$
-where $\theta(x)$ is the angle measured from the positive part. All line limits is 0, but when taking curve limit $||x||=\theta(x)$, then the curve limit is 1.
+    Define the function $f$
 
-Again to make sure functional limit exist, ALL sequence limit should exist and equal not only line limits.
+    $$f = \frac{||x||}{\theta(x)}$$
+    
+    where $\theta(x)$ is the angle measured from the positive part. All line limits is 0, but when taking curve limit $||x||=\theta(x)$, then the curve limit is 1.
+
+    Again to make sure functional limit exist, ALL sequence limit should exist and equal not only line limits.
+
+
+!!! example "another counterexample of line limits"
+
+    Consider the function $f$
+
+    $$f(x,y) = \frac{x^2y}{x^4 + y^2}$$
+
+    It approaches 0 along the any line $y=kx$, but approaches 0.5 along the line $y=x^2$
 
 
 **Proposition (limits are local)** the following statements are equivalent
@@ -149,17 +162,17 @@ Continuity has multiple good properties, for example, it preserves compactness a
 Conversely, a function having the intermediate value property does not necessariy need to be continuous.
 
 ### 1.3. Uniform Continuity
-continuity is a local property, but uniform continuity is a global property
+Continuity is a local property, where the choice of $\delta$ can dependon the target point $c$. Uniform continuity is a global property, where $\delta$ should be same for all point in the domain.
 
-**Definition (uniform continuity)** Let $X \subset R$ and let $f: X \to R$. We say that $f$ is uniformly continuous if
+**Definition (uniform continuity)** Let $A \subset R$ and let $f: A \to R$. We say that $f$ is uniformly continuous if
 
-$$(\forall \epsilon > 0) (\exists \delta > 0) (\forall |x-x_0| < \epsilon) |f(x)-f(x_0)|<\delta$$
+$$(\forall \epsilon > 0) (\exists \delta > 0) (\forall x,y \in A) (|x-y| < \delta) \implies |f(x)-f(y)|<\epsilon$$
 
-**Definition (equivalent sequences)** Let $m$ be an integer . Let $(a_n)_{n=m}^{\infty}, (b_n)_{n=m}^{\infty}, $ be two sequences of real numbers, and let $\epsilon > 0$ be given. 
+**Definition (equivalent sequences)** Let $m$ be an integer . Let $(a_n)_{n=m}^{\infty}, (b_n)_{n=m}^{\infty}$ be two sequences of real numbers, and let $\epsilon > 0$ be given. 
 
-($\epsilon$-close) We say that $(a_n)_{n=m}^{\infty}$ is $\epsilon$-close to $(b_n)_{n=m}^{\infty}$ iff $a_n$ is $\epsilon$-close to $b_n$ for each $n \geq m$.
-(eventually $\epsilon$-close) We say that $(a_n)_{n=m}^{\infty}$ is eventually $\epsilon$-close to $(b_n)_{n=m}^{\infty}$ iff there exists an $N \geq m$ such that the sequences $(a_n)_{n=N}^{\infty}$ and $(b_n)_{n=N}^{\infty}$ are $\epsilon$-close.
-(equivalent sequences) Two sequences $(a_n)_{n=m}^{\infty}, (b_n)_{n=m}^{\infty}$ are equivalenet iff for each $\epsilon > 0$, the sequences are eventually $\epsilon$-close.
+- ($\epsilon$-close) We say that $(a_n)_{n=m}^{\infty}$ is $\epsilon$-close to $(b_n)_{n=m}^{\infty}$ iff $a_n$ is $\epsilon$-close to $b_n$ for each $n \geq m$.
+- (eventually $\epsilon$-close) We say that $(a_n)_{n=m}^{\infty}$ is eventually $\epsilon$-close to $(b_n)_{n=m}^{\infty}$ iff there exists an $N \geq m$ such that the sequences $(a_n)_{n=N}^{\infty}$ and $(b_n)_{n=N}^{\infty}$ are $\epsilon$-close.
+- (equivalent sequences) Two sequences $(a_n)_{n=m}^{\infty}, (b_n)_{n=m}^{\infty}$ are equivalenet iff for each $\epsilon > 0$, the sequences are eventually $\epsilon$-close.
 Lemma Real sequences of $(a_n)_{n=1}^{\infty}, (b_n)_{n=1}^{\infty}$ are said to be equivalent iff $\lim_{n \to \infty} (a_n - b_n) = 0$
 
 **Proposition (uniformly continuity and sequences)** following are logically equivalent
@@ -521,7 +534,25 @@ Note the requirement is a bit stronger than necessary.
 
 $$\int_a^b f(g(x))g'(x) dx = \int_{g(a)}^{g(b)} f(x) dx$$
 
+!!! info "proof of integration by substitution"
+
+    As $f$ is continuous and $g$ is continuously differentiable. We know $f$ has an antiderivative $F$ such that $F' = f$ and $F(g(x))$ is well-defined. By chain rule, we know
+
+    $$F(g(x))' = f(g(x))g'(x)$$
+
+    which is also continuous. Therefore by the fundamental theorem
+    
+    $$F(g(b)) - F(g(a)) = \int_a^b f(g(x))g'(x)$$
+
+    Also we know by the fundamental theorem
+
+    $$\int_{g(a)}^{g(b)} f(x) dx = F(g(b)) - F(g(a))$$
+
+    Therefore the integration by substitution is proved.
+
+
 Leibnitz's rule is an application of the Fundamental Theorem and chain rules. It characterizes the interchanging the differnetiation and integral.
+
 **Theorem (Leibnitz's Rule)** If $f(x, \theta), a(\theta), b(\theta)$ are differentiable with respect to $\theta$, then
 
 $$\frac{d}{d\theta} \int_{a(\theta)}^{b(\theta)} f(x, \theta) dx = f(b(\theta), \theta) \frac{d}{d\theta}b(\theta) - f(a(\theta), \theta) \frac{d}{d\theta}a(\theta) + \int_{a(\theta)}^{b(\theta)} \frac{\partial}{\partial \theta} f(x, \theta)$$

@@ -445,8 +445,15 @@ Like point estimation, hypothesis testing is another statistical inference metho
 
 - For which sample value the decision is made to accept $H_0$
 - For which sample value $H_0$ is rejected and $H_1$ is accepted as true
-  
-Typically, a hypothesis test is specified in terms of a test statistic
+
+Be careful that to say accept/reject a hypothesis is not equivalent to saying that the hypothesis is true/false.
+
+!!! info "procedure of hypothesis test"
+    Typically, a hypothesis test is specified in terms of a test statistic. In particular, we can construct test by
+
+    - choose a test statistics $T(X_1, ..., X_n)$
+    - choose a critical value $t$ and define the rejection region $R=\{ (x_1,...,x_n) | T(x_1,...,x_n) \geq t \}$
+    - if $T \geq t$ or equivalently $(X_1, ..., X_n) \in R$, we reject $H_0$ otherwise we retain $H_0$
 
 ### 4.1. Methods of Finding Tests
 #### 4.1.1. Likelihood Ratio Tests
@@ -466,7 +473,7 @@ A likelihood ratio test (LRT) is any test that has a rejection region of the for
 
     The rejection region $\{ x: \lambda(x) \leq c \}$ is
 
-    $$\{ |\bar{x} - \theta_0| \geq \sqrt{-2\log(c)/n \}$$
+    $$\{ |\bar{x} - \theta_0| \geq \sqrt{-2\log(c)/n} \}$$
 
 
 Note that the rejection region can be simplified to an experssion involving a simpler sufficient statistic.
@@ -495,9 +502,29 @@ Ideally, we would like $\beta(\theta)=0$ when $\theta \in \Theta_0$ (minimize Fa
 
 Typically, the power function of a test will depend on the sample size $n$, therefore by considering the power function, the experimenter can choose $n$ to achieve some test goal.
 
+!!! example "normal power function"
+
+    Let $X_1, ..., X_n$ be a random sample from $n(\theta, \sigma^2)$ population with $\sigma^2$ known.
+
+    We consider a LRT $H_0: \theta \leq theta_0$ VS $H_1: \theta > \theta_0$ is a test that the rejection region is
+
+    $$R = \{ X_1, ..., X_n | \frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}} > c \}$$
+
+    Then, the power function of this test is
+
+    $$\beta(\theta) = P_{\theta}(\frac{\bar{X}-\theta_0}{\sigma/\sqrt{n}} > c) = P(Z > c+\frac{\theta_0 - \theta}{\sigma/\sqrt{n}})$$
+
+    where $Z$ is a standard normal random variable.
+
+
 For a fixed sample size, it is impossible to make both errors arbitrarily small, so it is common to restrict consideration to tests that control the Type I Error at a specified level, and within that level, minimize Type II as much as possible. 
 
-Notice the similarity with point estimation when we restrict estimators to a restricted class (unbiased estimator) and then minimize variance within that class
+!!! info "point estimation and hypothesis testing"
+
+    Notice the similarity between point estimation and hypothesis testing
+    
+    - in point estimation, we restrict estimators to a restricted class (unbiased estimator) and then minimize variance within that class
+    - in hypothesis testing, we restrict test to a specfic level-$\alpha$ test and minimize the Type II error (find the most powerful test) within this class.
 
 **Definition (size $\alpha$ test, alpha $\alpha$ test)**. 
 

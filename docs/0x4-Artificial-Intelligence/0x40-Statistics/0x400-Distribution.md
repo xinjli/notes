@@ -104,12 +104,22 @@ Conjugate prior of multinomial distribution is Dirichlet distribution.
 ### 1.4. Geometric
 **Distribution (Geometric)** A random variable $X$ is said to be a geometric random variable with parameter p, shown as $X \sim Geometric(p)$ iff
 
-$$ P_X(x) = 
+$$ P_X(X=x|p) = 
 \begin{cases}
-p(1-p)^{k-1} & \text{for } k = 1,2,3... \\
+p(1-p)^{x-1} & \text{for } x = 1,2,3... \\
  0 & otherwise \end{cases} $$
 
-The geometric distribution is the simplest of the waiting time distributions and sometimes used to model lifetime and time until failure
+The geometric distribution is the simplest of the waiting time distributions and sometimes used to model lifetime and time until failure, however, it fails to model lifetimes for which the probability of failure is expected to increase with time.
+
+It has a "memoryless" property, that is, it "forgets" what has occured.
+
+$$P(X > s | X > t) = P(X > s - t)$$
+
+!!! example "failure times"
+
+    If the probability is 0.001 for a light bulb will fail on any given day, then the probability that it will last at least 30 days is
+
+    $$P(X > 30) = \sum_{x=31}^{\infty} 0.001(1-0.001)^{x-1} = (0.999)^30 = 0.97$$
 
 ### 1.5. Pascal
 Pascal distribution is a generalization of the geometric distribution.

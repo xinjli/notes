@@ -18,7 +18,7 @@
     - [4.2. Unitary Similarity](#42-unitary-similarity)
     - [4.3. Normal Matrices](#43-normal-matrices)
     - [4.4. Unitary Equivalence](#44-unitary-equivalence)
-    - [4.5. Projection (vector decomposition)](#45-projection-vector-decomposition)
+    - [4.5. Projection](#45-projection)
 - [5. Hermitian, Symmetric Matrix](#5-hermitian-symmetric-matrix)
     - [5.1. Congruences and Diagonalizations](#51-congruences-and-diagonalizations)
 - [6. Positive Semidefinite, Positive Definite Matrix](#6-positive-semidefinite-positive-definite-matrix)
@@ -90,13 +90,23 @@ $$tr(\mathbf{ABC}) = tr(\mathbf{CAB}) = tr(\mathbf{BCA})$$
 $$|detA| \leq \Pi_{j} ||a_j||_2$$
 
 ### 1.4. Derivatives
-Annoyingly, there are two types of vector, matrix layouts, the **numerator layout** (consistent with the Jacobian) and the **denominator layout** (consistent with the Hessian).
+Annoyingly, there are two types of vector, matrix layouts, the **numerator layout** (consistent with the Jacobian) and the **denominator layout** (consistent with the Hessian). They are transpose of each other. Note that the standard chain rule is consistent with the numerator layout, it also changes its order in denominator layout.
+
+A easy rule to distinguish these two is to check its shape. Suppose $x \in \mathbb{R}^{a \times b}, y \in \mathbb{R}^{c \times d}$, the most general tensor shape is as follows
+
+The numerator layout has the shape
+$$\frac{\partial x}{\partial y} \in \mathbb{R}^{((a,b), (c,d))}$$
+
+The denominator layout has the shape
+$$\frac{\partial x}{\partial y} \in \mathbb{R}^{((c,d), (a,b))}$$
+
+when $a,b,c,d$ is 0, it might be dimension reduced to simplify notation. For example, when $x,y$ is a column vector (i.e, $b,d = 0$), when denominator layout is simplified to $(c,a)$ instead of $(c,1,a,1)$
 
 In the ML community, it looks the latter are more commonly used, so this section is follows the denominator layout.
 
-$$\big( \frac{\partial \mathbf{a}}{\partial x} \big) = (\frac{\partial a_1}{\partial x}, ...,  \frac{\partial a_n}{\partial x}) \in \R^{1 \times n}$$
+$$\big( \frac{\partial \mathbf{a}}{\partial x} \big) = (\frac{\partial a_1}{\partial x}, ...,  \frac{\partial a_n}{\partial x}) \in \mathbb{R}^{1 \times n}$$
 
-$$\big( \frac{\partial x}{\partial \mathbf{a}} \big)_i = \begin{bmatrix} \frac{\partial x}{\partial a_i} \\ \frac{\partial x}{\partial a_i} \\ ... \\ \frac{\partial x}{\partial a_i} \\ \end{bmatrix} \in \R^{n \times 1}$$
+$$\big( \frac{\partial x}{\partial \mathbf{a}} \big)_i = \begin{bmatrix} \frac{\partial x}{\partial a_i} \\ \frac{\partial x}{\partial a_i} \\ ... \\ \frac{\partial x}{\partial a_i} \\ \end{bmatrix} \in \mathbb{R}^{n \times 1}$$
 
 Be careful this are all tranposed in the Jacobian matrix.
 
@@ -494,7 +504,39 @@ If $S$ is symmetric but has negative eigenvalue, then the corresponding singular
 
 $$A = U \Sigma V^T = (UV^T)(V^T \Sigma V) =  QS$$
 
-### 4.5. Projection (vector decomposition)
+### 4.5. Projection
+Let's first consider projecting vector $b$ into another vector $a$. Supposed the projected vector is $xa$ where $x$ is a scalar, then it is clear $b - xa \perp a$, therefore
+
+$$(b-xa)^T a = 0$$
+
+Solving this formula, we know
+
+$$x = \frac{b^Ta}{a^Ta}$$
+
+Therefore, the projected vector is
+
+$$xa = \frac{b^Ta}{a^Ta}a$$
+
+or equivalanetly
+
+$$xa = \frac{aa^T}{a^Ta}b$$
+
+where $\frac{aa^T}{a^Ta}$ is a rank 1 matrix acting on $b$
+
+These formulas can be simplified using unit vectors. Notice if we normalized $a$ into $q=a/||a||$, then the projected vector is simply 
+
+$$(b^Tq)q$$
+
+which computes the length $b^Tq$ first and multiplies it to $q$. The projected vector can also be written equivalently as
+
+$$(q^Tq)b$$
+
+where $q^Tq$ is a rank 1 matrix, which acts on $b$.
+
+Instead of projecting a vector $b$ into a vector spans by a single vector $a$, we can generalize this idea into projecting $b$ into the column space spanning by a matrix $A$.
+
+First we would define what matrix is qualified as the projection matrix
+
 **Definition (Projection)** A square matrix is called a projector if it satisfies
 $$P^2 = P$$
 
@@ -521,6 +563,8 @@ $$P = QQ^*$$
 In the column-wise representations,
 $$Pv = \sum_{i=1}^n (q_i q_i^*)v$$
 
+Notice the similarity with the previous discussion of $(qq^T)b$, instead of taking a single rank 1 matrix, this is taking a sum of rank 1 matrix.
+
 The more general projection with arbitrary basis is as follows.
 **Theorem (projection with any basis)** Let $A$ be an m,n matrix, for any vector $v$, suppose the projected vector is $y$, then $y-v$ should be orthogonal to range A, therefore $A^*(y-v)=0$, because $y \in \mathrm{range}(A)$, then $y=Ax$ for a $x$, $A^*(Ax - v)$ becomes
 $$A^T Ax = A^Tv$$
@@ -530,6 +574,11 @@ $$x = (A^* A)^{-1} A^* v$$
 and the projection $P$
 $$P = A(A^* A)^{-1}A^*$$
 
+We can easily verify that this $P$ satisfies the projection properties (e.g: $P^2=P$)
+
+Again notice the similarity with the previous discussion where projection into a dim 1 vector space is
+
+$$\frac{aa^T}{a^Ta}$$
 
 ## 5. Hermitian, Symmetric Matrix
 analogous to a real number

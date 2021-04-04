@@ -1,24 +1,24 @@
 # 0x040 Probability
 
 - [1. Probability Theory](#1-probability-theory)
-  - [1.1. Basic Concepts](#11-basic-concepts)
-  - [1.2. Conditional Probability](#12-conditional-probability)
-  - [1.3. Random variable](#13-random-variable)
-  - [1.4. Distribution](#14-distribution)
+    - [1.1. Basic Concepts](#11-basic-concepts)
+    - [1.2. Conditional Probability](#12-conditional-probability)
+    - [1.3. Random variable](#13-random-variable)
+    - [1.4. Distribution](#14-distribution)
 - [2. Univariate models](#2-univariate-models)
-  - [2.1. Transformation](#21-transformation)
-  - [2.2. Expectation and Variance](#22-expectation-and-variance)
-  - [2.3. Moments](#23-moments)
+    - [2.1. Transformation](#21-transformation)
+    - [2.2. Expectation and Variance](#22-expectation-and-variance)
+    - [2.3. Moments](#23-moments)
 - [3. Multivariate Models](#3-multivariate-models)
-  - [3.1. Joint and Marginal Distributions](#31-joint-and-marginal-distributions)
-  - [3.2. Conditioning and Independence](#32-conditioning-and-independence)
-  - [3.3. Bivariate Transformation](#33-bivariate-transformation)
-  - [3.4. Hierarchical/Mixture Models](#34-hierarchicalmixture-models)
-  - [3.5. Covariance and Correlation](#35-covariance-and-correlation)
-  - [3.6. Multivariable Models](#36-multivariable-models)
+    - [3.1. Joint and Marginal Distributions](#31-joint-and-marginal-distributions)
+    - [3.2. Conditioning and Independence](#32-conditioning-and-independence)
+    - [3.3. Bivariate Transformation](#33-bivariate-transformation)
+    - [3.4. Hierarchical/Mixture Models](#34-hierarchicalmixture-models)
+    - [3.5. Covariance and Correlation](#35-covariance-and-correlation)
+    - [3.6. Multivariable Models](#36-multivariable-models)
 - [4. Convergence](#4-convergence)
-  - [4.1. Inequalities and Tail Bound](#41-inequalities-and-tail-bound)
-  - [4.2. Convergence Concepts](#42-convergence-concepts)
+    - [4.1. Inequalities and Tail Bound](#41-inequalities-and-tail-bound)
+    - [4.2. Convergence Concepts](#42-convergence-concepts)
 - [5. Reference](#5-reference)
 
 ## 1. Probability Theory
@@ -177,7 +177,15 @@ By taking derivative of both sides, we obtain the transformation rules of pdf fo
 $$f_Y(y) = \begin{cases} f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)| & y \in \mathcal{Y} \\ 0 & \text{ otherwise}\end{cases}$$
 
 
+Intuitively, the discussion above is simply
+
+$$dF_X = dF_Y \implies f_X(x) dx = f_Y(y) dy$$
+
+therefore, we get
+$$f_Y(x) = f_X(x) |\frac{dx}{dy}|$$
+
 !!! note
+
     this only applies to the monotone functions, for functions that are not monotone (e.g.: $Y=X^2$), we need to compute a partition of $X$ into where each $X_i$ is monotone over $g(X)$, then sum the inverse density $f_X(g^{-1}(y))$ with its weight $\frac{dg^{-1}(y)}{dy}$.
 
 

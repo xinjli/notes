@@ -249,15 +249,27 @@ Similarly, a function $f$ is (strictly) **concave** iff $-f$ is (strictly) conve
 
 Under the assumption of differentiability, we have two equivalent statements of convexity.
 
-**Criterion (1st order condition)** Suppose $f$ is differentiable. Then $f$ is convex iff $dom(f)$ is convex and
+**Criterion (1st order condition)** Suppose $f$ is differentiable. Then $f$ is convex iff $dom(f)$ is convex and $\forall x, y \in dom(f)$
 
-$$(\forall x, y \in dom(f)) f(y) \geq f(x) + f(x) + \nabla f(x)^T (y-x)$$
+$$f(y) \geq f(x) + f(x) + \nabla f(x)^T (y-x)$$
 
 It states that the first taylor approximation is a global underestimator for convex function. Conversely , if the first Taylor approximation is aways a global underestimator, then the function is convex.
 
-**Criterion (2nd order condition)** Suppose $f$ is twice differentiable, then $f$ is convex iff $dom(f)$ is convex and its Hessian is positive semidefinite
+![first order condition](../../img/first_order_condition.png)
 
-$$(\forall x \in dom(f)) \nabla^2 f(x) \succeq 0$$
+**Criterion (2nd order condition)** Suppose $f$ is twice differentiable, then $f$ is convex iff $dom(f)$ is convex and its Hessian is positive semidefinite $\forall x \in dom(f)$
+
+$$ \nabla^2 f(x) \succeq 0$$
+
+For a function on $\mathbb{R}$, this reduces to the simple condition $f''(x) \geq 0$
+
+!!! example "quadratic function"
+
+    Consider the quadratic function $f: \mathbb{R} \to \mathbb{R}$ given by
+
+    $$f(x) = (1/2)x^TPx + q^Tx + r$$
+
+    with $P \in S^n$. $f(x)$ is convex iff $P \succeq 0$
 
 **Definition (sublevel set, superlevel set)** The $\alpha$-sublevel set of $f: R^n \to R$ is defined as
 

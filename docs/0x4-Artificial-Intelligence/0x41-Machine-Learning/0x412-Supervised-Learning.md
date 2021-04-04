@@ -1,11 +1,11 @@
 # 0x421 Supervised Learning
 
 - [1. Foundation](#1-foundation)
-    - [Generative vs Discriminative](#generative-vs-discriminative)
-        - [1.1. Generative Model](#11-generative-model)
-        - [1.2. Discriminative Model](#12-discriminative-model)
-    - [Parametric vs Nonparametric](#parametric-vs-nonparametric)
-        - [Nonparametric Model](#nonparametric-model)
+    - [1.1. Generative vs Discriminative](#11-generative-vs-discriminative)
+        - [1.1.1. Generative Model](#111-generative-model)
+        - [1.1.2. Discriminative Model](#112-discriminative-model)
+    - [1.2. Parametric vs Nonparametric](#12-parametric-vs-nonparametric)
+        - [1.2.1. Nonparametric Model](#121-nonparametric-model)
 - [2. Simple Generative Model](#2-simple-generative-model)
     - [2.1. Simple Discrete Model](#21-simple-discrete-model)
         - [2.1.1. Multinoulli Naive Bayes Model](#211-multinoulli-naive-bayes-model)
@@ -30,8 +30,10 @@
         - [4.2.1. Naive Bayes](#421-naive-bayes)
         - [4.2.2. Linear Discrimative Analysis](#422-linear-discrimative-analysis)
     - [4.3. Discriminative Model](#43-discriminative-model)
-    - [Logistic Regression](#logistic-regression)
-        - [4.3.1. Max Entropy](#431-max-entropy)
+        - [4.3.1. Logistic Regression](#431-logistic-regression)
+            - [4.3.1.1. Max Entropy](#4311-max-entropy)
+            - [Logistic Regression vs Naive Bayes](#logistic-regression-vs-naive-bayes)
+        - [4.3.2. SVM](#432-svm)
 - [5. Kernel Model](#5-kernel-model)
 - [6. Tree Model](#6-tree-model)
     - [6.1. CART (Classification and Regression Tree)](#61-cart-classification-and-regression-tree)
@@ -46,7 +48,7 @@
 
 ## 1. Foundation
 
-### Generative vs Discriminative
+### 1.1. Generative vs Discriminative
 The ML probabilistic model can be largely grouped into two models: generative model and discriminative model. The former models the joint distribution $p(x,y)$ and the latter models the posterior distribution $p(y|x)$
 
 Andrew Ng's famous [paper](https://papers.nips.cc/paper/2001/file/7b7a53e239400a13bd6be6c91c4f6c4e-Paper.pdf) suggests the following points when comparing generative models
@@ -55,7 +57,7 @@ Andrew Ng's famous [paper](https://papers.nips.cc/paper/2001/file/7b7a53e239400a
 - generative model approach this asymptotic error much faster, with $O(log(N))$ samples vs $O(N)$ samples.
 
 
-#### 1.1. Generative Model
+#### 1.1.1. Generative Model
 **Model (Generative Model)** Generative Model is to model the joint distribution $P(\textbf{x}, \textbf{y})$. 
 
 This typically can be broken into modelling of conditional distribution and probability distribution:
@@ -68,7 +70,7 @@ With the joint distribution, the prediction task is easily solve with posterior 
   
 Generative model tends to be better when training data are limited, but the bound of the asymptotic error is reached more quickly by a  generative model than a discriminative model.
 
-#### 1.2. Discriminative Model
+#### 1.1.2. Discriminative Model
 **Definition (Discriminative Model)**  The approach of a discriminative model is to model posterior distribution directly $P(\textbf{y} | \textbf{x})$ directly. 
 
 For example, in the classification task, it is to model  $P(y=y_k | \textbf{x})$ directly 
@@ -79,9 +81,9 @@ Discriminative model tends to achieve better results with asymptotic classificat
 
 Models that do not have probabilistic interpretation but can learn decision boundary are called discriminant function, these can also be classified as the (nonprobabilistic model) discriminative model. For example, SVM.
 
-### Parametric vs Nonparametric
+### 1.2. Parametric vs Nonparametric
 
-#### Nonparametric Model
+#### 1.2.1. Nonparametric Model
 
 Pros:
 
@@ -271,19 +273,32 @@ $$\Sigma = \frac{1}{N} \sum_i (x_i - \mu_{y_i})(x_i - \mu_{y_i})^T$$
 ### 4.3. Discriminative Model
 Advantage of discrminative models is that it has fewer adaptive parameters which may lead to improved predictive performance
 
-### Logistic Regression
+#### 4.3.1. Logistic Regression
 The logistic regression has the probabilistic form
 
-$$p(Y|X; \theta) = Ber(Y | \mu(X))$$
+$$p(y|x; w) = Ber(y | \mu(x); w)$$
 
 where Ber is the Bernoulli distribution, and
 
-$$\mu(X) = E[Y|X] = p(Y=1 | X)$$
+$$\mu(x) = w^Tx$$
 
-each parameter of Logistic Regression is corresponding to a set of Gaussian Naive Bayes parameters, not the general Gaussian Naive Bayes cannot be represent with logistic regression, for example, decision boundary of Gaussian Naive can be curved, but logistic regression cannot. When Naive Bayes has the same covariance across all classes, then they have the same form.
+The negative log-likelihood for logistic regression is given by
 
+$$\mathcal{l}(w) = - \sum_i log(\mu_i^{y_i} (1-\mu_i)^{1-y_i}) = -\sum_i y_i \log \mu_i + (1-y_i) \log(1-\mu_i) $$
 
-#### 4.3.1. Max Entropy
+This is called the **cross entropy loss** function
+
+Taking derivative of this, we derive
+
+$$\nabla {l} = X^T(\mu - y)$$
+
+By computing Hessian of this function, we know
+
+$$H = \sum_i \mu_i(1-\mu_i) x_i x_i^T = X^TSX$$
+
+Therefore, the objective is convex and has a unique global minimum.
+
+##### 4.3.1.1. Max Entropy
 maximize the entropy of joint distribution 
 
 $$H(X) = -\sum p(x,y)\log(p(x,y))$$
@@ -291,6 +306,13 @@ $$H(X) = -\sum p(x,y)\log(p(x,y))$$
 with the feature constraint of $E_p f_j = E_{p^{~}} f_j$
 
 [Tutorial](https://web.stanford.edu/class/cs124/lec/Maximum_Entropy_Classifiers.pdf)
+
+##### Logistic Regression vs Naive Bayes
+Each parameter of Logistic Regression is corresponding to a set of Gaussian Naive Bayes parameters, not the general Gaussian Naive Bayes cannot be represent with logistic regression, for example, decision boundary of Gaussian Naive can be curved, but logistic regression cannot. When Naive Bayes has the same covariance across all classes, then they have the same form.
+
+See Andrew Ng's paper for asymptotic convergence comparison.
+
+#### 4.3.2. SVM
 
 ## 5. Kernel Model
 
