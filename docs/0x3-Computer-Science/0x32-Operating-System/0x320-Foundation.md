@@ -67,17 +67,20 @@ new micro-kernel under development derived from Haiku
 
 ## 2. CPU Virtualization
 
-**Limited Direct Execution** To have a better performance, it is desirable that each process should run on CPU directly, which raises the question of how to enable OS to regain control of CPU when the process is running on CPU. It turns out there are two ways to solve this question.
+**Concept (Limited Direct Execution)** To have a better performance, it is desirable that each process should run on CPU directly, which raises the question of how to enable OS to regain control of CPU when the process is running on CPU. It turns out there are two ways to solve this question.
 
-**cooperative multitasking**
+**cooperative approach**
 This assumes that each process behaves reasonably and would give control back to CPU frequently. Two approach allows the transfer of control
 
-normal system call: syscall of course would transfer control to kernel
-yield system call: there is a yield system call which do nothing but to transfer control
-Some early version of OS (e.g: Mac OS 9) applies the approach, but is not a good idea in general, for example, the case of inf loop
+- normal system call: syscall of course would transfer control to kernel
+- *yield* system call: there is a yield system call which do nothing but to transfer control. Some early version of OS (e.g: Mac OS 9) applies the approach, but is not a good idea in general, for example, the case of inf loop
 
-**timer interrupt**
-Another way is to use timer's interrupt. The timer would raise interrupt at the scale of milliseconds. Kernel can implement the interrupt handler to manage processes. 
+**non-cooperative approach**
+Another way is to use **timer's interrupt**. The timer would raise interrupt at the scale of milliseconds. Kernel can implement the interrupt handler to manage processes. 
+
+When the interrupt get triggered, the process is similar to the system call. The hardware has some responsibilities (e.g: save the running state of the program to the kernel stack), so that *return-from-trap* would work.
+
+During the interrupt, the OS can decide to switch to another process (**context switch**). it will save a few register values and restore a few from the next process, then the return-from-trap execution would wake the new process instead of the old one.
 
 ### 2.1. Scheduling
 The most basic scheduling approaches assumes that run-time of each job is known. Then there are two groups of approaches. 
@@ -122,6 +125,17 @@ In general, user-level threads can be implemented using one of four models.
 
 
 ## 3. Memory Virtualization
+Suppose we are running multiple processes concurrently, how to assign the memory space?
+
+One way is to give the entire memory to each process, we save the entire memory to the disk when switching process, however, the switching cost is too high.
+
+The other way is to have all the process reside concurrently in the same memory space. This makes protection an important issue. Additionally, to make it easy for users to access memory, we need to introduce the memory virtualization.
+
+There are 3 goals in designing virtualizations:
+- **transparency**: the program should not be aware of the fact that memory is virtualized.
+- **efficiency**: it should be efficient in terms of time and space
+- **protection** it should protect processes from other processes by enabling isolation.
+
 ### 3.1. Segmentation
 ### 3.2. Paging
 

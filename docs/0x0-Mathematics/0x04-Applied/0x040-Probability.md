@@ -381,10 +381,6 @@ Additionally, let $g(x)$ be a function only of $x$ and $h(y)$ be a function only
 $$U=g(X)$$
 $$V=h(Y)$$
 
-**Proposition (mgf of independent random variables)** Let $X,Y$ be independent random variables with moments generating functions $M_X(t), M_Y(t)$. Then the moment generating function of the random variable $Z = X+Y$ is given by
-
-$$M_Z(t) = M_X(t) M_Y(t)$$
-
 **Proposition (law of total probability)**
 $$P(A) = \int_{-\infty}^{\infty} P(A|X=x) f_X(x) dx$$
 
@@ -401,6 +397,20 @@ $$f_{ZW}(z,w) = f_{XY}(h_1(z,w), h_2(z,w)) |J|$$
 where $J$ is the Jacobian of $h$
 
 This can be used to compute multivariate distribution such as $X+Y, XY$
+
+
+**Proposition (mgf of independent random variables)** Let $X,Y$ be independent random variables with moments generating functions $M_X(t), M_Y(t)$. Then the moment generating function of the random variable $Z = X+Y$ is given by
+
+$$M_Z(t) = M_X(t) M_Y(t)$$
+
+
+!!! info "Laplace transform"
+
+    Recall that moment generating function is kind of a Laplace transform, and in Laplace transform, we can convert convolution into multiplication
+
+    $$\mathcal{L}(f(t) * g(t)) = F(s)G(s)$$
+
+    In probability, $Z=X+Y$ represents the convolution, so the multiplication of moment generating function totally makes sense.
 
 ### 3.4. Hierarchical/Mixture Models
 The advantage of the hierarchical models is that complicated process might be modeled by a sequence of relatively simple models.

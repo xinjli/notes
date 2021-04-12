@@ -1,6 +1,6 @@
 # 0x401 Frequentist Inference
 
-- [1. Sample, Statistic and Statistical Model](#1-sample-statistic-and-statistical-model)
+- [1. Sampling Theory](#1-sampling-theory)
     - [1.1. Sample Mean](#11-sample-mean)
     - [1.2. Sample Variance](#12-sample-variance)
     - [1.3. Sample Order](#13-sample-order)
@@ -29,14 +29,23 @@
 
 The basic problem of statistical inference is the inverse of probability: Given the outcomes, what can we say about the process that generated the data?
 
-**Frequentist Inference**: the unknown quantity is assumed to be a fixed quantity
+More formally, Statistical inference is the process of using data analysis to infer properties of an underlying distribution of probability.
 
-**Bayesian Inference**: the unknown quantity is assumed to be a random variable
+- **Frequentist Inference**: the unknown quantity is assumed to be a fixed quantity
 
-## 1. Sample, Statistic and Statistical Model
+- **Bayesian Inference**: the unknown quantity is assumed to be a random variable, we have some initial guess about the distribution, and update the distribution after observing the data
+
+## 1. Sampling Theory
 Sample is a sequence of iid random variable, statistic is its function.
 
-**Definition (random sample)** The collection of random variables $X_1, X_2, ... X_n$ is said to be a random sample of size $n$ if they are iid, $x_1, x_2, ..., x_n$ is said to their realizations. The joint pdf or pmf or $X_1, ..., X_n$ is given by
+**Definition (random sample)** The collection of random variables $X_1, X_2, ... X_n$ is said to be a random sample of size $n$ if they are independent and identically distributed (i.i.d), i.e
+
+- $X_1, ..., X_n$ are independent random variables
+- They have same distribution
+
+$$F_{X_1}(x) = ... = F_{X_n}(x)$$
+
+$x_1, x_2, ..., x_n$ is said to their realizations. The joint pdf or pmf or $X_1, ..., X_n$ is given by
 
 $$f(x_1, ..., x_n) = f(x_1) f(x_2) ... f(x_n) = \prod_{i=1}^n f(x_i)$$
 
@@ -52,13 +61,22 @@ In the case of sampling from a finite population, there are two cases
 
 $$Y=T(X_1, ..., X_n)$$
 
+The statistics, however, cannot depend on any parameter $\theta$!!
+
 The distribution of a statistic $Y$ is called the ***sampling distribution*** of $Y$. Once the sample is drawn, the $t$ is called the realization of $T$, where
 
 $$t = T(x_1, x_2, ..., x_n)$$
 
-Note that statistic is a random variable!!
+!!! info "statistics is random variable"
 
-**Lemma (expectation of random sample)** Let $X_1, ..., X_n$ be a random sample and $g(x)$ be a function such that $Eg(X)$ and $Var(g(X)$ exists then
+    I always get confused, but be careful that statistic is a random variable, not a scalar (because it is a transformations (function) of random variables)
+
+    - variance is a scalar
+    - sample variance is a random variable
+
+
+
+**Lemma (expectation of random sample)** Let $X_1, ..., X_n$ be a random sample and $g(x)$ be a function such that $Eg(X)$ and $Var(g(X))$ exists then
 
 $$E(\sum_{i=1}^n g(X_i)) = n E(g(X_1)) $$
 
@@ -84,7 +102,10 @@ $$\mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
 
 Therefore, $\bar{X}$ is an *unbiased estimator* of $\mu$.
 
-Unlike the variance of sample mean is reduced by the sample size. It is important to note that the dispersion of the sample mean $\bar{X}$ of Cauchy distribution $Cauchy(\mu, \sigma)$, which is measured by $\sigma$ is invariant of the sample size. Cauchy distribution does not have mean or variance.
+
+!!! example "anti-pattern in Cauchy distribution"
+
+    Unlike the variance of sample mean is reduced by the sample size. It is important to note that the dispersion of the sample mean $\bar{X}$ of Cauchy distribution $Cauchy(\mu, \sigma)$, which is measured by $\sigma$ is invariant of the sample size. Cauchy distribution does not have mean or variance.
 
 **Lemma (pdf of sample mean)** By applying transformation, we can obtain
 
@@ -118,8 +139,16 @@ that is, $\sqrt{n}(\bar{X}_n - \mu)/\sigma$ has a limiting standard normal distr
 
 $$S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})^2$$
 
+A useful transformation to compute $(n-1)S^2$ is
+
+$$\sum_i (X_i - \bar{X})^2 = \sum_i X_i^2 - n\bar{X}^2$$
+
+Notice the analogy between this and variance computing.
+
+$$Var(X) = EX^2 - (EX)^2$$
+
 **Lemma (mean, variance of sample variance)** 
-$$ES^2 = \frac{\sigma^2}{n}$$
+$$ES^2 = \sigma^2$$
 
 $$\text{Var}(S^2) = \frac{1}{n} (\theta_4 - \frac{n-3}{n-1}\theta^2_2)$$
 
@@ -391,13 +420,17 @@ $$E_{\theta} W = \theta$$
 
 
 #### 3.3.2. Best Unbiased Estimator
+There is no one "best MSE" estimator as the class of all estimators is too large (e.g: the estimator $\hat{\theta}=17$ cannot be beaten in MSE at $\theta=17$, but is terrible otherwise).
+
+One way to make it trackable is to limit the class of estimators to consider the unbiased estimators, under this assumption, we can only compare the variance to minimize MSE 
+
 **Definition (unbiased best estimator)** An esitmator $W^*$ is a best unbiased estimator of $\tau(\theta)$ if it satisfies $E_\theta W^* = \tau(\theta)$ for all $\theta$. For any other estimator $W$ with $E_\theta(W) = \tau(\theta)$ we have for all $\theta$ 
 
 $$Var_{\theta} W^* \leq Var_{\theta} W$$
 
 $W^*$ is also called a *uniform minimum variance unbiased estimator*.
 
-Candidates of best estimators can be infinitely many, so it might be hard to verify that an estimator is the best one. The following inequality can guarantee the found estimator is the best one
+Even within the class of unbiased estimators, candidates of best estimators can be infinitely many, so it might be hard to verify that an estimator is the best one. The following inequality can guarantee the found estimator is the best one
 
 **Theorem (Cramer-Rao Lower bound)** Let $X_1, ..., X_n$ be a sample of pdf $f(x|theta)$, and let $W(X)=W(X_1, ..., X_n)$ be any estimator satisfying
 
@@ -494,6 +527,8 @@ $$\bigcup_{\gamma \in \Gamma} \{ x: T_{\gamma}(x) \in R_{\gamma} \}$$
 - Type I error is the false negative error (i.e.: $\theta \in \Theta_0$ but $H_0$ is rejected)
 - Type II error is the false positive error (i.e: $\theta \in \Theta_1$ but $H_0$ is accepted)
 
+In general, an attempt to decrease one type of error is accompanied by an increase in the other type of error, so a compromise has to be made. The only way to reduce both types of error is to increase the sample size.
+
 **Definition (power function)** Suppose $R$ denotes the reject region for a test. Then the power function of this test is the function of $\theta$ defined by
 
 $$\beta(\theta) = P_\theta (X \in R)$$
@@ -546,9 +581,11 @@ for some $k \geq 0$ and
 
 $$\alpha = P_{\theta_0}(X \in R)$$
 
-**(Sufficiency)** Any test that satisfies those conditions are UMP level $\alpha$ test
+- (Sufficiency) Any test that satisfies those conditions are UMP level $\alpha$ test
 
-**(Necessity)** If there exists a test satisfying those condition with $k > 0$, then every UMP level $\alpha$ test is a size $\alpha$ test.
+- (Necessity) If there exists a test satisfying those condition with $k > 0$, then every UMP level $\alpha$ test is a size $\alpha$ test.
+
+**Theorem (Karlin-Rubin)** Consider testing $H_0: \theta \leq \theta_0$ vs $H_1: \theta > \theta_0$. Suppose that $T$ is a sufficient statistic for $\theta$ and the family of pdfs $\{ g(t|\theta): \theta \in \Theta \}$ of $T$ has an MLR (monontone likelihood ratio) property.  Then for any $t_0$, the test that rejects $H_0$ iff $T > t_0$ is a UMP level $\alpha$ test, where $\alpha = P_{\theta_0}(T > t_0)$
 
 **Definition (p-value)** A p-value $p(X)$ is a test statistics satisfying $0 \ leq p(x) \leq 1$ for every sample $x$, small values of $p(x)$ give evidence that $H_1$ is true. A p-value is valid iff for every $\theta \in \Theta_0, 0 \leq \alpha \leq 1$
 

@@ -32,9 +32,10 @@
     - [4.3. Discriminative Model](#43-discriminative-model)
         - [4.3.1. Logistic Regression](#431-logistic-regression)
             - [4.3.1.1. Max Entropy](#4311-max-entropy)
-            - [Logistic Regression vs Naive Bayes](#logistic-regression-vs-naive-bayes)
-        - [4.3.2. SVM](#432-svm)
-- [5. Kernel Model](#5-kernel-model)
+            - [4.3.1.2. Logistic Regression vs Naive Bayes](#4312-logistic-regression-vs-naive-bayes)
+- [5. Sparse Kernel Models](#5-sparse-kernel-models)
+    - [5.1. Kernel Methods](#51-kernel-methods)
+    - [5.2. Maximum Margin Classifier (SVM)](#52-maximum-margin-classifier-svm)
 - [6. Tree Model](#6-tree-model)
     - [6.1. CART (Classification and Regression Tree)](#61-cart-classification-and-regression-tree)
         - [6.1.1. ID3](#611-id3)
@@ -68,7 +69,8 @@ This typically can be broken into modelling of conditional distribution and prob
 With the joint distribution, the prediction task is easily solve with posterior distribution.
 - compute posterior $P(y=y_k | \textbf{x})$ with Bayes' theorem
   
-Generative model tends to be better when training data are limited, but the bound of the asymptotic error is reached more quickly by a  generative model than a discriminative model.
+Generative model tends to be better when training data are limited, but the bound of the asymptotic error is reached more quickly by a generative model than a discriminative model. Additionally, it performs worse when the density assumption give a poort approximation to the true distribution.
+
 
 #### 1.1.2. Discriminative Model
 **Definition (Discriminative Model)**  The approach of a discriminative model is to model posterior distribution directly $P(\textbf{y} | \textbf{x})$ directly. 
@@ -79,7 +81,7 @@ Parameters are typically estimated with MLE. for example, by iterative reweighte
 
 Discriminative model tends to achieve better results with asymptotic classification error (when training data are large enough)
 
-Models that do not have probabilistic interpretation but can learn decision boundary are called discriminant function, these can also be classified as the (nonprobabilistic model) discriminative model. For example, SVM.
+Models that do not have probabilistic interpretation but can learn decision boundary are called **discriminant function**, these can also be classified as the (nonprobabilistic model) discriminative model. For example, SVM.
 
 ### 1.2. Parametric vs Nonparametric
 
@@ -213,14 +215,22 @@ In a full Bayesian treatment, the parameter $w$ has a distribution, the conjugat
 $$p(w) = \mathcal{N}(m_0, S_0)$$
 
 ## 4. Linear Classification Model
-The goal of classification is to take an input vector $\textbf{x}$ and assigned it to one of $K$ discrete classes $\mathcal{C_k}$
+**Definition (classification task)** The goal of classification is to take an input vector $\textbf{x}$ and assigned it to one of $K$ discrete classes $\mathcal{C_k}$
+
+**Definition (decision region, decision boundary)** The input space is divided into *decision regions* whose boundaries are called *decision boundaries*
 
 ### 4.1. Discriminant Functions
 In the case of two classes, we assign to $C_1$ if $y \geq 0$, otherwise $C_0$
 
 $$y(\textbf{x}) = \textbf{w}^T x + w_0$$
 
-the decision boundary is $y = 0$
+the decision boundary is $y = 0$, which is a hyperplane
+
+For any point $x$, the signed distance to the hyperplane is
+
+$$r = \frac{y(x)}{||w||}$$
+
+When $x$ is at the origin, it reduced to $r = -w_0/||w||$
 
 In the case of multiclasses, we create a single $K$-class discriminant comprising $K$ linear functions of the form
 
@@ -230,41 +240,57 @@ where we assgin a point $\mathbf{x}$ to $\mathcal{C}_k$ if $(\forall j \neq k) y
 
 The decision regions are connected and convex
 
-The following are three solutions
-
-Least squares for classification
-has the closed-form but lack robustness to outliers
-
 #### 4.1.1. Fisher's Linear Discriminant
 #### 4.1.2. The perceptron algorithm
-Proposed by Rosenblatt [1]. Minsky's work analyzes perceptron [2]. When linear sepratable, perceptron converges in finite steps, upper-bounded by $\frac{R^2}{\gamma^2}$ where $R$ is the upper-bound of norm of training set $x$, and $\gamma$ is the learning rate.  [proof](https://www.cse.iitb.ac.in/~shivaram/teaching/old/cs344+386-s2017/resources/classnote-1.pdf)
+Proposed by Rosenblatt [2]. Minsky's work analyzes perceptron [3]. 
+
+The perceptron learns a threshold function to map its input $x$ to an output $f(x)$
+
+$$f(x) = \begin{cases} 1 & \text{ if } w^Tx \geq 0 \\ -1 & \text{ otherwise } \end{cases}$$
+
+The criterion is given by
+
+$$E(w) = -\sum_i t_i (w^Tx_i)$$
+
+Intuitively, the critrion is trying to match the sign of $t_i$ and $w^Tx$.
+
+By applying the gradient descent, the $w$ can be updated by
+
+$$w_{new} = w_{old} + \gamma t_i x_i$$
+
+where $\gamma$ is the learning rate.
+
+
+Convergence:
+- When linear separable, perceptron converges in finite steps, upper-bounded by $\frac{R^2}{\gamma^2}$ where $R$ is the upper-bound of norm of training set $x$. The solution and convergence typically depends on the initial value. [proof of this statement](https://www.cse.iitb.ac.in/~shivaram/teaching/old/cs344+386-s2017/resources/classnote-1.pdf)
+- When not linear separable, it will never converge
 
 
 ### 4.2. Generative Model
 The general Gaussian Discriminative Analysis (GDA) is to model the class conditional densities with multivariate Gaussian distribution
 
-$$p(x | \mathcal{C}_k) = \mathcal{N}(x|\mu_k, \Sigma_k)$$
+$$p(x | y=k) = \mathcal{N}(x|\mu_k, \Sigma_k)$$
 
-If there is no assumption about the $\Sigma_k$, then it is known as quadratic discriminant analysis (QDA), which is literally a quadratic classifier (because of $\Sigma$)
+If there is no assumption about the $\Sigma_k$, then it is known as **quadratic discriminant analysis** (QDA), which is literally a quadratic classifier (because of $\Sigma$)
 
 GDA has two simplifications: Naive Bayes and Linear Discriminative Analysis.
 
 #### 4.2.1. Naive Bayes
 If the $\Sigma_k$ is diagonal, this is equivalent to the Naive Bayes classifier.
 
-Naive bayes is based on the assumption that features $\mathbf{x}$ are mutually independent given the output $\mathcal{C}_k$. The joint probability distribution is modeled as follows
+Naive bayes is based on the assumption that features $\mathbf{x}$ are mutually independent given the output $\mathcal{C}_k$ (i.e. $y=k$). The joint probability distribution is modeled as follows
 
-$$p(\mathcal{C}_k, x_1, x_2, ..., x_n) = \mathcal{C_k} \prod_i p(x_i|\mathcal{C}_k)$$
+$$p(y=k, x_1, x_2, ..., x_n) = p(y=k) \prod_i p(x_i| y=k)$$
 
 #### 4.2.2. Linear Discrimative Analysis
 When $\Sigma_k$ in GDA are shared or tied across all classes (i.e.: $\Sigma_k = \Sigma$), then it is known as the linear discrimative analysis (LDA)
-$$p(\mathcal{C}_k | x) \propto \exp (\mu_c^T \Sigma^{-1} x -\frac{1}{2} \mu_c^T \Sigma^{-1} \mu_c + \log \pi_c)$$
+$$p(y=k | x) \propto \exp (\mu_c^T \Sigma^{-1} x -\frac{1}{2} \mu_c^T \Sigma^{-1} \mu_c + \log \pi_c)$$
 
 It is called linear because the exponent can be expressed in linear with respect to $x$
 
 LDA can be solved analytically with MLE
 
-$$pi_k = \frac{1}{N} \sum_i 1\{ y_i = k \}$$
+$$\pi_k = \frac{1}{N} \sum_i 1\{ y_i = k \}$$
 
 $$\mu_k = \frac{1}{N} \sum_i 1\{ y_i=k \} x_i$$
 
@@ -276,11 +302,11 @@ Advantage of discrminative models is that it has fewer adaptive parameters which
 #### 4.3.1. Logistic Regression
 The logistic regression has the probabilistic form
 
-$$p(y|x; w) = Ber(y | \mu(x); w)$$
+$$p(y|x; w) = Bernoulli(y | \mu(x); w)$$
 
-where Ber is the Bernoulli distribution, and
+and
 
-$$\mu(x) = w^Tx$$
+$$\mu(x) = \sigma(w^Tx)$$
 
 The negative log-likelihood for logistic regression is given by
 
@@ -307,14 +333,29 @@ with the feature constraint of $E_p f_j = E_{p^{~}} f_j$
 
 [Tutorial](https://web.stanford.edu/class/cs124/lec/Maximum_Entropy_Classifiers.pdf)
 
-##### Logistic Regression vs Naive Bayes
-Each parameter of Logistic Regression is corresponding to a set of Gaussian Naive Bayes parameters, not the general Gaussian Naive Bayes cannot be represent with logistic regression, for example, decision boundary of Gaussian Naive can be curved, but logistic regression cannot. When Naive Bayes has the same covariance across all classes, then they have the same form.
+##### 4.3.1.2. Logistic Regression vs Naive Bayes
+Each parameter of Logistic Regression is corresponding to a set of Gaussian Naive Bayes parameters. (i.e. every Gaussian Naive Bayes can be mapped to a logistic regression model)
+
+In gaussian naive bayes, we have
+$$p(y=1 | x) = \frac{p(x|y=1)p(y=1)}{p(x|y=1)p(y=1)+p(x|y=0)p(y=0)} = \frac{1}{1+exp(-a)}$$
+
+where
+
+$$a = log\frac{p(x|y=1)p(y=1)}{p(x|y=0)p(y=0)}$$
+
+
+
+However, the general Gaussian Naive Bayes cannot be represent with logistic regression, for example, decision boundary of Gaussian Naive can be curved, but logistic regression cannot. When Naive Bayes has the same covariance across all classes, then they have the same form.
 
 See Andrew Ng's paper for asymptotic convergence comparison.
 
-#### 4.3.2. SVM
+## 5. Sparse Kernel Models
 
-## 5. Kernel Model
+### 5.1. Kernel Methods
+
+### 5.2. Maximum Margin Classifier (SVM)
+
+
 
 ## 6. Tree Model
 ### 6.1. CART (Classification and Regression Tree)

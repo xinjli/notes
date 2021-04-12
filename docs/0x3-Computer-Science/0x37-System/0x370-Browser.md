@@ -1,4 +1,4 @@
-# 0x371 Browser
+# 0x370 Browser
 
 - [1. Web API](#1-web-api)
     - [1.1. DOM](#11-dom)

@@ -1,25 +1,112 @@
-# 0x023 Convex-Analysis
+# 0x043 Optimization
 
-- [1. Convex Sets](#1-convex-sets)
-    - [1.1. Affine Set](#11-affine-set)
-    - [1.2. Convex Set](#12-convex-set)
-        - [1.2.1. Operations that preserve convexity](#121-operations-that-preserve-convexity)
-    - [1.3. Cone Set](#13-cone-set)
-    - [1.4. Generalized Inequalities](#14-generalized-inequalities)
-    - [1.5. Seperating and Supporting Hyperplanes](#15-seperating-and-supporting-hyperplanes)
-    - [1.6. Dual Cones and Generalized Inequalities](#16-dual-cones-and-generalized-inequalities)
-- [2. Convex Functions](#2-convex-functions)
-    - [2.1. Basic Properties and Examples](#21-basic-properties-and-examples)
-    - [2.2. Closedness and Semicontinuity](#22-closedness-and-semicontinuity)
-    - [2.3. Operations that preserve convexity](#23-operations-that-preserve-convexity)
-    - [2.4. The conjugate function](#24-the-conjugate-function)
-    - [2.5. Quasiconvex functions](#25-quasiconvex-functions)
-- [3. Duality](#3-duality)
-    - [3.1. Lagrange Dual Problem](#31-lagrange-dual-problem)
-- [4. Reference](#4-reference)
+- [1. Foundation](#1-foundation)
+    - [1.1. Unconstrained Optimization](#11-unconstrained-optimization)
+    - [1.2. Equality Constrained Optimization](#12-equality-constrained-optimization)
+    - [1.3. Inequality Constrained Optimization](#13-inequality-constrained-optimization)
+- [2. Convex Sets](#2-convex-sets)
+    - [2.1. Affine Set](#21-affine-set)
+    - [2.2. Convex Set](#22-convex-set)
+        - [2.2.1. Operations that preserve convexity](#221-operations-that-preserve-convexity)
+    - [2.3. Cone Set](#23-cone-set)
+    - [2.4. Generalized Inequalities](#24-generalized-inequalities)
+    - [2.5. Seperating and Supporting Hyperplanes](#25-seperating-and-supporting-hyperplanes)
+    - [2.6. Dual Cones and Generalized Inequalities](#26-dual-cones-and-generalized-inequalities)
+- [3. Convex Functions](#3-convex-functions)
+    - [3.1. Basic Properties and Examples](#31-basic-properties-and-examples)
+    - [3.2. Closedness and Semicontinuity](#32-closedness-and-semicontinuity)
+    - [3.3. Operations that preserve convexity](#33-operations-that-preserve-convexity)
+    - [3.4. The conjugate function](#34-the-conjugate-function)
+    - [3.5. Quasiconvex functions](#35-quasiconvex-functions)
+- [4. Duality](#4-duality)
+    - [4.1. Lagrange Dual Problem](#41-lagrange-dual-problem)
+- [5. Reference](#5-reference)
 
-## 1. Convex Sets
-### 1.1. Affine Set
+
+## 1. Foundation
+**Definition (optimization problems)** The optimization problems is formulated as follows:
+
+$$ \text{minimize } f_0(x) \\
+\text{     subject to } f_i(x) \leq 0, h_j(x) = 0$$
+
+where $f_0$ is the objective function, the inequality $f_i(x) \leq 0$ is inequality constraints, the equation $h_i(x)$ is called the equalit constraints. 
+
+**Definition (optimal value, optimal point)** The *optimal value* $p^*$ is defined as
+
+$$p^* = \inf \{ f_0(x) | f_i(x) \leq 0, h_j(x) = 0 \}$$
+
+We say $x^*$ is an *optimal point* if $x^*$ is feasible and
+
+$$f_0(x^*) = p^*$$
+
+The set of optimal points is the *optimal set*, denoted
+
+$$X_{opt} = \{ x| f_i(x) \leq 0, h_j(x)=0, f_0(x) = p^* \}$$
+
+If there exists an optimal point for the porblem, the problem is said to be *solvable*.
+
+**Definition (local minimum)** Let $f: D \subset \mathbb{R}^n \to \mathbb{R}$. We say $f$ has a *local minimum* of $f(a)$ at point $a$ in D if there exists an open ball with radius $\epsilon$ such that
+
+$$\forall(x \in B_{\epsilon}(a) \cap D)f(x) \geq f(a)$$
+
+To find the global extrema, devide the domain into subdomain and gather their critical points to find the actual global extrema. The existence of global extrema can be guaranteed by the continuous function and compact domain as mentioned in the previous section.
+
+### 1.1. Unconstrained Optimization
+First derivate test can be used to find all interior critical points for local extremum.
+
+**Theorem (First derivative test, Fermat)** Let $f$ be a differentiable function from $D \subset \mathbb{R}^n \to \mathbb{R}$, suppose $f$ has a local extremum $f(a)$ at the interior point $a$, then the first partial derivatives of $f$ are zero at $A$
+
+$$\nabla f(a) = 0$$
+
+To decide the actual extremum within the candidates, the second derivative test is required.
+
+**Theorem (Second derivative test)** Let $f \in C^{3}$  in an open set of $\mathbb{R}^n$ containing $a$. If $\nabla f(a)=0$ and Hessian is positive definite at $a$, then $f$ has a local minimum at $a$.
+
+### 1.2. Equality Constrained Optimization
+
+In the equality constraint optimization, 
+
+$$\text{minimize}_\theta f(\theta)$$
+$$\text{subject to } g(\theta) = 0$$
+
+We can use the Lagrange Multiplier to find critical points.
+
+**Theorem (Lagrange Multiplier)** Any constrained critical point of the function $f$ on the domain $D=\{ g = 0 \}$ must be a point $a$ satifying either of
+
+- $f$ is not differentiable at $a \in D$
+- $\nabla g(a) = 0$
+- $\nabla f(a) = \lambda \nabla g(a)$
+
+The second condition is called the degeneracy condition, and the last condition is the Lagrange condition.
+
+![geometric interpretation](https://upload.wikimedia.org/wikipedia/commons/b/bf/LagrangeMultipliers2D.svg)
+
+### 1.3. Inequality Constrained Optimization
+
+In the inequality constraint optimization,
+
+$$\text{minimize}_\theta f(\theta)$$
+$$\text{subject to } g(\theta) \leq 0$$
+
+There are two types of solutions:
+- The constraint could be *slack* or *loose*, meaning there is no force is needed to keep $\theta$ from violating the constraint, in this case $\nabla f=0$ like any unconstrained problems, regardless of what $\nabla g$ is
+
+- The constraint could be *binding* or *tight*, meaning $g(\theta) = 0$, in this case the constraint can exert nonzero force on $\theta$, and we need to find a force cancel out the objective gradient 
+
+**Theorem (complementary slackness)** 
+
+$$\nabla f(\theta) = \alpha \nabla g(\theta)$$
+
+$$\alpha \geq 0, g(\theta) \leq 0$$
+
+$$\alpha (\theta) = 0$$
+
+The 3rd condition is called the complementary slackness encoding the possible cases.
+
+
+
+## 2. Convex Sets
+### 2.1. Affine Set
 **Definition (affine set)** A set $C \subseteq R^n$ is affine if for any $x_1, x_2 \in C$, then $\theta x_1 + (1-\theta)x_2 \in C$ where $\theta \in R$
 
 note: Affine set is a subspace plus an offset
@@ -39,7 +126,7 @@ note: Affine set is a subspace plus an offset
 
     $$\{ x | a^Tx =b \}$$
 
-### 1.2. Convex Set
+### 2.2. Convex Set
 
 **Definition (convex set)** A set $C$ is convex if for any $x1,x2 \in C$, and any $0 \leq \theta \leq 1 $, then 
 
@@ -74,7 +161,7 @@ $$\theta x_1 + (1-\theta)x_2 \in C$$
     $$\{ \theta_0 v_0 + ... + \theta_k v_k | \theta \succeq 0, 1^T \theta = 1 \}$$
 
 
-#### 1.2.1. Operations that preserve convexity
+#### 2.2.1. Operations that preserve convexity
 **Proposition (Intersection preserves convexity)** The intersection of any number of convex sets is a convex set
 
 For example, polyhedron is the intersection of halfspaces and hyperplanes
@@ -130,7 +217,7 @@ Affine function and linear function can be thought as the special cases of linea
 
 **Proposition (Linear-fractional and perspective function preserve convexity)** The perspective functions, linear-fractional functions preserve convexity
 
-### 1.3. Cone Set
+### 2.3. Cone Set
 **Definition (cone)** A set is cone if for every $x \in C, \theta \geq 0$ then $\theta x \in C$. A set is called convex cone if it is convex and cone
 
 !!! example "norm cones"
@@ -155,7 +242,7 @@ Affine function and linear function can be thought as the special cases of linea
     $$S^n_{+} = \{ X | X = X^T, X \succeq 0 \}$$
 
 
-### 1.4. Generalized Inequalities
+### 2.4. Generalized Inequalities
 **Definition (generalized inequality)** A generalized inequality defined with respect to a proper cone $K$ is a partial order
 
 $$x \preceq_{K} y \iff y-x \in K$$
@@ -178,7 +265,7 @@ The following two generalized inequalities are commonly used
 
 **Definition (minimal, maximal)** $x \in S$ is the minimal element of $S$ with respect to $\preceq_{K}$ if $y \preceq_{K} x $, then $y = x$
 
-### 1.5. Seperating and Supporting Hyperplanes
+### 2.5. Seperating and Supporting Hyperplanes
 **Theorem (separating hyperplane theorem)** Let $A,B$ be two disjoint convex set in $R^n$, there exists a nonzero vector $v$ 
 
 and scalar $c$, such that for all $x \in A, y \in B$,
@@ -191,7 +278,7 @@ We need additional constraints to make it true, for example, any two convex sets
 
 **Theorem (supporting hyperplane theorem)** For a non-empty convex set $C$ and its boundary point $x_0$, there exists a supporting hyperplane to $C$ at $x_0$
 
-### 1.6. Dual Cones and Generalized Inequalities
+### 2.6. Dual Cones and Generalized Inequalities
 **Definition (dual cone)** The following set $K^{*}$ is called the dual cone with respect to cone $K$
 
 $$K^{*} = \{ y |(\forall{ x \in  K}) x^T y \geq 0 \}$$
@@ -205,8 +292,8 @@ Criterion (dual characterization of minimum) $x$ is the minimum element of $S$ w
 
 **Criterion (dual characterization of minimal)** $x$ is the minimal element of $S$ with respect to $K$ iff $x$ minimizes a $\lambda^T x$ for a particular $\lambda \prec_{K^{*}} 0$
 
-## 2. Convex Functions
-### 2.1. Basic Properties and Examples
+## 3. Convex Functions
+### 3.1. Basic Properties and Examples
 **Definition (Convex function)** A function $f: R^n \to R$ is convex if its domain is a convex set and for all $x, y \in dom(f), \theta \in [0, 1]$ we have
 
 $$f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta)f(y)$$
@@ -293,7 +380,7 @@ Many results for convex functions can be proved geometrically by using epigraphs
 
     $$\delta(x|X) = \begin{cases}0 & \text{ if }x \in X \\ \infty & \text{ otherwise} \end{cases}$$
 
-### 2.2. Closedness and Semicontinuity
+### 3.2. Closedness and Semicontinuity
 **Definition (closed function)** A function $f$ is a *closed* function if its epigraph is a closed set.
 
 **Definition (semicontinuous)** A function $f$ is called lower semicontinuous at $x \in \mathcal{X}$ if
@@ -304,7 +391,7 @@ for every sequence ${x_k} \subset \mathcal{X}$ with $x_k \to x$. We say that $f$
 
 
 
-### 2.3. Operations that preserve convexity
+### 3.3. Operations that preserve convexity
 **Proposition (nonnegative weighted sum)** Nonnegative weight sum of convex function is convex function
 
 $$f = w_1 f_1 + ... + w_n f_m$$
@@ -364,7 +451,7 @@ $$\{ (x,t) | x/t \in dom(f), t  > 0 \}$$
 
     $$g(x, t) = x^Tx/t$$
 
-### 2.4. The conjugate function
+### 3.4. The conjugate function
 **Definition (conjugate function)** Let $f: R^n \to R$. The function $f*: R^n \to R$, defined as
 
 $$f^*(y) = \sup_{x \in \text{dom} f }  (y^T x - f(x))$$
@@ -400,10 +487,9 @@ Conjugate function $f*$ is a convex function because it is taking sup over a aff
 $$(\forall(x, y)) f(x) + f^*(y) \geq x^Ty$$
 
 **Lemma (conjugate's conjugate)** If $f$ is convex and closed, then
-
 $$f^{**} = f$$
 
-### 2.5. Quasiconvex functions
+### 3.5. Quasiconvex functions
 **Definition (quasiconvex)** A function $R^n \to R$ is called *quasiconvex* if its domain and all sublevel sets
 
 $$S_\alpha = \{ x \in dom(f) | f(x) \leq \alpha \}$$
@@ -414,7 +500,7 @@ for all $\alpha \in R$ are convex. A function is quasiconcave if $-f$ is quasico
 
     $\log x$ on $R_{++}$ is both quasiconvex and quasiconcave therefore quasilinear.
 
-!!! example "quasiconvex functions on R$
+!!! example "quasiconvex functions on R"
 
     A continous function $R \to R$ is quasiconvex in following cases
 
@@ -434,8 +520,8 @@ $$f(y) \leq f(x) \implies \nabla f(x)^T (y-x) \leq 0$$
 
 $$y^T \nabla f(x) = 0 \implies y^T \nabla^2 f(x) y \geq 0$$
 
-## 3. Duality
-### 3.1. Lagrange Dual Problem
+## 4. Duality
+### 4.1. Lagrange Dual Problem
 **Definition (Lagrangian)** The Lagrangian $L: R^n \times R^m \times R^p \to R$ associated with the standard form optimization problem is
 
 $$L(x, \lambda, \nu) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{i=1}^{p} \nu_i h_i(x)$$
@@ -492,7 +578,7 @@ $$ \nabla f_0 (x^*) + \sum_{i=1}^m \lambda^* \nabla f_i(x^*) + \sum_{i=1}^p \nu_
 
 If a convex optimization problem with differentiable objective and constraint functions satisfies Slater's condition, then the KKT conditions provide necessary and sufficient conditions for optimality
 
-## 4. Reference
+## 5. Reference
 [1] Boyd, Stephen, and Lieven Vandenberghe. Convex optimization. Cambridge university press, 2004.
 
 [2] Bertsekas, Dimitri P. Convex optimization theory. Belmont: Athena Scientific, 2009.

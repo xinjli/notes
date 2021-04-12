@@ -1,4 +1,4 @@
-# 0x352 Distributed Applications
+# 0x373 Distributed Applications
 
 - [1. Overview](#1-overview)
     - [1.1. Concensus](#11-concensus)
