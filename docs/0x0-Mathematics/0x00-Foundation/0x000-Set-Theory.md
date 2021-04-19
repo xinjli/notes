@@ -1,6 +1,6 @@
-# 0x000 Logic and Set Theory
+# 0x000 Set Theory
 
-- [1. Naive Set Theory](#1-naive-set-theory)
+- [1. History](#1-history)
 - [2. Axiomatic Set Theory](#2-axiomatic-set-theory)
     - [2.1. Zermelo–Fraenkel](#21-zermelofraenkel)
         - [2.1.1. Function](#211-function)
@@ -12,11 +12,13 @@
     - [3.2. Z](#32-z)
     - [3.3. Q](#33-q)
     - [3.4. R](#34-r)
-        - [3.4.1. Equivalent Statements of Completeness](#341-equivalent-statements-of-completeness)
+        - [3.4.1. Statements of Completeness](#341-statements-of-completeness)
 - [4. Reference](#4-reference)
 
-## 1. Naive Set Theory
-The naive set theory, unlike the axiomatic set theories, is using informal logics based on natural languages. The naive set theory was first created by *Georg Cantor* at the end of 19th century and developed by *Gottlob Frege*.
+This first note sets up the formal notations of sets, logic and number systems used in all notes.
+
+## 1. History
+The **naive set theory**, unlike the axiomatic set theories, is using informal logics based on natural languages. The naive set theory was first created by *Georg Cantor* at the end of 19th century and developed by *Gottlob Frege*.
 
 However, *Bertrand Russel* found the following paradox during his work on *Principia Mathematica*
 
@@ -102,7 +104,7 @@ The other case is to efine a function by specifying what property $P(x,y)$ links
 
 $$(g \circ f)(x) := g(f(x))$$
 
-**Lemma (Composition is associative)** Let $f: Z \rightarrow W, g: Y \rightarrow Z$ and $h: X \rightarrow Y$ be functions. Then $f \circ (g \circ ) = (f \circ g) \circ h$
+**Lemma (Composition is associative)** Let $f: Z \rightarrow W, g: Y \rightarrow Z$ and $h: X \rightarrow Y$ be functions. Then $f \circ (g \circ h) = (f \circ g) \circ h$
 
 **Definition (injective)** A function $f$ is one-to-one (or injective) if different elements map to different elements
 
@@ -155,9 +157,14 @@ $$\prod_{1 \leq i \leq n} := \{ (x_i)_{1 \leq i \leq n} | x_i \in X_i \text{ for
 Remark: infinite number of choices requires the axiom of choice
 
 ### 2.2. Cardinality
-**Definition (Equal cardinality)** $X$ and $Y$ have equal cardinality iff there exists a bijection $f: X \rightarrow Y$
 
-The notion of having equal cardinality is an equivalence relation
+To compare the size of different sets, Cantor's idea was to attempt to put the sets into a 1-1 correspondence with each other.
+
+**Definition (Equal cardinality)** $X$ and $Y$ have equal cardinality iff there exists a bijection $f: X \rightarrow Y$. In this case, we write
+
+$$X \sim Y$$
+
+The notion of having equal cardinality is an equivalence relation (i.e: reflective, symmetric, transitive)
 
 **Definition (cardinality)** Let $n$ be a natural number. A set $X$ is said to have cardinality $n$ iff it has equal cardinality with $\{ i \in N | i < n \} $. We also say that $X$ has $n$ elements iff it has cardinality of $n$
 
@@ -165,7 +172,10 @@ The notion of having equal cardinality is an equivalence relation
 
 **Lemma** Suppose that $n \geq 1$ and $X$ has cardinality $n$. Then $X$ is non-empty, and if $x$ is any element of $X$, then the set $X - \{ x \}$ has cardinality $n-1$.
 
-**Definition (Finite sets)** A set is infinite iff it has cardinality $n$ for some natural number $n$; otherwise, the set is called infinite. If $X$ is a finite set, we use $\#(X)$ to denote the cardinality of $X$
+**Definition (finite, infinite)** A set is infinite iff it has cardinality $n$ for some natural number $n$; otherwise, the set is called infinite. If $X$ is a finite set, we use $\#(X)$ to denote the cardinality of $X$
+
+In the infinite sets, it has more than 1 level of cardinality.
+**Definition (countable, uncountable)** A set $A$ is *countable* if $\mathbb{N} \sim A$, an infinite set that is not countable is called an *uncountable* set. (e.g: N, Z, Q are countable and R is uncountable)
 
 
 ## 3. Numbers
@@ -189,22 +199,31 @@ where $p_i$ are prime, $p_1 < p_2 ... < p_r$ and $e_i$ are positive integers.
 The reason to move from rational numbers to real numbers is when we encounter a sequence that looks as if it is converging to something, say $\sqrt{2}$, then we can be assured that there is indeed a number there we can call the limit.
 
 Technically, $\mathbf{R}$ can be obtained by completing $\mathbf{Q}$ with an additional axiom as follows.
+
 **Axiom (completeness)** Every nonempty set of real numbers that is bounded above has a least upper bound.
+
 The definition of upper bound and least upper bound is given by
 
-**Definition (upper bound)** A set $A \subseteq \mathbf{R}$ is bounded above if there exists a number $b \in \mathbf{R}$ such that $\forall{a \in A} a \leq b $. The number $b$ is called an upper bound of $A$.
+**Definition (upper bound)** A set $A \subseteq \mathbf{R}$ is bounded above if there exists a number $b \in \mathbf{R}$ such that $\forall{a \in A} a \leq b$. The number $b$ is called an upper bound of $A$.
 
 **Definition (least upper bound)** A real number $s$ is the least upper bound for a set $A \subseteq \mathbf{R}$, denoted by $s = \sup(A)$, if it meets the following two criteria:
+
 - $s$ is an upper bound for $A$ (upper bound condition)
 - if $b$ is any upper bound for $A$, then $s \leq b$ (least condition)
 
 $\sup$ is a more general concept of $\max$, while $\max(A)$ might not exist, $\sup(A)$ should always exists for bounded nonempty set $A$ because of the axiom of compeleteness. An important difference between sup and max is that $\sup(A)$ may or may not be an element of $A$, but $\max(A)$ is an element of $A$ if exists.
 
-#### 3.4.1. Equivalent Statements of Completeness
+**Lemma (N and R, Archimedian property)** Given any number $x \in \mathbb{R}$, there exists an $n \in \mathbb{N}$ satisfying $n > x$. Given any real number $y > 0$, there exists an $n \in \mathbb{N}$ satisfying $1/n < y$
+
+**Lemma (N and Q, density)** For every two real numbers $a,b$, there exists a rational number $r$ satisfying $a < r < b$.
+
+
+#### 3.4.1. Statements of Completeness
 There are several equivalent statements about completeness. One of them can derive all the others.
-**Theorem (Nested Interval Theorem)** Let $I_n = [a_n, b_n]$ be a sequence of closed intervals, and suppose that these intervals are nested in the sense that
-$$I_1 \supset I_2 \supset I_3... $$
+
+**Theorem (Nested Interval Theorem)** Let $I_n = [a_n, b_n]$ be a sequence of closed intervals, and suppose that these intervals are nested in the sense that $I_1 \supset I_2 \supset I_3... $
 and $b_n-a_n \to 0$ when $n \to \infty$, then the result interval has a nonempty intersection.
+
 $$\cap_{n=1}^{\infty} I_n \neq \emptyset$$
 
 **Theorem (Bolzano Weierstrass)** Every bounded sequence contains a convergent subsequence

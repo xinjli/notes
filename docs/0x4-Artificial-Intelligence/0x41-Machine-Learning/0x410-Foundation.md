@@ -48,7 +48,7 @@ $$R_{B} (\delta) = \int_{\Theta} R(\theta, \delta) \pi(\theta) d\theta$$
 
 The Bayes estimator or Bayes decision rule is one which minimizes the expected risk:
 
-$$\delta_{B} = \argmin_{\delta} (R_B(\delta))$$
+$$\delta_{B} = \text{argmin}_{\delta} (R_B(\delta))$$
 
 #### 1.1.2. Minimax Risk
 An alternative approach is to use minimax risk
@@ -59,7 +59,7 @@ $$R_{max}(\delta) = \max_{\theta} R(\theta, \delta)$$
 
 A minimax rule is one which minimizes the maximum risk
 
-$$\delta_{MM} = \argmin_{\delta} R_{max}(\delta)$$
+$$\delta_{MM} = \text{argmin}_{\delta} R_{max}(\delta)$$
 
 ### 1.2. Bayesian Decision Theory
 

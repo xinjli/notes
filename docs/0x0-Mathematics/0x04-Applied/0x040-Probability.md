@@ -164,6 +164,7 @@ $$\mathcal{Y} = \{ y | (\exists x \in \mathcal{X}) y = g(x) \}$$
 **Corollary (monotone transformation of cdf)** If $X$ have cdf $F_X(x)$, let $Y=g(X)$
 
 if $g$ is an increasing function, then
+
 $$F_Y(y) = F_X(g^{-1}(y))$$
 
 if $g$ is a decreasing function, then
@@ -336,6 +337,7 @@ $$ f_(y|x) = \frac{f(x,y)}{f_X(x)}$$
 Note that this is a valid probability with respect to $y$.
 
 Since $Y|x$ is a valid random variable, we can compute expectation of $g(Y)$
+
 **Definition (Conditional expectation)** The conditional expected value of $g(Y)$ given that $X=x$ is denoted by $E(g(Y)|x)$
 
 $$E(g(Y)|x) = \int g(y) f(y|x) dy$$
@@ -351,6 +353,7 @@ The conditional distribution of $Y$ given $X=x$ is possibly a different prob dis
 In some situations, the knowledge that $X=x$ does not give us any information about $Y$, this relationship is called independence.
 
 **Definition (independence)** Let $(X,Y)$ be a bivariate random vector with joint pdf or pmf $f(x,y)$ and marginal pdfs or pmfs $f_X(x), f_Y(y)$. Then $X,Y$ are called independent random variables if for every $x, y \in R$
+
 $$f(x, y) = f_X(x) f_Y(y)$$
 
 If they are independent
@@ -378,13 +381,14 @@ Additionally, let $g(x)$ be a function only of $x$ and $h(y)$ be a function only
 
 **Theorem** Let $X,Y$ be independent random variables. Let $g(X)$ be a function only of $x$ and $h(y)$ be a function only of $y$. Then the random variables $U,V$ are independent
 
-$$U=g(X)$$
-$$V=h(Y)$$
+$$U=g(X), V=h(Y)$$
 
 **Proposition (law of total probability)**
+
 $$P(A) = \int_{-\infty}^{\infty} P(A|X=x) f_X(x) dx$$
 
 **Proposition (two continuous random variables)**
+
 $$E[g(X,Y)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} g(x,y) f_{XY}(x,y) dx dy$$
 
 ### 3.3. Bivariate Transformation
@@ -465,7 +469,9 @@ $$ \text{Cov}(X,Y) = E[XY] - (EX)(EY)$$
 $$\rho_{XY} = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$$
 
 If we define $U,V$ as
+
 $$U = \frac{X - EX}{\rho_X}, V = \frac{Y-EY}{\rho_Y}$$
+
 then 
 
 $$\rho_{XY} = Cov(U,V)$$
@@ -482,9 +488,9 @@ $$\rho_{XY} = Cov(U,V)$$
 
 **Proposition (independence and covariance)** If $X,Y$ are independent random variables, then $\text{Cov}(X,Y) = 0$
 
-However, the opposite is not always true, i.e. covariance does not necessarily means independance.
+However, the opposite is not always true, i.e. covariance does not necessarily means independance. In some special cases, it is true though (see C&B Lemma 5.3.3)
 
-Covariance and correlation measure only a particular kind of *linear* relationship.
+Covariance and correlation measure only a particular kind of *linear* relationship. To measure the general independence relation, use mutual information instead. If $I(X; Y)==0$ then $X,Y$ are independent.
 
 !!! example "$(X,Y)$ has covariance 0 but dependent"
 
@@ -493,6 +499,7 @@ Covariance and correlation measure only a particular kind of *linear* relationsh
     It is clearly dependent but $Cov(X,Y) = 0$
 
 **Proposition (variance of a sum)**
+
 $$ Var(aX+bY) = a^2Var(X) + b^2Var(Y) + 2abCov(X,Y)$$
 
 If $X,Y$ are independent

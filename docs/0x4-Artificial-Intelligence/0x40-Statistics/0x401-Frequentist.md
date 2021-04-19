@@ -474,6 +474,8 @@ Like point estimation, hypothesis testing is another statistical inference metho
 
 **Definition (hypothesis)** A hypothesis is a statement about a population parameter. The complementary hypotheses are called **null hypothesis** and **alternative hypothesis**, denoted by $H_0, H_1$ respectively. The general form of hypothesis about $\theta$ is that $H_0 = \Theta_0$ and $H_1 = \Theta_0^c$
 
+If the hypothesis specify only one possible distribution (the parameter space has only one element, e.g; $\Theta = \{  0.5 \}$), then it is called a **simple hypothesis**, otherwise it is called **composite hypothesis**. It is often the case that the null hypothesis is chosen to be a simple hypothesis.
+
 **Definition (hypothesis test)** A hypothesis test is a rule that specifies
 
 - For which sample value the decision is made to accept $H_0$
@@ -561,9 +563,11 @@ For a fixed sample size, it is impossible to make both errors arbitrarily small,
     - in point estimation, we restrict estimators to a restricted class (unbiased estimator) and then minimize variance within that class
     - in hypothesis testing, we restrict test to a specfic level-$\alpha$ test and minimize the Type II error (find the most powerful test) within this class.
 
-**Definition (size $\alpha$ test, alpha $\alpha$ test)**. 
+**Definition (size $\alpha$ test, alpha $\alpha$ test)** 
 
-For $0 \leq \alpha \leq 1$, a test with power function $\beta(\theta)$ is called size $\alpha$ test if $sup_{\theta \in \Theta_0} \beta(\theta) = \alpha$. It is called level $\alpha$ test if $sup_{\theta \in \Theta_0} \beta(\theta) \leq \alpha$
+For $0 \leq \alpha \leq 1$, a test with power function $\beta(\theta)$ is called size $\alpha$ test if $sup_{\theta \in \Theta_0} \beta(\theta) = \alpha$. It is called level $\alpha$ test if $sup_{\theta \in \Theta_0} \beta(\theta) \leq \alpha$.
+
+$\alpha$ is called the **level of significance**
 
 The previous tests only yields test statistics and general form for rejection regions, but do not lead to one specific test. For example, LRT does not specify $c$. The restriction to size $\alpha$ may lead to the choice of $c$ out of the class of tests.
 
@@ -587,9 +591,21 @@ $$\alpha = P_{\theta_0}(X \in R)$$
 
 **Theorem (Karlin-Rubin)** Consider testing $H_0: \theta \leq \theta_0$ vs $H_1: \theta > \theta_0$. Suppose that $T$ is a sufficient statistic for $\theta$ and the family of pdfs $\{ g(t|\theta): \theta \in \Theta \}$ of $T$ has an MLR (monontone likelihood ratio) property.  Then for any $t_0$, the test that rejects $H_0$ iff $T > t_0$ is a UMP level $\alpha$ test, where $\alpha = P_{\theta_0}(T > t_0)$
 
+
+Instead of reporting "accept" or "reject", we can report a continuous value to indicate how close we are using p-value
+
+Intuitively, p-value is the lowest significance level $\alpha$ that results in rejecting the null hypothesis.
+
 **Definition (p-value)** A p-value $p(X)$ is a test statistics satisfying $0 \ leq p(x) \leq 1$ for every sample $x$, small values of $p(x)$ give evidence that $H_1$ is true. A p-value is valid iff for every $\theta \in \Theta_0, 0 \leq \alpha \leq 1$
 
 $$P_{\theta}(p(X) \leq \alpha) \leq \alpha$$
+
+The most common way to define a valid p-value is
+**Theorem (valid p-value related to test)** Let $W(X)$ be a test statistic such that large values of $W$ give evidence that $H_1$ is true. For each sample point $x$, define
+
+$$p(x) = \sup_{\theta \in \Theta_0} P_\theta (W(X) \geq W(x))$$
+
+Then, $p(X)$ is a valid p-value
 
 ## 5. Interval Estimation
 

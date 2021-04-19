@@ -18,10 +18,8 @@
     - [2.8. F distribution](#28-f-distribution)
     - [2.9. Gaussian Distribution](#29-gaussian-distribution)
         - [2.9.1. Relation with other distributions](#291-relation-with-other-distributions)
-        - [2.9.2. MLE Point Estimate](#292-mle-point-estimate)
-        - [2.9.3. Marginal and Conditional Probabilities](#293-marginal-and-conditional-probabilities)
-    - [Linear Gaussian System](#linear-gaussian-system)
-        - [2.9.4. Bayes Estimate](#294-bayes-estimate)
+        - [2.9.2. Marginal and Conditional Probabilities](#292-marginal-and-conditional-probabilities)
+    - [2.10. Linear Gaussian System](#210-linear-gaussian-system)
 - [3. Family Distributions](#3-family-distributions)
     - [3.1. Exponential Family](#31-exponential-family)
     - [3.2. Sub-Gaussian Family](#32-sub-gaussian-family)
@@ -248,7 +246,7 @@ $$\Gamma(\alpha) = \int_{0}^{\infty} t^{\alpha-1} e^{-t} dt$$
 
 The gamma function has the property of $\Gamma(\alpha+1) = \alpha \Gamma(\alpha)$ and $\Gamma(\frac{1}{2}) = \sqrt{\pi}$, it is sometimese called the factorial function.
 
-Note the support is the positive real numbers
+Note the support is the positive real numbers $[0, \infty)$
 
 **Distribution (gamma)** gamma $(\alpha, \beta)$ family is 
 
@@ -298,7 +296,7 @@ $$M_X(t) = (\frac{1}{1-2t})^{r/2}$$
 ### 2.7. T distribution
 In most practical cases, the variance $\sigma^2$ is unknown.  thus to get any idea of the variability of $\hat{X}$, we need to estimate this variance first.
 
-**Distribution (Student's t, Gosset)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu, sigma^2)$ distribution. The quantity $(\hat{X}-\mu)/(S/\sqrt{n})$ has Student's t distribution with $n-1$ degrees of freedom. It has pdf
+**Distribution (Student's t, Gosset)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu, \sigma^2)$ distribution. The quantity $(\hat{X}-\mu)/(S/\sqrt{n})$ has Student's t distribution with $n-1$ degrees of freedom. It has pdf
 
 $$f_T(t) = \frac{\Gamma((p+1)/2)}{\Gamma(p/2)} \frac{1}{(p\pi)^{1/2} (1+t^2/p)^{(p+1)/2}}$$
 
@@ -333,6 +331,22 @@ $$f_X(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\{{-\frac{(x-\mu)
 The moments generating function of normal distribution can be computed 
 
 $$M_X(t) = \exp\{ \mu t +  \sigma^2 t^2 /2 \}$$
+
+!!! info "68–95–99.7 rule"
+
+    It is worth remembering a couple of numbers related to standard normal distribution
+
+    ![distribution](../../img/Empirical_rule_histogram.svg)
+    
+!!! info "confidence interval"
+
+    The four commonly used confidence intervals for a normal distribution are:
+
+    - 68% of values fall within 1 standard deviation of the mean (-1s <= X <= 1s)
+    - 90% of values fall within 1.65 standard deviations of the mean (-1.65s <= X <= 1.65s)
+    - 95% of values fall within 1.96 standard deviations of the mean (-1.96s <= X <= 1.96s)
+    - 99% of values fall within 2.58 standard deviations of the mean (-2.58s <= X <= 2.58s)
+
 
 **Corollary (additivity)** Let $X_1, ..., X_n$ be independent random variables with $N(\mu_i, \sigma^2_i)$ distributions, let $Y=\sum_{i=1}^{n} a_i X_i$, then $Y$ has the distribution
 
@@ -383,20 +397,7 @@ This is a useful equality to derive, for example, higher order moments for norma
 #### 2.9.1. Relation with other distributions
 suppose $X, Y$ are independent normal random distribution $N(0,1)$, then $X/Y$ is a Cauchy random variable
 
-#### 2.9.2. MLE Point Estimate
-Maximum Likelihood Estimation on a dataset $(x_1, ..., x_n)$ is 
-
-$$\hat{\mu}_{ML} = \frac{1}{n} \sum_{i=1}^n x_n$$
-
-$$\hat{\Sigma}_{ML} = \frac{1}{n} \sum_{i=1}^n (x_n - \hat{\mu}_{ML})(x_n - \hat{\mu}_{ML})^T$$
-
-To prove the second line, we can apply the following derivative rules to the precision matrix
-$$\frac{\partial}{\partial A} \log |A| = A^-T$$
-$$tr(ABC)=tr(CAB)=tr(BCA)$$
-
-This MLE can be applied to, for example, Gaussian discriminant analysis where each class has a generative Gaussian distribution.
-
-#### 2.9.3. Marginal and Conditional Probabilities
+#### 2.9.2. Marginal and Conditional Probabilities
 Given a joint Gaussian distribution $N(x|\mu, \Sigma)$ with the precision matrix $\Lambda = \Sigma^{-1}$
 
 and $x = (x_a, x_b)$
@@ -425,7 +426,7 @@ It is also a Gaussian
 
 $$p(x_a) = N(x | \mu_a, \Sigma_{aa})$$
 
-### Linear Gaussian System
+### 2.10. Linear Gaussian System
 Suppose we have two random variables, $x, y$ whose distributions are given as
 
 $$p(x) = N(x | \mu_x, \Sigma_x)$$
@@ -444,32 +445,6 @@ where
 $$\Sigma_{x|y}^{-1}=\Sigma_x^{-1} + A^T \Sigma_y^{-1}A$$
 
 $$\mu_{x|y} = \Sigma_{x|y} [ A^T \Sigma_y^{-1} (y-b) + \Sigma_x^{-1}\mu_x]$$
-
-
-
-
-#### 2.9.4. Bayes Estimate
-Conjugate distribution of $\mu$ is normal distribution. Suppose the prior distribution of $\mu$ is $\mathcal{N}(\mu_0, \sigma^2_0)$, then the posterior distribution is
-
-$$p(\mu | x) = \mathcal{N}(\mu_N, \sigma^2_N)$$
-
-where
-
-$$\mu_N = \frac{\sigma^2}{N\sigma^2_0 + \sigma^2} \mu_0 + \frac{N \sigma^2_0}{N\sigma^2_0 + \sigma^2} \mu_{ML}$$
-
-$$\frac{1}{\sigma^2_N} = \frac{1}{\sigma^2_0} + \frac{N}{\sigma^2}$$
-
-Conjugate distribution of precision $\lambda$ is Gamma distribution. Suppose the prior distribution is Gamma distribution with $(a,b)$ hyperparameter, then posterior Gamma distribution is 
-
-$$a_N = a_0 + \frac{N}{2}$$
-
-$$b_N = b_0 + \frac{N}{2}\sigma^2_{ML}$$
-
-The multivariate version is the Wishart distribution
-
-Conjugate distribution of $\sigma$ is inverse-Gamma distribution
-
-Conjugate distribution of both mean and precision is called normal gamma distribution
 
 ## 3. Family Distributions
 ### 3.1. Exponential Family

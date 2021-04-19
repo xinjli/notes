@@ -28,7 +28,7 @@
 - [8. Reference](#8-reference)
 
 
-This section only treats matrix and finite dimension vector, general treatment of operators and infinite dimension vectors is covered in the 0x011 linear algebra.
+This section only treats matrix and finite dimension vector, general treatment of operators and infinite dimension vectors is covered in the 0x011 linear algebra. Numerical linear algebra goes to 0x311 Nuemrical.
 
 ## 1. Foundation
 ### 1.1. Subspace
@@ -38,7 +38,6 @@ This section only treats matrix and finite dimension vector, general treatment o
 - $C(A)$: column space of A
 - $N(A^T)$: null space of $A^T$
 - $C(A^T)$: row space of $A$
-
 
 
 The Big Picture of Linear Algebra Gilbert Strang
@@ -170,7 +169,24 @@ For example, it is sufficient to say the following formula is valid when any mat
 
 $$(I-A)^{-1} = I+A+A^2+A^3...$$
 
+**Definition (matrix norm)** The matrix norm is a function $$|| \cdot || \to \mathbf{R}$$ that must satisfy the following properties:
+
+- $||\alpha A|| = |\alpha| ||A||$
+- $||A+B|| \leq ||A|| + ||B||$
+- $||A|| \geq 0$
+
+In the case of square matrices, it has to satisfy the following property.
+
+$$||AB|| \leq ||A|| ||B||$$
+
+**Definition (induced matrix norm)** Given vector norms $|| \cdot ||_{(n)}$ and$|| \cdot ||_{(m)}$ on the domain and the range of $A$, the induced matrix norm $||A||_{(m,n)}$ is the maximum factor by which $A$ can stretch a vector $x$
+
+$$||A||_{(m,n)} = \sup_{x \neq 0} \frac{||Ax||_{(m)}}{||x||_{(n)}} = \sup_{||x||_{(n)=1}} ||Ax||_{(m)}$$
+
+In particular, we can consider following special induced norms:
+
 **Definition (spectral norm)** 
+
 $$||A||_2 = \max \frac{||Ax||}{||x||} = \sigma_1$$
 
 **Definition (Frobenius norm)** Frobenius norm is to think of matrix as a long vector and to take vector norm.
@@ -180,6 +196,7 @@ $$||A||_{F} = \sqrt{\sigma^2_1 + ... + \sigma^2_r}$$
 Proof $||A||_F = \sum_{i,j} (a_{i,j})^2 = tr(A^T A) = \sum_i \lambda_i = \sum_i \sigma_i^2$
 
 **Definition (nuclear norm)**
+
 $$||A||_{N} = \sigma_1 + \sigma_2 + ... + \sigma_r$$
 
 ## 2. Triangular Matrix
@@ -304,9 +321,21 @@ Note that each matrix can be row reduced into 1 form of echelon matrix, so this 
 
 ### 3.1. Eigenvalue and Eigenvector
 
+**Definition (eigenvalue, eigenvector)** An eigenvector of an $(n, n)$ matrix $A$ is a nonzero vector $x$ such that 
+
+$$Ax = \lambda x$$
+
+A scalar $\lambda$ is called an eigenvalue of $A$ and $x$ is called an eigenvector corresponding to $\lambda$
+
+When $\lambda$ is an eigenvalue, then the null space of $A - \lambda I$ is nontrivial and we have a name for it.
+
+**Definition (eigenspace)** The eigenspace of $A$ corresponding to $\lambda$ is all solutions of
+
+$$(A - \lambda I)x = 0$$
+
 **Definition (spectrum)** The spectrum of $A \in M_n$ is the set of all $\lambda \in C$ that are eigenvalues of $A$; denoted by $\sigma(A)$
 
-A diagonal matrix can be represented in the following form
+A diagonalizable matrix can be represented in the following form
 
 $$AX = X \Lambda$$
 
@@ -332,7 +361,7 @@ $$AX^{-1} v = (c_1 \lambda_1, ..., c_n \lambda_n)$$
 
 Then using the original basis to represent the vector by multiplying $X$
 
-$$XAX^{-1} v = (c_1 \lambda_1 x_1, ..., c_n \lambda_n x_n)$
+$$XAX^{-1} v = (c_1 \lambda_1 x_1, ..., c_n \lambda_n x_n)$$
 
 With this decomposition, we can compute $A^k$ efficiently by 
 

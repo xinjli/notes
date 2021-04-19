@@ -13,17 +13,30 @@ The gradient $\nabla T$ points in the direction of maximum increase of the funct
 **Definition (divergence)** Divergence acting on a vector field to produce scalar field.
 $$\nabla \cdot \mathbf{v} = \frac{\partial{v_x}}{\partial x} + \frac{\partial{v_y}}{\partial y} + \frac{\partial{v_z}}{\partial z}$$
 
-Divergence is a measure of how much the vector $v$ spreads out from each point (therefore a scalar field)
+Divergence is a measure of how much the vector $v$ spreads out from each point (therefore a scalar field). In fluid dynamics, if there is no loss of fluid anywhere, then $\nabla \cdot \mathbf{b} = 0$. This is called the **continuity equation** for an **incompressible fluid**. It is said to have no sources or sinks. A vector field whose divergence is zero is sometimes called **solenoidal**.
+
+**Lemma (properties of divergence)**  Divergence is a linear operator
+
+$$\nabla \cdot (a\mathbf{f} + b\mathbf{g}) = a(\nabla \cdot \mathbf{f}) + b(\nabla \cdot \mathbf{g})$$
+
+Product rule
+
+$$\nabla \cdot (\phi \mathbf{A}) = (\nabla \phi) \cdot \mathbf{A} + \phi (\nabla \cdot \mathbf{A})$$
 
 **Definion (curl)** curl acting on a vector field to produce another vector field.
 
 $$\nabla \times \mathbf{v} = (\frac{\partial v_z}{\partial y} - \frac{\partial v_y}{\partial z}) \mathbf{x} + (\frac{\partial v_x}{\partial z} - \frac{\partial v_z}{\partial x}) \mathbf{y} + (\frac{\partial v_y}{\partial x} - \frac{\partial v_x}{\partial y}) \mathbf{z}$$
 
-curl is a measure of how much the vector $v$ swirls around the point in question.
+curl is a measure of how much the vector $v$ swirls around the point in question. A vector field wihtout rotation (i.e.: $\nabla \times \mathbf{v}=0$) is called **irrotational**, a field that is not irrotational is sometimes called a **vortex field**.
 
-**Properties**
+Furthermore, if the vector field is irrotational $\nabla \times \mathbf{v} = 0$, then it is a conservative vector field, which means there exists a scalar field $\phi$ such that
 
-- $\nabla \cdot (\phi \mathbf{A}) = (\nabla \phi) \cdot \mathbf{A} + \phi (\nabla \cdot \mathbf{A})$
+$$\mathbf{v} = \nabla \phi$$
+
+In conservative vector field, the line integral is path independent.
+
+**Lemma (properties of curl)**
+
 - $\nabla \times (\phi \mathbf{A}) = (\nabla \phi) \times \mathbf{A} + \phi (\nabla \times \mathbf{A})$
 - $\nabla \cdot (\mathbf{A} \times \mathbf{B}) = \mathbf{B} \cdot (\nabla \times \mathbf{A}) - \mathbf{A} \cdot (\nabla \times \mathbf{B})$
 - $\nabla \times (A \times B) = (B \cdot \nabla) A - B(\nabla \cdot A) - (A \cdot \nabla)B + A(\nabla \cdot B)$

@@ -1,4 +1,4 @@
-# 0x002 Sequence and Series
+# 0x002 Sequence
 
 - [1. Sequence](#1-sequence)
     - [1.1. Sequence](#11-sequence)
@@ -73,7 +73,7 @@ $$ (a_n \leq b_n \leq c_n) \land (L = \lim a_n = \lim c_n) \Longrightarrow \lim 
 $$y_n = \frac{1}{\sum_{i=i}^{n} x_i}$$
 
 #### 1.1.3. Subsequences
-**Definition (subsequence)** $(b_n)$ iis a subsequence of $(a_n)$ iff there exists a function $f: \mathbb{N} \to \mathbb{N}$ that is strictly increasing such that $b_n = a_{f(n)}$
+**Definition (subsequence)** $(b_n)$ is a subsequence of $(a_n)$ iff there exists a function $f: \mathbb{N} \to \mathbb{N}$ that is strictly increasing such that $b_n = a_{f(n)}$
 
 **Propositions (limits of subsequences)** Following statements are equivalent
 - sequence $(a_n)$ converges to $L$

@@ -3,10 +3,10 @@
 - [2. Integer](#2-integer)
   - [2.1. Multiplication](#21-multiplication)
   - [2.2. Division](#22-division)
-  - [Module](#module)
-  - [2.3. Primality Test](#23-primality-test)
-  - [2.4. Factorization](#24-factorization)
-  - [2.5. Pseudorandom Number Generator (PRNG)](#25-pseudorandom-number-generator-prng)
+  - [2.3. Module](#23-module)
+  - [2.4. Primality Test](#24-primality-test)
+  - [2.5. Factorization](#25-factorization)
+  - [2.6. Pseudorandom Number Generator (PRNG)](#26-pseudorandom-number-generator-prng)
 - [3. Float](#3-float)
   - [3.1. Random Variable Generation](#31-random-variable-generation)
 - [4. Reference](#4-reference)
@@ -118,7 +118,7 @@ int extgcd(int a, int b, int&x, int& y) {
 ```
 
 
-### Module
+### 2.3. Module
 **Theorem (Chinese remainder theorem)** Let $n=n_1 n_2 ... n_k$ where $n_i$ are pairwise relatively prime. Consider the correspondence
 
 $$a \Leftrightarrow (a_1, a_2, ..., a_k)$$
@@ -130,7 +130,7 @@ $$(\forall i \leq k) a_i = a \mod n_i$$
 Then this mapping is 1-to-1 correspondence between $Z_n$ and $Z_{n_1} \times Z_{n_2} \times ... \times Z_{n_k}$
 
 
-### 2.3. Primality Test
+### 2.4. Primality Test
 **Problem (primality)** Check whether a give integer is prime or not
 The most simple algorithm to check $n$'s primality is check all numbers up to $\sqrt{n}$.
 
@@ -153,7 +153,7 @@ The prob to fail to detect composite with $k$ is around $(1/4)^k$
 
 **Algorithm (AKS primality test)** deterministic (PRIMES is in P)
 
-### 2.4. Factorization
+### 2.5. Factorization
 Factorization problem is much more difficult than the primality test, which guarantees the safety of many cryptography schemes.
 
 **Algorithm(Pollard's rho)** randomly generate $x,y$ based on cycle-detection algorithm, then check $gcd(x-y, n)$ until cycle detected.
@@ -171,7 +171,7 @@ Its expected running time is proportional to the square root of the size of the 
 
 **Algorithm(Number Field Sieve)** I do not understand..
 
-### 2.5. Pseudorandom Number Generator (PRNG)
+### 2.6. Pseudorandom Number Generator (PRNG)
 
 **Algorithm (Linear Congruence Generator)** One of the oldest and best-known algorithm, many libraries (e.g: glibc) uses this to generate number.
 

@@ -1,6 +1,6 @@
-# 1. 0x360 Physical and Link
+# 0x360 Physical and Link
 
-- [1. Physical Media](#1-physical-media)
+- [1. Network Elements](#1-network-elements)
     - [1.1. Guided Media](#11-guided-media)
         - [1.1.1. Twisted-Pair Copper Wire](#111-twisted-pair-copper-wire)
             - [1.1.1.1. Dial-Up](#1111-dial-up)
@@ -13,7 +13,10 @@
         - [1.2.3. Radiowave](#123-radiowave)
             - [1.2.3.1. Terrestrial Radio Channels](#1231-terrestrial-radio-channels)
             - [1.2.3.2. Satellite Radio Channels](#1232-satellite-radio-channels)
-- [2. Physical Protocol](#2-physical-protocol)
+    - [Switching](#switching)
+        - [Circuit-Switch](#circuit-switch)
+        - [Packet-Switch](#packet-switch)
+- [2. Physical Protocol (1)](#2-physical-protocol-1)
     - [2.1. Ethernet (IEEE 802.3)](#21-ethernet-ieee-8023)
     - [2.2. Wireless LAN (IEEE 802.11)](#22-wireless-lan-ieee-80211)
 - [3. Data Link Layer (2)](#3-data-link-layer-2)
@@ -26,7 +29,7 @@
     - [3.4. Hardware](#34-hardware)
 - [4. Reference](#4-reference)
 
-## 1. Physical Media
+## 1. Network Elements
 
 ### 1.1. Guided Media
 Guided media means the wave are guided along a solid medium.
@@ -47,12 +50,13 @@ Traditionally, most of the Internet users connect Internet over ordinary analog 
 Usually ADSL (Asymmetric Digital Subscriber Line), with which download speed is much faster than the upload speed. For business, there is the SDSL (symmetric) version.
 
 DSL uses different frequencies to encode phone call and network access. For example, one configuration can be as follows:
+
 - phone: 0 ~ 4kHz
 - upload: 4kHz - 50kHz
 - download 50kHz - 1MHz
 
 #### 1.1.2. Coaxial Cable
-Coaxial Cable is quite common in cable television systems, so the ISP is uslaly the television company. The disadvantage is the cable is shared by neighborhood, therefore requires some protocols to coordinate transmissions and avoid collisions. (e.g: CSMA/CD)
+Coaxial Cable is quite common in cable television systems, so the ISP is usually the television company. The disadvantage is the cable is shared by neighborhood, therefore requires some protocols to coordinate transmissions and avoid collisions. (e.g: CSMA/CD)
 
 #### 1.1.3. Fiber
 
@@ -94,7 +98,24 @@ Two types aof satellite are used
 
 Note GPS is around 20,000km, ISS is around 400 km
 
-## 2. Physical Protocol
+### Switching
+There are two fundamental approaches to moving data through a network of links and switches: circuit switch and packet switch.
+
+Telephone network is an example of circuit-switched networks and Internet is a packet-switched network.
+
+#### Circuit-Switch
+
+**circuit switching**: resources along a path (e.g: buffer, link transmission rate) are reserved for the duration. the connection is called a *circuit*. delivery is guaranteed
+
+The circuit in a link is implemented with either frequency-division multiplexing (FDM) or time-division multiplexing (TDM)
+
+
+#### Packet-Switch
+
+**packet switching**: resources are not reserved. it use the resources on demand. delivery is not guaranteed (it only makes best effort)
+
+
+## 2. Physical Protocol (1)
 
 ### 2.1. Ethernet (IEEE 802.3)
 
