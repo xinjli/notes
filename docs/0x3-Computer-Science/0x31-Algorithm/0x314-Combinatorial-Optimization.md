@@ -1,4 +1,4 @@
-# 0x314 Combinatorial Algorithms
+# 0x314 Combinatorial Optimization
 
 - [1. Tree](#1-tree)
     - [1.1. Tree Property Problem](#11-tree-property-problem)

@@ -296,7 +296,7 @@ $$M_X(t) = (\frac{1}{1-2t})^{r/2}$$
 ### 2.7. T distribution
 In most practical cases, the variance $\sigma^2$ is unknown.  thus to get any idea of the variability of $\hat{X}$, we need to estimate this variance first.
 
-**Distribution (Student's t, Gosset)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu, \sigma^2)$ distribution. The quantity $(\hat{X}-\mu)/(S/\sqrt{n})$ has Student's t distribution with $n-1$ degrees of freedom. It has pdf
+**Distribution (Student's t, Gosset)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu, \sigma^2)$ distribution. The quantity $(\bar{X}-\mu)/(S/\sqrt{n})$ has Student's t distribution with $n-1$ degrees of freedom. It has pdf
 
 $$f_T(t) = \frac{\Gamma((p+1)/2)}{\Gamma(p/2)} \frac{1}{(p\pi)^{1/2} (1+t^2/p)^{(p+1)/2}}$$
 
@@ -311,7 +311,11 @@ Student's t has no mgf because it does not have moments of all orders. If there 
 t distribution has an important property robustness, which means it is much less sensitive to the outlines than Gaussian distributions
 
 ### 2.8. F distribution
-**Distribution (Snedecor's F, Fisher)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu_X, \sigma^2_X)$  population and $Y_1, ..., Y_m$ from $n(\mu_Y, \sigma^2_Y)$ population. The random variable $F = (S_X^2/\sigma^2_X)/(S_Y^2/\sigma^2_Y)$ has a Snedecor's F distribution with $n-1, m-1$ degrees of freedom.
+**Distribution (Snedecor's F, Fisher)** Let $X_1, ..., X_n$ be a random sample from a $n(\mu_X, \sigma^2_X)$  population and $Y_1, ..., Y_m$ from $n(\mu_Y, \sigma^2_Y)$ population. The random variable 
+
+$$F = (S_X^2/\sigma^2_X)/(S_Y^2/\sigma^2_Y)$$
+
+ has a Snedecor's F distribution with $n-1, m-1$ degrees of freedom.
 
 $$EX = \frac{m-1}{m-3}$$
 

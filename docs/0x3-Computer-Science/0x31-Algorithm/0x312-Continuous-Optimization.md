@@ -9,6 +9,24 @@
 - [7. Reference](#7-reference)
 
 ## 1. Linear Programming
+The general form of linear programming can be written as
+
+$$\text{minimize } c^Tx \text{  subject to }Ax \geq b$$
+
+Any instance of this general form can be written as the standard form, both forms are equivalent
+
+**Definition (standard form)** The standard form of linear programming is
+
+$$\text{minimize } c^Tx \text{ subject to } Ax = b, x \geq 0$$
+
+The reduction can be done in two steps:
+
+- for any unrestricted variable $x$ in the genral form, we place it with $x_{+}, x_{-} \geq 0$ and $x = x_{+} - x_{-}$
+- for any inequality constraint $ax \leq b$, we introduce a new *slack variable* $s \geq 0$ and write it as $ax + s = 0$
+
+
+
+
 
 ## 2. Convex Optimization
 A fundamental property of convex optimization problems is that any local optimal point is also global optimal

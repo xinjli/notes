@@ -5,7 +5,9 @@
         - [1.1.1. Bayes Risk](#111-bayes-risk)
         - [1.1.2. Minimax Risk](#112-minimax-risk)
     - [1.2. Bayesian Decision Theory](#12-bayesian-decision-theory)
-- [2. Information Theory](#2-information-theory)
+- [2. Learning Theory](#2-learning-theory)
+    - [2.1. PAC](#21-pac)
+- [3. Information Theory](#3-information-theory)
 - [4. Reference](#4-reference)
 
 
@@ -64,7 +66,47 @@ $$\delta_{MM} = \text{argmin}_{\delta} R_{max}(\delta)$$
 ### 1.2. Bayesian Decision Theory
 
 
-## 2. Information Theory
+## 2. Learning Theory
+
+### 2.1. PAC
+
+In the case of zero training errors, we can bound the true error as follows:
+
+**Theorem (PAC, Haussler)** Suppose a model class has size $H$, dataset has $m$ iid samples, $0 < \epsilon < 1$, for any learned classifier that get 0 training error, the true error is bounded by
+
+$$P(error_{true} > \epsilon) \leq |H| e^{-m\epsilon}$$
+
+PAC bound holds for all $h$ with 0 training error, but does not guarantee the algorithm find the best $h$
+
+By flipping the formula, we know the following relations:
+
+Given $\epsilon, \delta$, yields sample complexity
+
+$$m \geq \frac{\log{|H|} + \log{(1/\delta)}}{\epsilon}$$
+
+Given $m, \delta$ yields error bound
+
+$$\epsilon \geq \frac{\log{|H|} + \log{(1/\delta)}}{m}$$
+
+
+In the case of non-zero training errors, we can use training error $\hat{\theta}$ to estimate the true error $\theta$. For example, we can use the Hoeffding's bound.
+
+$$P(|\theta - \frac{1}{m}\sum_i x_i| \geq \epsilon) \leq 2e^{-2m\epsilon^2}$$
+
+For a single classifier $h$
+
+$$P(|error_{true}(h) - error_{train}(h)| \geq \epsilon) = \leq 2e^{-2m\epsilon^2}$$
+
+**Theorem (PAC)** For any learned classifier $h \in H$:
+
+$$P(|error_{true}(h) - error_{train}(h)| \geq \epsilon) \leq 2|H|e^{-2m\epsilon^2} \leq \delta$$
+
+With probability $1-\delta$,
+
+$$|error_{true}(h) - error_{train}(h)| \leq \epsilon = \sqrt{\frac{\log{|H|} + \log{2/\delta} }{2m}}$$
+
+
+## 3. Information Theory
 Information Theory is concerned with representing data in a compact fashion, the most important concepts are summarized here
 
 **Definition (entropy)** The entropy of a discrete random variable $X$ with distribution $p$ is

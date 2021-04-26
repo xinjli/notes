@@ -8,8 +8,8 @@
     - [1.5. Submatrices](#15-submatrices)
     - [1.6. Norm](#16-norm)
 - [2. Triangular Matrix](#2-triangular-matrix)
-    - [2.1. Linear System](#21-linear-system)
-    - [2.2. Row Reduction](#22-row-reduction)
+    - [2.1. Row Reduction](#21-row-reduction)
+    - [2.2. Linear System](#22-linear-system)
 - [3. Diagonal matrix](#3-diagonal-matrix)
     - [3.1. Eigenvalue and Eigenvector](#31-eigenvalue-and-eigenvector)
     - [3.2. Similarity](#32-similarity)
@@ -156,6 +156,7 @@ $$\begin{pmatrix} M & -MBD^{-1} \\ -D^{-1}CM & D^{-1} + D^{-1}CMBD^{-1} \\ \end{
 Derivation of this formula is to apply Gaussian elimination, details can be found in this [lecture note](https://www.cis.upenn.edu/~jean/schur-comp.pdf) or MLAPP 4.3.4.1
 
 This can be applied to give the matrix inversion, it might reduce the complexity
+
 **Corollary (Sherman-Morrison-Woodbury)** 
 
 $$(A - BD^{-1}C)^{-1} = A^{-1} + A^{-1}B(D-CA^{-1}B)^{-1}CA^{-1}$$
@@ -201,55 +202,14 @@ $$||A||_{N} = \sigma_1 + \sigma_2 + ... + \sigma_r$$
 
 ## 2. Triangular Matrix
 
-### 2.1. Linear System
+### 2.1. Row Reduction
 
-This subsection is about solving linear equation
+**Definition (row equivalence)** Two matrices $A,B$ of the same shape are said to be *row equivalent* 
 
-$$Ax = b$$
+$$A \sim B$$
 
-where we reduce $A$ into echelon form through a series of row operations.
 
-Note that if $b=0$, this system is called *homogeneous*
-
-**Definition (consistency)** A linear (or nonlinear system of equations) is called *consistent* if it has at least 1 solution (it might have infinitely many solutions)
-
-**Definition (overdetermined system)** A system of equations is called overdetermined if it has more equations than unknowns. It can be either consistent or inconsistent (though usually inconsistent)
-
-!!! example "consistent case of overdetermined systems"
-
-    The following overdetermined equation is a consistent example.
-
-    $$x + y = 1 \\
-    2x + 2y = 2 \\
-    x + 2y = 2 $$
-
-**Definition (exact determined system)** A system of equations is called *exact-determined* if the number of unknowns is equal to the number of equations. It also can be consistent or inconsistent.
-
-**Definition (underdetermined system)** A system of equations is called underdetermined if it has more unknowns than equations. Again, it can be consistent or inconsistent (though usually consistent)
-
-!!! example "inconsistent case of underdetermined systems"
-
-    The following underdetermined equation is an inconsistent example
-
-    $$ x + y + z = 1 \\
-    2x + 2y + 2z = 3 $$
-
-**Criterion (consistency)** The following three are equivalent iff criterion of consistency.
-
-- $b$ is in the column space of $A$.
-- $A$'s rank is equal to the rank of augmented matrix $[A,b]$.
-- the right most column of the augmented matrix is not a pivot column (e.g: echelon form of the augmented matrix has no row of the form $[0, ..., 0, b]$ with $b$ nonzero)
-
-Note the 3rd statement basically says if there is such a row, then appending $b$ will result in 1 more rank.
-
-**Algorithm (size of solution set)** To decide how many solutions we have, we should
-
-- first, apply the previous consistency condition to check whether it is feasible
-- if feasible, then check the null space of the matrix (or its rank), the dimension of solutions set is the dimension of null space.
-
-### 2.2. Row Reduction
-
-**Definition (row equivalence)** Two matrices $A,B$ of the same shape are said to be row equivalent if they share the the same row space or null space
+iff they share the the same row space or null space
 
 $$N(A) = N(B)$$
 
@@ -303,6 +263,10 @@ Note that each matrix may be row reduced into more than one echelon forms.
 
 Note that each matrix can be row reduced into 1 form of echelon matrix, so this is the canonical form with respect to row equivalence.
 
+With the reduced echelon form, we can define pivot
+**Definition (pivot)** A *pivot position* in a matrix $A$ is a location in $A$ that corresponds to a leading 1 in the reduced echelon form of $A$. A *pivot column* is a column of $A$ that contains a pivot position.
+
+
 **Collorary (algebra of triangular matrix)** Triangular matrix is preserved under many operations. For example,
 - sum of upper triangular is upper triangular
 - product of upper triangular is upper triangular
@@ -314,7 +278,56 @@ Note that each matrix can be row reduced into 1 form of echelon matrix, so this 
 
     LU decomposition is useful to solve $Ax = b$, expecially for a fixed A and a sequence of different $b$, by decomposing $A = LU$, we can solve $L(Ux) = b$ by solving the following two equation efficiently
 
-    $$Ly = b \\ Ux = y$$
+    $$Ly = b$$ 
+    $$Ux = y$$
+
+
+### 2.2. Linear System
+
+This subsection is about solving linear equation
+
+$$Ax = b$$
+
+where we reduce $A$ into echelon form through a series of row operations.
+
+Note that if $b=0$, this system is called *homogeneous*
+
+**Definition (consistency)** A linear (or nonlinear system of equations) is called *consistent* if it has at least 1 solution (it might have infinitely many solutions); otherwise it is called *inconsistent*
+
+**Definition (overdetermined system)** A system of equations is called overdetermined if it has more equations than unknowns. It can be either consistent or inconsistent (though usually inconsistent)
+
+!!! example "consistent case of overdetermined systems"
+
+    The following overdetermined equation is a consistent example.
+
+    $$x + y = 1$$
+    $$2x + 2y = 2$$
+    $$x + 2y = 2 $$
+
+**Definition (exact determined system)** A system of equations is called *exact-determined* if the number of unknowns is equal to the number of equations. It also can be consistent or inconsistent.
+
+**Definition (underdetermined system)** A system of equations is called underdetermined if it has more unknowns than equations. Again, it can be consistent or inconsistent (though usually consistent)
+
+!!! example "inconsistent case of underdetermined systems"
+
+    The following underdetermined equation is an inconsistent example
+
+    $$ x + y + z = 1$$
+    $$2x + 2y + 2z = 3$$
+
+**Criterion (consistency)** The following three are equivalent iff criterion of consistency.
+
+- $b$ is in the column space of $A$.
+- $A$'s rank is equal to the rank of augmented matrix $[A,b]$.
+- the right most column of the augmented matrix is not a pivot column (e.g: echelon form of the augmented matrix has no row of the form $[0, ..., 0, b]$ with $b$ nonzero)
+
+Note the 3rd statement basically says if there is such a row, then appending $b$ will result in 1 more rank.
+
+**Algorithm (size of solution set)** To decide how many solutions we have, we should
+
+- first, apply the previous consistency condition to check whether it is feasible
+- if feasible, then check the null space of the matrix (or its rank), the dimension of solutions set is the dimension of null space.
+
 
 
 ## 3. Diagonal matrix

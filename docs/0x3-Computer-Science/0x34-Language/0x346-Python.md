@@ -5,6 +5,7 @@
         - [1.1.1. PyObject](#111-pyobject)
         - [1.1.2. int (PyLongObject)](#112-int-pylongobject)
     - [1.2. Sequence](#12-sequence)
+- [Functions](#functions)
 - [2. Classes and Protocols](#2-classes-and-protocols)
     - [2.1. Iterable, Iterator and Generator](#21-iterable-iterator-and-generator)
 - [CPython Interpreter Internal](#cpython-interpreter-internal)
@@ -62,6 +63,19 @@ There are some optimizations for small integers (-5 ~ 256) where python allocate
 There are two types of sequences from the standard library
 - **container sequences**:  contains the reference (e.g: list, tuple, collections.deque)
 - **flat sequences**:  contains the value directly (e.g: str, bytes, bytearray, memoryview, array.array)
+
+
+## Functions
+Functions in python are first-class objects, which means they can be
+
+- created at runtime
+- assigned to a variable
+- passed as an arg to a function
+- return as the result from a function
+
+
+Btw, Guido van Rossum did not view python as a functional programming.
+
 
 
 

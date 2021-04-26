@@ -2,6 +2,7 @@
 
 - [1. Topological Space](#1-topological-space)
 - [2. Metric Space](#2-metric-space)
+    - [Limit Points](#limit-points)
 - [3. Connectedness](#3-connectedness)
 - [4. Compactness](#4-compactness)
 - [5. Reference](#5-reference)
@@ -12,7 +13,8 @@
 - $X \in \mathcal{T}, \emptyset \in \mathcal{T}$
 - union of any number of sets of $\mathcal{T}$ belongs to $\mathcal{T}$
 - interaction of any two sets of $\mathcal{T}$ belongs to $\mathcal{T}$
-- The pair $(X, \mathcal{T})$ are called topological space
+
+The pair $(X, \mathcal{T})$ are called topological space
 
 !!! example "discrete, indiscrete topology"
 
@@ -38,7 +40,7 @@ $$B_{(X,d)} (x_0, r) := \{ x \in X: d(x, x_0) \in r \}$$
 
 !!! example "$l^{\infty}$ metric"
 
-    $$d_{l^{\infty}}((x_1, x_2, ..., x_n), (y_1, y_2, ..., y_n)) := sup\{ |x_i - y_i|: 1 \leq i \leq n \}$$
+    $$d_{l^{\infty}}((x_1, x_2, ..., x_n), (y_1, y_2, ..., y_n)) := \sup\{ |x_i - y_i|: 1 \leq i \leq n \}$$
 
 !!! example "discrete metric"
 
@@ -50,6 +52,12 @@ $$B_{(X,d)} (x_0, r) := \{ x \in X: d(x, x_0) \in r \}$$
 - $(x^{(k)})_{k=m}^{\infty}$ converges to $x$ with respect to $l^2$
 - $(x^{(k)})_{k=m}^{\infty}$ converges to $x$ with respect to $l^{\infty}$
 for all $1 \leq j \leq n$, the sequence $(x_j^{(k)})_{k=m}^{\infty}$ converges to $x_j$
+
+### Limit Points
+The relation between points are roughly
+
+![relation](../../img/point.png)
+
 
 Note the following limit point is a limit point over a set, the limit point over a sequence is another concept.
 
@@ -68,11 +76,14 @@ $x_0$ is a boundary point if it is neither an interior or exterior
 
 $$(\forall r > 0) B(x_0, r) \cap E \neq \emptyset$$
 
-Note: adherent point does not equal to limit point as it allows isolated point, but limit point need a sequence (different from itself) to approach it
+Note that adherent point does not equal to limit point as it allows isolated point, but limit point need a sequence (different from itself) to approach it
+
+Adherent point is either limit point or isolated point
 
 **Definition (closure)** The set of all adherent point of $E$ is called the closure of $E$ and is denoted $\bar{E}$
 
-**Definition (open, closed)** 
+**Definition (open, closed)**
+
 - $E$ is closed if it contains all of its boundary points (it contains its limit points.)
 - $E$ is open if it contains none of its boundary points
 
@@ -84,16 +95,15 @@ Note that an isolated point must belong to $A$. Isolation means that there is a 
 Closed set essentially means the set is closed under limit operations
 
 **Lemma (properties of closed set)**
+
 - finite union of closed set is closed
 - any intersection of closed set is closed (up to uncountable intersection)
 - Infinite union of closed set might not be closed (e.g: $\cup_{n} [1/n, 1]$ is not closed as 0 does not belong to it)
 
-**Examples (closed set)**
-- cantor set
 
-**Definition (adherent point, closure point)** $x$ is called an adherent point of $A$ if every neighborhood of $x$ contains at least one point of $A$.
+!!! example "Cantor set"
 
-Adherent point is either limit point or isolated point
+    Cantor set is closed
 
 **Definition (closure)** A closure of $A$ is a set $\bar{A}$ combining all limit points $L$ with $A$
 
@@ -105,7 +115,7 @@ Theorem $O$ is open $\iff$ $O^c$ is closed
 
 **Definition (perfect)** A set $P \subset R$ is perfect if it is closed and contains no isolated points
 
-A nonempty perfect set is uncountable
+**Proposition** A nonempty perfect set is uncountable
 
 ## 3. Connectedness
 **Definition (connected space)** Let $X$ be a topological space, A separation of $X$ is a pair $U,V$ of disjoint open subsets of $X$ whose union is $X$. The space is said to be connected if there is no separation of $X$.

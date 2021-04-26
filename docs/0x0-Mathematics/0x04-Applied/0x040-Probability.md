@@ -216,7 +216,7 @@ $$ E(g(X)) = \int g(x) f_X(x) dx$$
 ### 2.3. Moments
 Moments reflects characteristics of distributions, however, the set of infinite moments is not enough to character the distribution. Two distinct random variables might have same moments set. To characterize distribution, both random variables have to have bounded support.
 
-**Definition (moment, central moment)** For each integer $n$, the $n$-th moment of $X$, $mu_n$ is 
+**Definition (moment, central moment)** For each integer $n$, the $n$-th moment of $X$, $\mu_n$ is 
 
 $$\mu^{'}_n = EX^n$$
 
@@ -271,6 +271,7 @@ $$M_X(t) = \int_{-\infty}^{\infty} e^{tx} f_X(x) dx$$
 **Lemma (algebra over mgf)**
 
 $$M_{aX+b} = e^{bt} M_X(at)$$
+
 $$M_{X+Y} = M_X(t)M_Y(t)$$
 
 The moment generation function is called as it is because it can be used to generate moments by differentiation.

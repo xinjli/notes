@@ -7,12 +7,6 @@
         - [2.1.2. Images and Inverse Images](#212-images-and-inverse-images)
         - [2.1.3. Cartesian Products](#213-cartesian-products)
     - [2.2. Cardinality](#22-cardinality)
-- [3. Numbers](#3-numbers)
-    - [3.1. N](#31-n)
-    - [3.2. Z](#32-z)
-    - [3.3. Q](#33-q)
-    - [3.4. R](#34-r)
-        - [3.4.1. Statements of Completeness](#341-statements-of-completeness)
 - [4. Reference](#4-reference)
 
 This first note sets up the formal notations of sets, logic and number systems used in all notes.
@@ -175,62 +169,13 @@ The notion of having equal cardinality is an equivalence relation (i.e: reflecti
 **Definition (finite, infinite)** A set is infinite iff it has cardinality $n$ for some natural number $n$; otherwise, the set is called infinite. If $X$ is a finite set, we use $\#(X)$ to denote the cardinality of $X$
 
 In the infinite sets, it has more than 1 level of cardinality.
+
 **Definition (countable, uncountable)** A set $A$ is *countable* if $\mathbb{N} \sim A$, an infinite set that is not countable is called an *uncountable* set. (e.g: N, Z, Q are countable and R is uncountable)
 
+!!! example "Cantor's Diagonalization"
 
-## 3. Numbers
-### 3.1. N ###
+    The open interval $(0,1)$ is uncountable. This can be shown by expanding each real number into a decimal representation.
 
-### 3.2. Z ###
-**Theorem (Division theorem)** For any integer $a$ and any positive integer $n$, there exist unique integers $q, r$ such that $0 \leq r < n$ and
-
-$$a = qn + r$$
-
-**Theorem (Unique factorization)** There is exactly one way to write any composite integer $a$ as a product of the form
-
-$$a = p_1^{e_1} p_2^{e_2} ... p_r^{e_r}$$
-
-where $p_i$ are prime, $p_1 < p_2 ... < p_r$ and $e_i$ are positive integers.
-
-### 3.3. Q ###
-
-### 3.4. R ###
-
-The reason to move from rational numbers to real numbers is when we encounter a sequence that looks as if it is converging to something, say $\sqrt{2}$, then we can be assured that there is indeed a number there we can call the limit.
-
-Technically, $\mathbf{R}$ can be obtained by completing $\mathbf{Q}$ with an additional axiom as follows.
-
-**Axiom (completeness)** Every nonempty set of real numbers that is bounded above has a least upper bound.
-
-The definition of upper bound and least upper bound is given by
-
-**Definition (upper bound)** A set $A \subseteq \mathbf{R}$ is bounded above if there exists a number $b \in \mathbf{R}$ such that $\forall{a \in A} a \leq b$. The number $b$ is called an upper bound of $A$.
-
-**Definition (least upper bound)** A real number $s$ is the least upper bound for a set $A \subseteq \mathbf{R}$, denoted by $s = \sup(A)$, if it meets the following two criteria:
-
-- $s$ is an upper bound for $A$ (upper bound condition)
-- if $b$ is any upper bound for $A$, then $s \leq b$ (least condition)
-
-$\sup$ is a more general concept of $\max$, while $\max(A)$ might not exist, $\sup(A)$ should always exists for bounded nonempty set $A$ because of the axiom of compeleteness. An important difference between sup and max is that $\sup(A)$ may or may not be an element of $A$, but $\max(A)$ is an element of $A$ if exists.
-
-**Lemma (N and R, Archimedian property)** Given any number $x \in \mathbb{R}$, there exists an $n \in \mathbb{N}$ satisfying $n > x$. Given any real number $y > 0$, there exists an $n \in \mathbb{N}$ satisfying $1/n < y$
-
-**Lemma (N and Q, density)** For every two real numbers $a,b$, there exists a rational number $r$ satisfying $a < r < b$.
-
-
-#### 3.4.1. Statements of Completeness
-There are several equivalent statements about completeness. One of them can derive all the others.
-
-**Theorem (Nested Interval Theorem)** Let $I_n = [a_n, b_n]$ be a sequence of closed intervals, and suppose that these intervals are nested in the sense that $I_1 \supset I_2 \supset I_3... $
-and $b_n-a_n \to 0$ when $n \to \infty$, then the result interval has a nonempty intersection.
-
-$$\cap_{n=1}^{\infty} I_n \neq \emptyset$$
-
-**Theorem (Bolzano Weierstrass)** Every bounded sequence contains a convergent subsequence
-
-**Theorem (Cauchy completeness)** Every Cauchy sequnece of real numbers converges
-
-**Theorem (monotone convergence)** every nondecreasing, bounded sequence of real numbers converges
 
 ## 4. Reference
 [1] Hofstadter, Douglas R. Gödel, escher, bach: ein endloses geflochtenes band. Klett-Cotta, 2006.

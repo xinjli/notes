@@ -1,4 +1,4 @@
-# 0x432 Syntax
+# 0x433 Syntax
 
 - [1. Generative Grammar](#1-generative-grammar)
     - [1.1. Transformational Grammar](#11-transformational-grammar)

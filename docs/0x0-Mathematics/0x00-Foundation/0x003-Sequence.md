@@ -4,20 +4,22 @@
     - [1.1. Sequence](#11-sequence)
         - [1.1.1. Convergence](#111-convergence)
         - [1.1.2. Convergence Criterions](#112-convergence-criterions)
-        - [1.1.3. Subsequences](#113-subsequences)
-        - [1.1.4. limsup, liminf](#114-limsup-liminf)
+        - [1.1.3. Limit Point](#113-limit-point)
+        - [1.1.4. Subsequences](#114-subsequences)
     - [1.2. Series](#12-series)
         - [1.2.1. Conditional Convergence](#121-conditional-convergence)
         - [1.2.2. Absolute Convergence](#122-absolute-convergence)
+        - [1.2.3. Convergence Criterion](#123-convergence-criterion)
 - [2. Function Sequence](#2-function-sequence)
     - [2.1. Function Sequence](#21-function-sequence)
         - [2.1.1. Pointwise Convergence](#211-pointwise-convergence)
         - [2.1.2. Uniform Convergence](#212-uniform-convergence)
-            - [2.1.2.1. Properties of Uniform Convergence](#2121-properties-of-uniform-convergence)
+        - [2.1.3. Properties of Uniform Convergence](#213-properties-of-uniform-convergence)
     - [2.2. Function Series](#22-function-series)
         - [2.2.1. Convergence](#221-convergence)
         - [2.2.2. Power Series](#222-power-series)
         - [2.2.3. Taylor Series](#223-taylor-series)
+- [3. Reference](#3-reference)
 
 ## 1. Sequence
 
@@ -44,11 +46,19 @@ $$ \lim_{n \to \infty} (c a_n) = c \lim_{n \to \infty} a_n $$
 $$ \lim_{n \to \infty} \frac{a_n}{b_n} = \frac{ \lim_{n \to \infty} a_n } { \lim_{n \to \infty} b_n } $$
 
 **Theorem (Order Limit Laws)** 
+
 $$(\lim a_n = a) \land (\lim b_n=b) \land (a_n \leq b_n) \implies a \leq b$$
 
-**Definition (sup/inf of sequences)** Let $(a_n)_{n=m}^\infty$ be a sequence of real numbers. Then we define $sup(a_n)_{n=m}^{\infty} := sup( \{ a_n : n \geq m \} )$
+sup can also be defined on the sequences, by considering the set consisting of elements in the sequence.
+
+**Definition (sup/inf of sequences)** Let $(a_n)_{n=m}^\infty$ be a sequence of real numbers. Then we define 
+
+$$sup(a_n)_{n=m}^{\infty} := sup( \{ a_n : n \geq m \} )$$
+
+The sup is still a least upper bound with respect to the sequence.
 
 **Proposition (property of sequence sup)**
+
 - (sup is an upper bound) $(\forall n \geq m) a_n \leq sup(a_n)_{n=m}^{\infty}$
 - (sup is the least upper bound) $(\forall y < sup(a_n)_{n=m}^{\infty}) (\exists n \geq m) y \leq a_n \leq sup(a_n)_{n=m}^{\infty}$
 
@@ -58,6 +68,7 @@ The followings are some criterions useful to decide sequence convergence.
 #### 1.1.2. Convergence Criterions
 
 The next two criterions are important because they do not require explicit limit to prove convergence.
+
 **Criterion (Cauchy)** A sequence converges iff it is a Cauchy sequence
 
 **Criterion (Monotone bounded convergence)** Let  $(a_n)_{n=m}^{\infty}$ be a sequence of real numbers which has some finite upper bound $M \in R$ and which is also increasing. Then  $(a_n)_{n=m}^{\infty}$ is convergent and
@@ -72,23 +83,8 @@ $$ (a_n \leq b_n \leq c_n) \land (L = \lim a_n = \lim c_n) \Longrightarrow \lim 
 
 $$y_n = \frac{1}{\sum_{i=i}^{n} x_i}$$
 
-#### 1.1.3. Subsequences
-**Definition (subsequence)** $(b_n)$ is a subsequence of $(a_n)$ iff there exists a function $f: \mathbb{N} \to \mathbb{N}$ that is strictly increasing such that $b_n = a_{f(n)}$
 
-**Propositions (limits of subsequences)** Following statements are equivalent
-- sequence $(a_n)$ converges to $L$
-- every subsequence of $(a_n)$ converges to $L$
-  
-**Proposition (limit points of subsequences)** Following statements are equivalent
-- $L$ is a limit point of sequence $(a_n)$
-- There exists a subsequence of $(a_n)$ which converges to $L$
-  
-**Theorem (Bolzano-Weirstrass)** A bounded sequence has at least one convergent subsequence
-
- Proof: sequence bounded -> limsup is bounded -> limsup is a limit point -> subsequence exists
-
-
-#### 1.1.4. limsup, liminf
+#### 1.1.3. Limit Point
 limit points over a sequence is a more general concept of limit. limit, limsup and liminf are instances of limit points. Normal Limit requires all points to be close enough to its convergence eventually, whereas limit points only ask for infinite points to be close enough.
 
 **Definition (limit points, adherent points over sequence)** $x$ is a limit points (adherent point) of $(a_n)_{n=m}^{\infty}$ when
@@ -99,11 +95,11 @@ Intuitively, the sequence visits $\epsilon$ neighborhood of a limit point infini
 
 limsup and liminf are also special cases of limit points. Unlike limits, limsup and liminf exist for every sequence. I think they are useful to estimate the boundaries of sequences when they are oscillating.  
 
-**Definition (limsup/liminf)** limsup is the inferior over supremum of all elements. liminf is the superior over inferiors. (Both are defined over the extended reals to handle the divergence case)
+**Definition (limsup/liminf)** limsup is the infimum over supremum of all elements. liminf is the superior over inferiors. (Both are defined over the extended reals to handle the divergence case)
 
-$$a_N^{+} := sup(a_n)_{n=N}^{\infty}$$
+$$a_N^{+} := \sup(a_n)_{n=N}^{\infty}$$
 
-$$\limsup a_n := inf(a_N^{+})_{N=m}^{\infty}$$
+$$\limsup a_n := \inf(a_N^{+})_{N=m}^{\infty}$$
 
 Note limsup and liminf always exist for any sequence (it might be infity though)
 
@@ -115,14 +111,36 @@ Note limsup and liminf always exist for any sequence (it might be infity though)
 - If $c$ is any limit points, then $L^- \leq c \leq L^+$
 - If $L^+$ is finite, then it is a limit point
 - $\lim_{n \to \infty} a_n \Longleftrightarrow c L^+ = L^- = c$
-- 
+  
+
+As the order limit law, the sup and limsup also preserves the order
+
 **Lemma (sup/limsup preserves order)** if $a_n \leq b_n$, then
 
 $$ \sup (a_n)_{n=m}^{\infty} \leq \sup (b_n)_{n=m}^{\infty}$$
 
 $$ \limsup (a_n)_{n=m}^{\infty} \leq \limsup (b_n)_{n=m}^{\infty}$$
 
-Proof: by contradition. Suppose $\sup (a_n)_{n=m}^{\infty} > \sup (b_n)_{n=m}^{\infty}$, then take an $epsilon$ smaller than two sup diff, there exists one $a_n$ be $epsilon$ closer enough to its sup. This $a_n$ is larger than b's sup, so its larger than every b.
+Proof: by contradition. Suppose $\sup (a_n)_{n=m}^{\infty} > \sup (b_n)_{n=m}^{\infty}$, then take an $\epsilon$ smaller than two sup diff, there exists one $a_n$ be $epsilon$ closer enough to its sup. This $a_n$ is larger than b's sup, so its larger than every b.
+
+
+#### 1.1.4. Subsequences
+**Definition (subsequence)** $(b_n)$ is a subsequence of $(a_n)$ iff there exists a function $f: \mathbb{N} \to \mathbb{N}$ that is strictly increasing such that $b_n = a_{f(n)}$
+
+**Propositions (limits of subsequences)** Following statements are equivalent
+
+- sequence $(a_n)$ converges to $L$
+- every subsequence of $(a_n)$ converges to $L$
+  
+**Proposition (limit points of subsequences)** Following statements are equivalent
+
+- $L$ is a limit point of sequence $(a_n)$
+- There exists a subsequence of $(a_n)$ which converges to $L$
+  
+**Theorem (Bolzano-Weirstrass)** A bounded sequence has at least one convergent subsequence
+
+ Proof: sequence bounded -> limsup is bounded -> limsup is a limit point -> subsequence exists
+
 
 ### 1.2. Series
 
@@ -135,15 +153,18 @@ There are two types of convergence in series convergence: absolute convergence a
 $$\text{Absolute Convergence } \subset \text{Conditional Convergence} $$
 
 The series convergence is defined with respect to the convergence of the partial sum.
+
 **Definition (series convergence)** The convergence of series $\sum_{k=0}^{\infty} a_k$ is defined in terms of the convergence of partial sum $s_n = \sum_{k=1}^n a_k$
 
 $$\sum_{n=0}^{\infty} a_n = \lim_{n \to \infty} s_n$$
 
-!!! note "Example (Basel problem)"
+!!! example "Example (Basel problem)"
+
     The following series is a convergent series, firstly solved by Euler.
+
     $$\sum_{i=1}^{\infty} \frac{1}{n^2} = 1 + \frac{1}{2^2} + \frac{1}{3^2} + ... = \frac{\pi^2}{6}$$
 
-  
+
 
 **Theorem (Algebraic limit theorem for series)** If $\sum_{k=0}^{\infty} a_k = A$ and $\sum_{k=0}^{\infty} b_k = B$, then
 
@@ -172,6 +193,9 @@ Absolute convergence is a stronger version of convergence over series. (It does 
 
 $$\sum_{i}^{\infty} \sum_{j}^{\infty} a_{ij} = \sum_j^{\infty} \sum_i^{\infty} a_{ij} = \lim_{n \to \infty} \sum_{i}^n \sum_j^n a_{ij} $$
 
+
+#### 1.2.3. Convergence Criterion
+
 Generally, speaking, it is much easier to determine whether a sequence converges or not rather than to compute the actual sum. For example, the series
 
 $$\sum_{n=1}^{\infty} \frac{1}{n^2}$$
@@ -180,7 +204,7 @@ can be easily confirmed that converges to something less than 2, but is much har
 
 **Criterion (Cauchy)** The series $\sum_{k=0}^{\infty} a_k$ converges iff 
 
-$$ (\forall \epsilon) (\exists N) (\forall n > m \geq N) |a_{m+1} + ... + a{n}| < \epsilon$$
+$$ (\forall \epsilon) (\exists N) (\forall n > m \geq N) |a_{m+1} + ... + a_{n}| < \epsilon$$
 
 **Criterion (comparison test)** Assume $a_k$ and $b_k$ are sequences satisfying $(\forall k \in N)0 \leq a_k \leq b_k$
 
@@ -217,16 +241,21 @@ The point here is that the convergence speed depends on the point $x$, it is pos
 The problem of pointwise convergence is that it might not preserve good properties such as continuity and differentiability. To preserve those good properties, we need to propose a more restricted class of convergence.
 
 !!! example "Counter Example (pointwise convergence does not preserve continuity)"
+
     Let $f_n(x)=x^n$ on the set $x \in [0,1]$ where $f_n(x)$ is continous function. when $n \to \infty$, it converges to 0 for $0 < x < 1$, 1 for $x=1$, which is not a continuous function
 
+
 !!! example "Counter Example (pointwise convergence does not preserve differentiability)
+
     Let $f_n(x)=x^{1+\frac{1}{2n-1}}$ on the set $[-1,1]$. This function converges to $f(x)=|x|$, which is not differentiable.
 
 
 #### 2.1.2. Uniform Convergence
 pointwise convergence is a local property, while the uniform convergence is a global property. Uniform convergence have a couple of good properties as follows. It preserves continuity, differentiability and integrability.
 
-**Definition (uniform convergence)** The sequence $(f_n)$ converges uniformly on $A$ to a limit function $f$ defined on $A$ if for every $\epsilon > 0$, there exists an $N$ such that $\forall (n \geq N) \forall (x \in A) |f_n(x) - f(x)| < \epsilon$
+**Definition (uniform convergence)** The sequence $(f_n)$ converges uniformly on $A$ to a limit function $f$ defined on $A$ if for every $\epsilon > 0$, there exists an $N$ such that 
+
+$$\forall (n \geq N) \forall (x \in A) |f_n(x) - f(x)| < \epsilon$$
 
 **Criterion (Cauchy)** $f_n$ converges uniformly to $f$ iff for every $\epsilon > 0$, there exists a $N$ such that
 
@@ -234,7 +263,8 @@ $$\forall(x)\forall(m,n \geq N) |f_n(x) - f_m(x)| < \epsilon$$
 
 **Criterion (Dini's theorem)** Assume $f_n \to f$ pointwise on a compact set $K$ and assume that for each $x \in K$, the sequence $f_n(x)$ is increasing (wrt $n$). If $f_n, f$ are continuous on $K$, then $f_n \to f$ uniformly.
 
-##### 2.1.2.1. Properties of Uniform Convergence
+#### 2.1.3. Properties of Uniform Convergence
+
 **Theorem (continuity)** Let $f_n$ be a sequence of functions defined on $A \subset R$ that converges uniformly on $A$ to a function $f$. If $f_n$ is continuous at $c \in A$, then $f$ is continuous at $c$
 
 Proof idea is to evaluate $|f(x)-f(y)|$ by 3 pieces
@@ -255,6 +285,7 @@ Both pointwise convergence and uniform convergence of $f_n$ implies nothing abou
 
     This function converges to 0 uniformly on $[0,1]$, however, $f'_n(x)$ is not converge uniformly on $[0,1]$
 
+
 !!! example "$f_n$ uniform convergence does not even imply $f'_n$'s pointwise convergence"
 
     Consider the function
@@ -271,13 +302,14 @@ Note again that $f_n$'s uniform convergence does not imply $f'_n$'s convergence,
 
     Consider the function $f(x)$ with domain $[0,1]$
 
-    $$f_n(x) = \begin{cases} n & \text{ if } 0 < x < 1/n \\ 0 & \text{ if } x=0, x\geq 1/n$$
+    $$f_n(x) = \begin{cases} n & \text{ if } 0 < x < 1/n \\ 0 & \text{ if } x=0, x\geq 1/n \end{cases}$$
 
     This converges pointwise to $f(x) = 0$ on $[0,1]$, however,
 
     $$0 \neq \lim_{n \to \infty} \int_0^1 f_n$$
 
 Again, the interchange is valid when the convergence is uniform convergence
+
 **Theorem (integrability)** Assume that $f_n \to f$ uniformly on $[a, b]$, and each $f_n$ is integrable. Then $f$ is integrable and
 
 $$\lim_{n \to \infty} \int_a^b f_n = \int_a^b f$$
@@ -359,15 +391,15 @@ There are three cases depending on the radius of convergence
    
     $$\sum x^n$$
 
-    1) convergence happens at $[-r, r)$
+    2) convergence happens at $[-r, r)$
     
     $$\sum \frac{1}{n} x^n$$
 
-    1) convergence happens at $(-r, r]$
+    3) convergence happens at $(-r, r]$
     
     $$\sum \frac{(-1)^{n}}{n} x^n$$
 
-    1) convergence happens at $[-r, r]$
+    4) convergence happens at $[-r, r]$
     
     $$\sum \frac{1}{n^2} x^n$$
 
@@ -386,7 +418,9 @@ On its interval of convergence, a power series can be manipulated more or less a
 
 #### 2.2.3. Taylor Series
 **Theorem (Taylor series)** Let $f(x)$ has a power series representation. i.e.: 
+
 $$f(x) = a_0 + a_1 x + a_2 x^2 a_3 x^3 ...$$
+
 be defined on some nontrivial interval centered at zero, then
 
 $$a_n = \frac{f^{(n)}(0)}{n!}$$
@@ -427,7 +461,8 @@ Note the requirement here is only the continuity, not infinite differentiability
 
 Note that not all infinitely differentiable function can be represented by its Taylor series. There are cases that Taylor series not converging to the target function.
 
-Reference
+## 3. Reference
+
 [1] Tao, Terence. Analysis. Vol. 1. Hindustan Book Agency, 2006.
 
 [2]  Tao, Terence. Analysis. Vol. 2. Hindustan Book Agency, 2006.
@@ -437,4 +472,5 @@ Reference
 [4] Lax, Peter D., and Maria Shea Terrell. Multivariable Calculus with Applications. Springer, 2017.
 
 [5] 杉浦光夫. "解析入門 I." 東京大学出版会
+
 [6] 杉浦光夫. "解析入門 II." 東京大学出版会

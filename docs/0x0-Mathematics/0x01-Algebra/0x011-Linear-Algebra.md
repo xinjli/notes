@@ -31,6 +31,19 @@
 - [7. Operators on Real Vector Spaces](#7-operators-on-real-vector-spaces)
 - [8. Reference](#8-reference)
 
+The Hierarchical structure related to vector space is as follows:
+
+![structure](../../img/Mathematical_Spaces.png)
+
+With inner product structure, you can induce norm as
+
+$$||a|| = \sqrt{\langle a, a \rangle}$$
+
+With norm structure, you can induce metric as
+
+$$d(a, b) = ||a-b||$$
+
+
 ## 1. Vector Spaces
 closed under vector addition and scalar multiplication. It is a specicial case of module:  module over a field
 

@@ -27,6 +27,7 @@
 
 ## 2. Basic
 **Elements (Programming)**
+
 - **primitive elements**: represents the simplest entities the language is concerned
 - **means of combination**: by which compounded elements are built from simpler ones
 - **means of abstraction**: by which compounded elements can be named and manipulated as units
@@ -126,6 +127,7 @@ SQL belongs to this class
 The followings are Kernighan's summary about successful languages
 
 Why languages succeed?
+
 - solve real problems in a clearly better way
 - culturally compatible and familiar
 - environmentally compatible
@@ -133,6 +135,7 @@ Why languages succeed?
 - good luck!
   
 Why languages fail to thrive?
+
 - niche or domain disappears
 - poor engineering
 - poor philosophical choices
