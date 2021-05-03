@@ -1,4 +1,4 @@
-# 0x413 PGM
+# 0x413 Graphical Model
 
 ## Introduction
 

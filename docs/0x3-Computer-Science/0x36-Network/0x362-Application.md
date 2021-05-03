@@ -13,7 +13,9 @@
         - [3.1.1. Request Message](#311-request-message)
         - [3.1.2. Response Message](#312-response-message)
     - [3.2. Cookie](#32-cookie)
-- [4. SMTP](#4-smtp)
+- [4. Email](#4-email)
+    - [SMTP](#smtp)
+    - [POP3, IMAP](#pop3-imap)
 - [5. Reference](#5-reference)
 
 ## 1. Foundation
@@ -161,11 +163,71 @@ The header lines might be
 
 HTTP itself is a stateless protocol, cookie is used by server to identify users, it is defined at RFC6265
 
-The cookie has 4 parts: cookie header line in the request message, cookie header line in the response message, cookie file on the client, backend db managing cookie on the server
+The cookie has 4 parts: 
+
+- cookie header line in the response message (e.g: Set-Cookie: 1678)
+- cookie header line in the request message (e.g: Cookie: 1678)
+- cookie file on the client
+- backend db managing cookie on the server
+
+![cookie](../../img/cookie.png)
 
 
-## 4. SMTP
-SMTP servers commonly use port 25
+## 4. Email
+There are three components related to Email sending system
+
+- user agents (e.g: Outlook)
+- mail servers
+- SMTP
+
+![email](../../img/email.png)
+
+The mail message has similar format to the HTTP message: consisting of headers and body delimited by a CRLF.
+
+A example of the header:
+
+```text
+From: alice@crepes.fr
+To: bob@hamburger.edu
+Subject: Searching for the meaning of life.
+```
+
+
+### SMTP
+
+SMTP (RFC 5321) uses TCP to transfer mail from sender's server to the recipient's server. It can also be used to transfer mail from the sender's user agent to sender's mail server.
+
+It commonly use port 25. Unlike HTTP (pull protocol), SMTP is a **push protocol**, which means the connection is initiated by the machine which want to send emails.
+
+One constraint of SMTP is that it restricts the body of all mail messages to simple 7-bit ASCII (because it was introduced in 1982)
+
+The main SMTP commands are
+
+- HELO (abbreviation fro HELLO)
+- MALL FROM
+- RCPT TO
+- DATA
+- QUIT
+
+### POP3, IMAP
+
+POP3 and IMAP are mail access protocol, in which the user reads email with a client app instead of logging into the mail server.
+
+**POP3** (RFC1939) is a simple protocol. It is a command based protocol, and it progresses through three phases:
+
+- authentication: send username cmd, password cmd to server, replied with OK or ERR
+- transaction: user agent retrieves message and it can mark messages for deletion (list, retr, dele commands)
+- update: user agent sends quit command and server deletes marked messages
+
+**IMAP** (RFC3501) is a much more complex email access protocol. For example, IMAP allows user to create folders and associate email with folders (again, of course, by using commands)
+
+It also permits users to download components of a email (for low-bandwidth purpose)
+
+
+
+
+
+
 
 
 ## 5. Reference

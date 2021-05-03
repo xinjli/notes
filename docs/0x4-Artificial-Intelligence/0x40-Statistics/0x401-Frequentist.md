@@ -232,6 +232,7 @@ Intuitively, this means: If $\mathbf{x}, \mathbf{y}$ are two sample points such 
 
 
 The sufficient statistic is defined as follows
+
 **Definition  (sufficient statistic)** A statistic $T(\mathbf{X})$ is a sufficient statistic for $\theta$ if the conditional distribution of the sample $\mathbf{X}$ given the value of $T(\mathbf{X})$ does not depend on $\theta$
 
 **Criterion (condition of sufficient statistics)** If the following ratio, is constant as a function of $\theta$, then $T(\mathbf{X})$ is a sufficient statistic for $\theta$
@@ -263,7 +264,7 @@ Note that $g(T(x)|\theta)$ is not necessarily a distribution.
 
     Let $X_1,..., X_n$ from a exponential family
 
-    $$f(x|\theta)= h(x)c(\theta) \exp (\sum_w_i(\theta) t_i(x))$$
+    $$f(x|\theta)= h(x)c(\theta) \exp (\sum_{w_i}(\theta) t_i(x))$$
 
     then the following is a sufficient statistic for $\theta$
 
@@ -455,6 +456,7 @@ $$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta)))^2) = n E_\theta (
 A shortcoming of Cramer-Rao is its bound may be strictly smaller than the variance of any unbiased estimator.
 
 **Definition (Fisher information)** The following quantity is called the Fisher information
+
 $$E_\theta((\frac{\partial}{\partial \theta} log(f(X|\theta))^2)$$
 
 The bigger Fisher information indicates more information about $\theta$, therefore small variance of the best unbiased estimator

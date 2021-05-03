@@ -11,6 +11,7 @@
         - [Manners of Articulation](#manners-of-articulation)
     - [2.3. Vowels](#23-vowels)
 - [3. Acoustic Phonetics](#3-acoustic-phonetics)
+    - [Formants](#formants)
 - [4. Reference](#4-reference)
 
 ## 1. Foundation
@@ -130,7 +131,28 @@ Examples are fie, vie (labiodental), thigh, thy (dental), sigh, zoo (alveolar) a
   
 
 ## 3. Acoustic Phonetics
+
+**Definition (F0, Fundamental Frequency)** F0 refers to the approximate frequency of the periodic structure of voiced speech signal. The oscillation originates from the vocal folds. Typically fundamental frequencies lie roughly in the range 80 to 450 Hz.
+
+F0 is typically not stationary, but changes constantly within a sentence. In fact, the F0 can be used for expressive purposes to signify, for example, emphasis and questions
+
+**Concept (F0 vs Pitch)**
+The fundamental frequency is closely related to pitch, which is defined as our perception of fundamental frequency. That is, the F0 describes the actual physical phenomenon, whereas pitch describes how our ears and brains interpret the signal, in terms of periodicity. 
+
+
+Modern pitch perception models assume that pitch is derived either from the periodicity of neural patterns in the time domain or else from the harmonic pattern of partials resolved by the cochlea in the frequency domain
+
+For example, a voice signal could have an F0 of 100 Hz. If we then apply a high-pass filter to remove all signal components below 450 Hz, then that would remove the actual fundamental frequency. The lowest remaining periodic component would be 500 Hz, which correspond to the fifth harmonic of the original F0. However, a human listener would then typically still perceive a pitch of 100 Hz, even if it does not exist anymore
+
+
+### Formants
+Formants are usually harmonics of F0
+
+![formant](../../img/f0_formants.png)
+
+
 Formants Rules
+
 - F1 rule(high/low): F1 is inversely related to tongue height, or equivalently related to distance between tongue and palate. For example, the average adults males /i/  (top high vowel) ~300 Hz, /a/ (back low vowel) ~ 754 Hz.
 - F2 rule(front/back): more front the tongue is placed, the higher the F2 frequency value.
 - F3 rule(retroflexion): everytime an r-colored sound is made, F3 decreases in value
@@ -143,3 +165,4 @@ $$f = \frac{nv}{2L}$$
 
 [2] Katz, William F. Phonetics for dummies. John Wiley & Sons, 2013.
 
+[3] Introduction to Speech Processing https://wiki.aalto.fi/

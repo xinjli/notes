@@ -6,11 +6,13 @@ The vector differential operator del, written in $\nabla$, is defined as follows
 $$\nabla = \frac{\partial}{\partial x} \mathbf{i} + \frac{\partial}{\partial y} \mathbf{j} + \frac{\partial}{\partial z} \mathbf{k}$$
 
 **Definition (gradient)** Gradient acting on a scalar field to produce vector field.
+
 $$\nabla T = \frac{\partial{T}}{\partial x}\mathbf{x} + \frac{\partial{T}}{\partial y}\mathbf{y} + \frac{\partial{T}}{\partial z}\mathbf{z}$$
 
 The gradient $\nabla T$ points in the direction of maximum increase of the function $T$, its slop along this direction is given by $|\nabla T|$
 
 **Definition (divergence)** Divergence acting on a vector field to produce scalar field.
+
 $$\nabla \cdot \mathbf{v} = \frac{\partial{v_x}}{\partial x} + \frac{\partial{v_y}}{\partial y} + \frac{\partial{v_z}}{\partial z}$$
 
 Divergence is a measure of how much the vector $v$ spreads out from each point (therefore a scalar field). In fluid dynamics, if there is no loss of fluid anywhere, then $\nabla \cdot \mathbf{b} = 0$. This is called the **continuity equation** for an **incompressible fluid**. It is said to have no sources or sinks. A vector field whose divergence is zero is sometimes called **solenoidal**.
@@ -71,9 +73,27 @@ where $\mathbf{T}$ is the unit tangent vector, $\mathbf{N}$ is the **principal n
 
 $$\int_C ds = \int_a^b ||\mathbf{x}'(t)|| dt$$
 
-**Definition (line integral)** Let $f$ be a continuous function on a smooth curve $C$ parameterized by $\mathbf{x}(t)$, the integral of $f$ over $C$ with respect to arc length is
+**Definition (line integral of a scalar field)** Let $f$ be a continuous function on a smooth curve $C$ parameterized by $\mathbf{x}(t)$, the integral of $f$ over $C$ with respect to arc length is
 
 $$\int_C f ds = \int_a^b f(\mathbf{x}(t))||\mathbf{x}'(t)|| dt$$
+
+The illustration on Wikipedia is pretty good
+
+![gif](https://en.wikipedia.org/wiki/Line_integral#/media/File:Line_integral_of_scalar_field.gif)
+
+
+**Definition (line integral of a vector field)** For a vector field $\mathbf{F}: R^n \to R^n$, the line integral along a piecewise smooth curve $C$, in the direction of $r$, is defined as
+
+$$\int_C \mathbf{F}(r) \cdot d\mathbf{r} = \int_a^b \mathbf{F}(\mathbf{r}(t)) \cdot \mathbf{r}'(t) dt$$
+
+**Theorem (fundamental theorem of calculus for line integrals, gradient theorem)** Let $\varphi: U \subseteq R^n \to R^n$ be a continuously differentiable function and $\gamma$ any curve in $U$ which starts at $\mathbf{p}$ and ends at $\mathbf{q}$. then
+
+$$\int_\gamma \nabla \varphi(\mathbf{r}) \cdot d\mathbf{r} = \varphi(\mathbf{q}) - \varphi(\mathbf{p})$$
+
+It implies the line integrals through a gradient field are **path independent**. In Physics, $\varphi$ is a potential and $\nabla \varphi$ is a conservative field: Work done by the conservative forces does not depend on the path, but only on the end points.
+
+
+
 
 ## Surface
 

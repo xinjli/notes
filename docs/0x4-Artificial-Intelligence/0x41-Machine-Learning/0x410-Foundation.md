@@ -7,7 +7,7 @@
     - [1.2. Bayesian Decision Theory](#12-bayesian-decision-theory)
 - [2. Learning Theory](#2-learning-theory)
     - [2.1. PAC](#21-pac)
-- [3. Information Theory](#3-information-theory)
+    - [Rademacher Complexity](#rademacher-complexity)
 - [4. Reference](#4-reference)
 
 
@@ -68,7 +68,30 @@ $$\delta_{MM} = \text{argmin}_{\delta} R_{max}(\delta)$$
 
 ## 2. Learning Theory
 
+**Definition (input, output space)** We denote by $\mathcal{X}$ the set of all possible examples or instances, which is referred to as the input space. The set of all possible labels or target values is denoted by $\mathcal{Y}$.
+
+**Definition (concept)** A concept is a mapping $c: \mathcal{X} \to \mathcal{Y}$, or equivalently we can identify $c$ with the subset of $\mathcal{X}$ over which it takes the value 1. A concept class is a set of concepts we may wish to learn and denoted by $C$
+
+**Definition (true error, risk)** Given a hypothesis $h \in H$, a target concept $c \in C$ and an underlying distribution $D$, the generalization error or risk of $h$ is defined by
+
+$$R(h) = P_{x \sim D}(h(x) \neq c(x)) E_{x \sim D}[1_{h(x) \neq c(x)}]$$
+
+This error is not directly accessible to the learner scince both the distribution $D$ and target concept $c$ are unknown. However, the learner can measure the empirical error of a hypothesis on the labeled sample $S$
+
+**Definition (empirical error, risk)** Given a hypothesis $h \in H$, a target concept $c \in C$ and a sample $S=(x_1, ..., x_m)$, the empirical error or empirical risk of $h$ is defined by
+
+$$\hat{R}(h) = \frac{1}{m} \sum_{i=1}^m 1_{h(x_i) \neq c(x_9)}$$
+
+There are several relations between the empirical error and the true error, for example
+
+**Definition (PAC learnable)** A concept class $C$ is said to be PAC-learnable if there exists an algorithm $\mathcal{A}$ and a polynomial function $poly$ such that $\forall{\epsilon > 0}, \forall{\delta > 0}$, forall distributions on $\mathcal{X}$ and any target concept $c \in C$, the following holds for any sample size $m \geq poly(1/\epsilon, 1/\sigma, n, size(c))$
+
+$$P_{S \sim D^m}[R(h_S) \leq \epsilon] \geq 1 - \delta$$
+
+
+
 ### 2.1. PAC
+PAC framework helps define the class of learnable concepts in terms of the number of sample points needed to achieve an approximate solution (sample complexity)
 
 In the case of zero training errors, we can bound the true error as follows:
 
@@ -105,55 +128,27 @@ With probability $1-\delta$,
 
 $$|error_{true}(h) - error_{train}(h)| \leq \epsilon = \sqrt{\frac{\log{|H|} + \log{2/\delta} }{2m}}$$
 
+### Rademacher Complexity
 
-## 3. Information Theory
-Information Theory is concerned with representing data in a compact fashion, the most important concepts are summarized here
+The Rademacher complexity captures the richness of a family of functions by measuring the degree to which a hypothesis set can fit random noise
 
-**Definition (entropy)** The entropy of a discrete random variable $X$ with distribution $p$ is
+**Definition (empirical Rademacher complexity)** Let $G$ be a family of functions mapping from $Z$ to $[a,b]$, $S = (z_1, ..., z_m)$ a fixed sample of size $m$ with elements in $Z$. Then the empirical Rademacher complexity of $G$ with respect to the sample $S$ is defined as
 
-$$H(X) = -\sum_{k=1}^K p(X=k) \log_2 p(X=k)$$
+$$\hat{R}_S(G) = E_{\sigma} [\sup_{g \in G} \frac{1}{m} \sum_i \sigma_i g(z_i)]$$
 
-For a K-ary random variable, the maximum entropy is $H(X) = \log K$ when $p(X=k) = 1/K$
+where $\sigma=(\sigma_1, ..., \sigma_m)$ are independent uniform random variable taking values in $\{ -1, +1 \}$. Intuitively, it measures the on average how well the function class $G$ can correlate with random noise on $S$.
 
+**Definition (Rademacher complexity)** Let $D$ denote the distribution according to which samples are drawn. For any integer $m \geq 1$, the Rademacher complexity of $G$ is
 
-**Definition (differential entropy)** The continuous version is the differential entropy.
+$$R_m(G) = E_{S \sim D^m}[\hat{R}_{S}(G)]$$
 
-$$H(X) = - \int_{\mathcal{X}} f(x)\log f(x) dx$$
+**Theorem (Rademacher complexity bound)** Let $G$ be a family of functions mapping from $Z$ to $[0,1]$, then for any $\delta > 0$ , with probability at least $1 - \delta$, each of the following holds for all $g \in G$
 
-Note this differential entropy is not the exact generalization of the discrete version, the actual generalization is called LDDP
+$$E[g(z)] \leq \frac{1}{m}\sum_i g(z_i) + 2R_m(G) + \sqrt{\frac{\log{1/\delta}}{2m}}$$
 
-**Definition (relative entropy, KL divergence)** One way to measure the dissimilarity of two probability distribution $p, q$ is the Kullback-Leibler divergence (KL divergence) or relative entropy
+and
 
-$$KL(p||q) = \sum_k p_k \log\frac{p_k}{q_k} = -H(p) + H(p, q)$$
-
-KL divergence is the average number of extra bits needed to encode the data $p$ with distribution $q$.
-
-**Definition (cross entropy)** $H(p,q)$ is called cross entropy, it is to measure the average number of bits to encode data of distribution $p$ using codebook of distribution $q$, it is defined as
-
-$$H(p, q) = -\sum_k p_k \log q_k$$
-
-
-**Definition (conditional entropy)** The conditional entropy $H(Y|X)$ is defined as
-
-$$H(Y|X) = \sum_x p(x) H(Y|X=x)$$
-
-**Definition (mutual information)** Mutual information or MI is an approach to estimate how similar the joint distribution $p(X,Y)$ can be factored into $p(X)p(Y)$
-
-$$I(X;Y) = KL(p(X,Y)||p(X)p(Y)) = \sum_x \sum_y p(x,y)\log \frac{p(x,y)}{p(x)p(y)}$$
-
-Obviously, MI is zero iff two random variables are independent.
-
-MI can be expressed using entropy as follows
-
-$$I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)$$
-
-Therefore, MI can be interpreted as the reduction in uncertainty about $Y$ after observing $X$
-
-Statistics based on MI might capture nonlinear relation between variables that can not be discovered by correlation coefficients.
-
-**Definition (pointwise mutual information)** A related concept is pointwise mutual information or PMI, this is about two events $x,y$
-
-$$PMI(x,y) = \log \frac{p(x,y)}{p(x)p(y)}$$
+$$E[g(z)] \leq \frac{1}{m}\sum_i g(z_i) + 2\hat{R}_S(G) + 3 \sqrt{\frac{\log{2/\delta}}{2m}}$$
 
 
 ## 4. Reference

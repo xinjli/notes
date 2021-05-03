@@ -24,7 +24,7 @@
 
 
 ## 1. Foundation
-**Definition (optimization problems)** The optimization problems is formulated as follows:
+**Definition (optimization problems)** The most general optimization problems is formulated as follows:
 
 $$ \text{minimize } f_0(x) \\
 \text{     subject to } f_i(x) \leq 0, h_j(x) = 0$$
@@ -49,7 +49,7 @@ If there exists an optimal point for the porblem, the problem is said to be *sol
 
 $$\forall(x \in B_{\epsilon}(a) \cap D)f(x) \geq f(a)$$
 
-To find the global extrema, devide the domain into subdomain and gather their critical points to find the actual global extrema. The existence of global extrema can be guaranteed by the continuous function and compact domain as mentioned in the previous section.
+To find the global extrema, divide the domain into subdomain and gather their critical points to find the actual global extrema. The existence of global extrema can be guaranteed by the continuous function and compact domain as mentioned in the previous section.
 
 ### 1.1. Unconstrained Optimization
 First derivate test can be used to find all interior critical points for local extremum.
@@ -66,8 +66,7 @@ To decide the actual extremum within the candidates, the second derivative test 
 
 In the equality constraint optimization, 
 
-$$\text{minimize}_\theta f(\theta)$$
-$$\text{subject to } g(\theta) = 0$$
+$$\text{minimize}_\theta f(\theta)\text{  subject to } g(\theta) = 0$$
 
 We can use the Lagrange Multiplier to find critical points.
 
@@ -85,8 +84,7 @@ The second condition is called the degeneracy condition, and the last condition 
 
 In the inequality constraint optimization,
 
-$$\text{minimize}_\theta f(\theta)$$
-$$\text{subject to } g(\theta) \leq 0$$
+$$\text{minimize}_\theta f(\theta)\text{  subject to } g(\theta) \leq 0$$
 
 There are two types of solutions:
 - The constraint could be *slack* or *loose*, meaning there is no force is needed to keep $\theta$ from violating the constraint, in this case $\nabla f=0$ like any unconstrained problems, regardless of what $\nabla g$ is
@@ -487,6 +485,7 @@ Conjugate function $f*$ is a convex function because it is taking sup over a aff
 $$(\forall(x, y)) f(x) + f^*(y) \geq x^Ty$$
 
 **Lemma (conjugate's conjugate)** If $f$ is convex and closed, then
+
 $$f^{**} = f$$
 
 ### 3.5. Quasiconvex functions
@@ -537,6 +536,16 @@ Dual function over $(\lambda, \nu)$ is concave even the original problem is not 
 One of the motivations of Lagrangian is to gives the lower bound on the optimal value of the original problem.
 
 $$g(\lambda, \nu) \leq p*$$
+
+This is because for any feasible point $x$, we have $f_i(x) \leq 0, h_i(x)=0$, for any $\lambda \geq 0$
+
+$$\sum_i \lambda_i f_i(x) + \sum_i \nu_i h_i(x) \leq 0$$
+
+Then we know
+
+$$L(x, \lambda, \nu) = f_0(x) + \sum_i \lambda_i f_i(x) + \sum_i \nu_i h_i(x) \leq f_0(x)$$
+
+Taking $\inf_x$ yields the conclusion of the lower bound.
 
 **Definition (dual problem)** The Lagrange dual problem associated with the primal problem is a convex optimization problem even the primal problem is not
 
